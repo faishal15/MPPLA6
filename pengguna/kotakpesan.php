@@ -1,11 +1,3 @@
-<?php
-session_start();
-if(empty($_SESSION)){
-	header("Location: index.php");
-}
-?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +7,7 @@ if(empty($_SESSION)){
 
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/datepicker3.css" rel="stylesheet">
+<link href="css/bootstrap-table.css" rel="stylesheet">
 <link href="css/styles.css" rel="stylesheet">
 
 <!--Icons-->
@@ -37,10 +30,10 @@ if(empty($_SESSION)){
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/tcari/index.php"><span>TCARI</span></a>
+				<a class="navbar-brand" href="#"><span>TCARI</span></a>
 				<ul class="user-menu">
 					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> <?php echo $_SESSION['uname'];?> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
 							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
@@ -95,7 +88,7 @@ if(empty($_SESSION)){
 						</a>
 					</li>
 					<li>
-						<a class="" href="kotakpesan.php">
+						<a class="" href="brghilang.php">
 							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Kotak Pesan
 						</a>
 					</li>
@@ -103,72 +96,49 @@ if(empty($_SESSION)){
 			</li>
 			<li><a href="hubadmin.php"><svg class="glyph stroked mobile device"><use xlink:href="#stroked-mobile-device"></use></svg> Call Admin</a></li>
 		</ul>
-		
 	</div><!--/.sidebar-->
 		
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">		
-				
-		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header">Profil Diri</h1>
-			</div>
-		</div><!--/.row-->	
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-lg-12">
+				<h1 class="page-header">Pesan Masuk</h1>
+			</div>
+		</div><!--/.row-->
+				
+		
+		<div class="row">
+			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Mohon diisi dengan lengkap dan jujur</div>
-                	<center><img class="img-circle img-responsive img-center" src="http://placehold.it/200x200" alt=""></center>
-            <!-- </div> -->
+					<div class="panel-heading">Kotak Pesan</div>
 					<div class="panel-body">
-						<form class="form-horizontal" action="" method="post">
-							<fieldset>
-								<!-- Name input-->
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="name">ID</label>
-									<div class="col-md-9">
-									<input id="name" name="name" type="text" placeholder="5114100104" class="form-control">
-									</div>
-								</div>
+						<table data-toggle="table" data-select-item-name="toolbar1" data-pagination="true">
+						    <thead>
+						    <tr>
+						        <th data-field="id" data-sortable="true">ID Message</th>
+						        <th data-field="sender"  data-sortable="true">ID Sender</th>
+						        <th data-field="receiver" data-sortable="true">ID Receiver</th>
+						        <th data-field="judul" data-sortable="true">Judul Message</th>
+						        <th data-field="tanggal" data-sortable="true">Tanggal</th>
+						        <th data-field="action" data-sortable="true">Action</th>
+						    </tr>
 
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="name">Nama</label>
-									<div class="col-md-9">
-									<input id="name" name="name" type="text" placeholder="Fathihah Ulya" class="form-control">
-									</div>
-								</div>
-										
-								<!-- Email input-->
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Nomor Telepon</label>
-									<div class="col-md-9">
-										<input id="email" name="email" type="text" placeholder="0853xxx" class="form-control">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Password</label>
-									<div class="col-md-9">
-										<input id="password" name="password" type="password" placeholder="0853xxx" class="form-control">
-									</div>
-								</div>
-													
-								<!-- Form actions -->
-								<div class="form-group">
-									<div class="col-md-12 widget-right">
-										<a href="editprofil.php"><button type="button" class="btn btn-default btn-md pull-right">Ubah Data</button></a>
-									</div>
-								</div>
-							</fieldset>
-						</form>
+						    </thead>
+						    <tr>
+						    	<td>001</td>
+						    	<td>5114100104</td> 
+						    	<td>5114100066</td>
+						    	<td><a href="pesan.php">Saya menemukan dompet anda.</a></td> 
+						    	<td>12.03.17</td>
+						    	<td><a href="">Delete</a></td>
+						    </tr>
+						</table>
 					</div>
 				</div>
-				
-			</div><!--/.col-->
+			</div>
+		</div><!--/.row-->	
 			
-		</div><!--/.row-->
-	</div>	<!--/.main-->
-		  
+	</div><!--/.main-->
 
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
@@ -177,24 +147,8 @@ if(empty($_SESSION)){
 	<script src="js/easypiechart.js"></script>
 	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
-	<script>
-		$('#calendar').datepicker({
-		});
-
-		!function ($) {
-		    $(document).on("click","ul.nav li.parent > a > span.icon", function(){          
-		        $(this).find('em:first').toggleClass("glyphicon-minus");      
-		    }); 
-		    $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
-		}(window.jQuery);
-
-		$(window).on('resize', function () {
-		  if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
-		})
-		$(window).on('resize', function () {
-		  if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
-		})
-	</script>	
+	<script src="js/bootstrap-table.js"></script>
+		
 </body>
 
 </html>

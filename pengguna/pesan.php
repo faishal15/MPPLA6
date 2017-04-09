@@ -1,11 +1,3 @@
-<?php
-session_start();
-if(empty($_SESSION)){
-	header("Location: index.php");
-}
-?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,10 +29,10 @@ if(empty($_SESSION)){
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/tcari/index.php"><span>TCARI</span></a>
+				<a class="navbar-brand" href="#"><span>TCARI</span></a>
 				<ul class="user-menu">
 					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> <?php echo $_SESSION['uname'];?> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
 							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
@@ -95,7 +87,7 @@ if(empty($_SESSION)){
 						</a>
 					</li>
 					<li>
-						<a class="" href="kotakpesan.php">
+						<a class="" href="brghilang.php">
 							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Kotak Pesan
 						</a>
 					</li>
@@ -110,53 +102,50 @@ if(empty($_SESSION)){
 				
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Profil Diri</h1>
+				<h1 class="page-header">Pesan</h1>
 			</div>
 		</div><!--/.row-->	
 		
 		<div class="row">
 			<div class="col-md-8">
 				<div class="panel panel-default">
-					<div class="panel-heading"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Mohon diisi dengan lengkap dan jujur</div>
-                	<center><img class="img-circle img-responsive img-center" src="http://placehold.it/200x200" alt=""></center>
-            <!-- </div> -->
+					<div class="panel-heading"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"></use></svg> Saya menemukan dompet anda. </div>
 					<div class="panel-body">
 						<form class="form-horizontal" action="" method="post">
 							<fieldset>
 								<!-- Name input-->
 								<div class="form-group">
-									<label class="col-md-3 control-label" for="name">ID</label>
+									<label class="col-md-3 control-label" for="message">Kirim Ke</label>
 									<div class="col-md-9">
-									<input id="name" name="name" type="text" placeholder="5114100104" class="form-control">
+									<select class="form-control">
+										<option>Pina</option>
+										<option>Faishal</option>
+									</select>
 									</div>
 								</div>
-
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="name">Nama</label>
-									<div class="col-md-9">
-									<input id="name" name="name" type="text" placeholder="Fathihah Ulya" class="form-control">
-									</div>
-								</div>
-										
+															
 								<!-- Email input-->
 								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Nomor Telepon</label>
+									<label class="col-md-3 control-label" for="email">Judul</label>
 									<div class="col-md-9">
-										<input id="email" name="email" type="text" placeholder="0853xxx" class="form-control">
+										<input id="email" name="email" type="text" placeholder="Barang hilang" class="form-control">
 									</div>
 								</div>
-
+																
+								<!-- Message body -->
 								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Password</label>
+									<label class="col-md-3 control-label" for="message">Isi Pesan</label>
 									<div class="col-md-9">
-										<input id="password" name="password" type="password" placeholder="0853xxx" class="form-control">
+										<textarea class="form-control" id="message" name="message" placeholder="Isi pesan yang ingin dikirimkan..." rows="5"></textarea>
 									</div>
 								</div>
-													
-								<!-- Form actions -->
+																						
 								<div class="form-group">
 									<div class="col-md-12 widget-right">
-										<a href="editprofil.php"><button type="button" class="btn btn-default btn-md pull-right">Ubah Data</button></a>
+									<center>										
+										<button type="reset" class="btn btn-default">Reset</button>
+										<button type="submit" class="btn btn-primary">Submit</button>
+									</center>
 									</div>
 								</div>
 							</fieldset>

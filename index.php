@@ -1,3 +1,15 @@
+<?php
+session_start();
+if(isset($_POST["valid"])) {
+?>
+<script type="text/javascript">
+    var x = document.getElementById('id02');
+    x = "Username atau Password yang anda maksudkan salah";
+    document.getElementById('id01').style.display='block';    
+</script>
+<?php
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -180,14 +192,17 @@ span.psw {
                         <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
 
 <div id="id01" class="modal">
+
   
-  <form class="modal-content animate" action="pengguna/index.php" method="post">
+  <form class="modal-content animate" action="login.php" method="post">
     <div class="imgcontainer">
       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
 
     </div>
 
+
     <div class="container">
+            <p id="id02" color="black">Masukkan</p>
       <input type="text" class="form-control" placeholder="Enter Username" name="uname" required>
 
       <input type="password" class="form-control" placeholder="Enter Password" name="psw" required>
@@ -198,6 +213,7 @@ span.psw {
 
     
   </form>
+
 </div>
 
 <script>
