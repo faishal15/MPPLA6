@@ -1,14 +1,5 @@
 <?php
 session_start();
-if(isset($_POST["valid"])) {
-?>
-<script type="text/javascript">
-    var x = document.getElementById('id02');
-    x = "Username atau Password yang anda maksudkan salah";
-    document.getElementById('id01').style.display='block';    
-</script>
-<?php
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -178,6 +169,7 @@ span.psw {
                 </a>
             </div>
 
+            <!-- PAGE NAVIGATION -->
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
                 <ul class="nav navbar-nav">
@@ -185,56 +177,77 @@ span.psw {
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
-                    <li>
-                        <a class="page-scroll" href="#about">Cari Barang Hilang</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
 
-<div id="id01" class="modal">
+            <!-- 1. CARI BARANG -->
+            <li>
+                <a class="page-scroll" href="#about">Cari Barang Hilang</a>
+            </li>
 
-  
-  <form class="modal-content animate" action="login.php" method="post">
-    <div class="imgcontainer">
-      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <!-- 2. TOLONG TEMUKAN -->       
+            <li>
+                <a class="page-scroll" href="listbarang.php">Tolong Temukan</a>
+            </li>
 
-    </div>
+            <!-- 3. KONTAK -->
+            <li>
+                <a class="page-scroll" href="#contact">Contact</a>
+            </li>
+
+            <!-- 4. LOGIN, USER PROFILE, LOGOUT  --> 
+            <?php
+                    if(!empty($_SESSION)){
+                        include("conn.php");
+
+                            $username  = $_SESSION['uname'];
+                            echo '<li>
+                                <a class="page-scroll" href="#a">'.$username.'</a>
+                            </li>';
+                            echo '<li>
+                                <a class="page-scroll" href="#b">Logout</a>
+                            </li>';
+                        }
+
+                    else {
+                    }
+                
+            ?>
+
+             <li>
+                <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
+                <div id="id01" class="modal">                  
+                  <form class="modal-content animate" action="login.php" method="post">
+                    <div class="imgcontainer">
+                      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    </div>
 
 
-    <div class="container">
-            <p id="id02" color="black">Masukkan</p>
-      <input type="text" class="form-control" placeholder="Enter Username" name="uname" required>
+                    <div class="container">
+                        <p id="id02" color="black">Masukkan</p>
+                        <input type="text" class="form-control" placeholder="Enter Username" name="uname" required>
+                        <input type="password" class="form-control" placeholder="Enter Password" name="psw" required>
+                        <button type="submit" name="submit">Login</button>
+                    </div>
+                  </form>
 
-      <input type="password" class="form-control" placeholder="Enter Password" name="psw" required>
-        
-      <button type="submit" name="submit">Login</button>
-      
-    </div>
+                </div>
 
-    
-  </form>
+                <script>
+                // Get the modal
+                var modal = document.getElementById('id01');
 
-</div>
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+                </script>
 
-<script>
-// Get the modal
-var modal = document.getElementById('id01');
+                </li>
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-</script>
+            
+                    
 
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="listbarang.php">Tolong Temukan</a>
-                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
