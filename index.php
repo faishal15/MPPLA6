@@ -203,14 +203,11 @@ span.psw {
                                 <a class="page-scroll" href="#a">'.$username.'</a>
                             </li>';
                             echo '<li>
-                                <a class="page-scroll" href="#b">Logout</a>
+                                <a class="page-scroll" href="logout.php">Logout</a>
                             </li>';
                         }
 
-                    else {
-                    }
-                
-            ?>
+                    else { ?>
 
              <li>
                 <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
@@ -243,7 +240,13 @@ span.psw {
                 }
                 </script>
 
-                </li>
+                </li>       
+            <?php
+                    }
+                
+            ?>
+
+             
 
             
                     
