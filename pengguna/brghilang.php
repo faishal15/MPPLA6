@@ -1,3 +1,20 @@
+<?php
+require("connect.php");
+$result = mysqli_query($conn, "SELECT * FROM barang where Kategori = 'Ditemukan'");
+
+$i = 0; 
+while ($row = mysqli_fetch_array($result)) {
+  $i++;
+  $ID_Barang[$i] = $row['ID_Barang'];
+  $ID_User[$i] = $row['ID_User'];
+  $Nama_Barang[$i] = $row['Nama_Barang'];
+  $Tanggal[$i] = $row['Tanggal'];
+  $Tempat[$i] = $row['Tempat'];
+  $Keterangan[$i] = $row['Keterangan'];
+}
+mysqli_close($conn);
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,14 +47,14 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="../index.php"><span>TCARI</span></a>
+				<a class="navbar-brand" href="#"><span>TCARI</span></a>
 				<ul class="user-menu">
 					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> <?php echo $_SESSION['uname'];?> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
 							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
-							<li><a href="../logout.php"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+							<li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -124,14 +141,16 @@
 						    </tr>
 
 						    </thead>
+						    <?php for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
 						    <tr>
-						    	<td>B001</td>
-						    	<td>Jaket</td> 
-						    	<td>Rabu,10 Januari 2017</td>
-						    	<td>Sekitar PB</td> 
+						    	<td><?php echo $ID_Barang[$i] ?></td>
+						    	<td><?php echo $Nama_Barang[$i] ?></td> 
+						    	<td><?php echo $Tanggal[$i] ?></td>
+						    	<td><?php echo $Tempat[$i] ?></td> 
 						    	<td>Belum Selesai</td>
-						    	<td><a href="editbrghilang.php">Edit</a></td>
+						    	<td><a href="editbrghilang.php?editid=<?php echo $ID_Barang[$i] ?>">Edit</a></td>
 						    </tr>
+						    <?php } ?>
 						</table>
 					</div>
 				</div>

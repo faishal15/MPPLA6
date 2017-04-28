@@ -29,14 +29,14 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="../index.php"><span>TCARI</span></a>
+				<a class="navbar-brand" href="#"><span>TCARI</span></a>
 				<ul class="user-menu">
 					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> <?php echo $_SESSION['uname'];?> <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
 							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
-							<li><a href="../logout.php"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+							<li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -124,10 +124,27 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Gambar Barang</label>
 									<div class="col-md-9">
-									<input id="name" name="name" type="file" class="form-control">
+									<input id="name" name="name" type="file" class="form-control" onchange="readURL(this);">
+									<img id="temu" src="#" alt="your image" />
 									</div>
 								</div>
 							
+								<script type="text/javascript">
+									function readURL(input) {
+										if (input.files && input.files[0]) {
+											var reader = new FileReader();
+
+											reader.onload = function (e) {
+												$('#temu')
+												.attr('src', e.target.result)
+												.width(150)
+												.height(200);
+											};
+											reader.readAsDataURL(input.files[0]);
+										}
+									}
+								</script>
+
 								<!-- Email input-->
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="email">Lokasi Ditemukan</label>
