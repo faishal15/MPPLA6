@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(empty($_SESSION)){
+	header("Location: index.php");
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,7 +94,7 @@
 						</a>
 					</li>
 					<li>
-						<a class="" href="brghilang.php">
+						<a class="" href="kotakpesan.php">
 							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Pesan Masuk
 						</a>
 					</li>

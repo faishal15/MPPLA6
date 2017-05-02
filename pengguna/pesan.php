@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(empty($_SESSION)){
+	header("Location: index.php");
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,8 +93,8 @@
 						</a>
 					</li>
 					<li>
-						<a class="" href="brghilang.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Kotak Pesan
+						<a class="" href="kotakpesan.php">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Pesan Masuk
 						</a>
 					</li>
 				</ul>
@@ -103,59 +109,64 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Pesan</h1>
-			</div>
+				<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+		    <div class="col-md-8 message-sideright">
+		        <div class="panel">
+		            <div class="panel-heading">
+		                <div class="media">
+		                    <a href="kirimpesan.php" class="btn btn-danger pull-right rounded"><i class="fa fa-share"></i></a>
+		                    <a class="pull-left" href="#">
+		                        <img src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="Rebecca Cabean" class="img-circle avatar" width="150" height="150">
+		                    </a>
+		                    <div class="media-body">
+		                        <h4 class="media-heading">Rebecca Cabean <small>(Sales Manager)</small></h4>
+		                        <small>Thursday 5th July 2014-via Intercom</small>
+		                    </div>
+		                </div>
+		            </div><!-- /.panel-heading -->
+		            <div class="panel-body">
+		                <p class="lead">
+		                    RE : Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+		                </p>
+		                <hr>
+		                <p>
+		                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		                </p>
+		                <br>
+		                <p>
+		                    Thanks! <br>
+		                    Rebecca.
+		                </p>
+		            </div><!-- /.panel-body -->
+		        </div><!-- /.panel -->
+		        <div class="panel">
+		            <div class="panel-heading">
+		                <div class="media">
+		                    <a class="pull-left" href="#">
+		                        <img src="http://bootdey.com/img/Content/avatar/avatar6.png" alt="sarah tingting" class="img-circle avatar">
+		                    </a>
+		                    <div class="media-body">
+		                        <h4 class="media-heading">Sarah Tingting</h4>
+		                        <small>Thursday 5th July 2014-via Intercom</small>
+		                    </div>
+		                </div>
+		            </div><!-- /.panel-heading -->
+		            <div class="panel-body">
+		                <p class="lead">
+		                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+		                </p>
+		                <hr>
+		                <strong>Hi Tol Lee</strong>
+		                <p>
+		                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		                </p>
+		            </div><!-- /.panel-body -->
+		        </div><!-- /.panel -->
+		    </div><!-- /.message-sideright -->
+		</div>
 		</div><!--/.row-->	
-		
-		<div class="row">
-			<div class="col-md-8">
-				<div class="panel panel-default">
-					<div class="panel-heading"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"></use></svg> Saya menemukan dompet anda. </div>
-					<div class="panel-body">
-						<form class="form-horizontal" action="" method="post">
-							<fieldset>
-								<!-- Name input-->
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="message">Kirim Ke</label>
-									<div class="col-md-9">
-									<select class="form-control">
-										<option>Pina</option>
-										<option>Faishal</option>
-									</select>
-									</div>
-								</div>
-															
-								<!-- Email input-->
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Judul</label>
-									<div class="col-md-9">
-										<input id="email" name="email" type="text" placeholder="Barang hilang" class="form-control">
-									</div>
-								</div>
-																
-								<!-- Message body -->
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="message">Isi Pesan</label>
-									<div class="col-md-9">
-										<textarea class="form-control" id="message" name="message" placeholder="Isi pesan yang ingin dikirimkan..." rows="5"></textarea>
-									</div>
-								</div>
-																						
-								<div class="form-group">
-									<div class="col-md-12 widget-right">
-									<center>										
-										<button type="reset" class="btn btn-default">Reset</button>
-										<button type="submit" class="btn btn-primary">Submit</button>
-									</center>
-									</div>
-								</div>
-							</fieldset>
-						</form>
-					</div>
-				</div>
-				
-			</div><!--/.col-->
-			
-		</div><!--/.row-->
+
+
 	</div>	<!--/.main-->
 		  
 

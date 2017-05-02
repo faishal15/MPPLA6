@@ -1,4 +1,10 @@
 <?php
+session_start();
+if(empty($_SESSION)){
+	header("Location: index.php");
+}
+?>
+<?php
 $editid = isset($_GET['editid']) ? $_GET['editid']:'';
 if ($editid!="") {
     require("connect.php");
@@ -17,84 +23,85 @@ if ($editid!="") {
     $p_edit = 'readonly';
     
     mysqli_close($conn);
-} else {
-    $p_id = "";
-    $p_id_u = "";
-    $p_nama = "";
-    $p_tgl = "";
-    $p_tempat = "";
-    $p_kategori = "";
-    $p_foto = "";
-    $p_security = "";
-    $p_keterangan = "";
-    $p_edit = "";
-}
+	} else {
+	    $p_id = "";
+	    $p_id_u = "";
+	    $p_nama = "";
+	    $p_tgl = "";
+	    $p_tempat = "";
+	    $p_kategori = "";
+	    $p_foto = "";
+	    $p_security = "";
+	    $p_keterangan = "";
+	    $p_edit = "";
+	}
 
-$act = isset($_GET['act']) ? $_GET['act']:'';
-if ($act=="upd") {
-    $ps_id = $_POST['i_id'];
-    $ps_old_id = $_POST['i_old_id'];
-    $ps_id_u = $_POST['i_id_u'];
-    $ps_gambar1 = $_FILES['i_gambar']['name'];
-    $ps_nama = $_POST['i_nama'];
-    $ps_tgl = $_POST['i_tgl'];
-    $ps_tmpt = $_POST['i_tmpt'];
-    $ps_kat = $_POST['i_kat'];
-    $ps_sec = $_POST['i_sec'];
-    $ps_ket = $_POST['i_ket'];
+	$act = isset($_GET['act']) ? $_GET['act']:'';
+	if ($act=="upd") {
+	    $ps_id = $_POST['i_id'];
+	    $ps_old_id = $_POST['i_old_id'];
+	    $ps_id_u = $_POST['i_id_u'];
+	    $ps_gambar1 = $_FILES['i_gambar']['name'];
+	    $ps_nama = $_POST['i_nama'];
+	    $ps_tgl = $_POST['i_tgl'];
+	    $ps_tmpt = $_POST['i_tmpt'];
+	    $ps_kat = $_POST['i_kat'];
+	    $ps_sec = $_POST['i_sec'];
+	    $ps_ket = $_POST['i_ket'];
 
-    if ($ps_gambar1!=Null)
-    {
-    $target_dir = "barang/";
-    $target_file = $target_dir . $ps_gambar1;
-    $uploadOk = 1;
-    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-    $ps_gambar = $ps_nama . "." . $imageFileType;
-    $target_file = $target_dir . $ps_gambar;
-    $check = getimagesize($_FILES["i_gambar"]["tmp_name"]);
-    if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
-    } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-    }
-    
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-    } else {
-        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
-            echo "The file ". $ps_gambar. " has been uploaded.";
-        } else {
-            echo "Sorry, there was an error uploading your file.";
-        }
-    }
-    
-    if ($editid=="") {
-        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, 
-            Keterangan, Foto, Security_Ques)
-VALUES ('$ps_id', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$p_ket', '$ps_gambar', '$ps_sec')";
-    } else {
-    $sql = "UPDATE barang SET
-    ID_Barang = '$ps_id',
-    ID_User = '$ps_id_u',
-    Nama_Barang = '$ps_nama',
-    Tanggal = '$ps_tgl',
-    Tempat = '$ps_tmpt',
-    Kategori = '$ps_kat',
-    Keterangan = '$ps_ket',
-    Foto = '$ps_gambar',
-    Security_Ques = '$ps_sec'
-    WHERE ID_Barang = '$ps_old_id'
-    ";  
-    }
-    
-require("connect.php");
+	    if ($ps_gambar1!=Null)
+	    {
+	    $target_dir = "barang/";
+	    $target_file = $target_dir . $ps_gambar1;
+	    $uploadOk = 1;
+	    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+	    $ps_gambar = $ps_nama . "." . $imageFileType;
+	    $target_file = $target_dir . $ps_gambar;
+	    $check = getimagesize($_FILES["i_gambar"]["tmp_name"]);
+	    if($check !== false) {
+	        echo "File is an image - " . $check["mime"] . ".";
+	        $uploadOk = 1;
+	    } else {
+	        echo "File is not an image.";
+	        $uploadOk = 0;
+	    }
+	    
+	    if ($uploadOk == 0) {
+	        echo "Sorry, your file was not uploaded.";
+	    } else {
+	        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
+	            echo "The file ". $ps_gambar. " has been uploaded.";
+	        } else {
+	            echo "Sorry, there was an error uploading your file.";
+	        }
+	    }
+	    
+	    if ($editid=="") {
+	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, 
+	            Keterangan, Foto, Security_Ques)
+	VALUES ('$ps_id', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$p_ket', '$ps_gambar', '$ps_sec')";
+	    } else {
+	    $sql = "UPDATE barang SET
+	    ID_Barang = '$ps_id',
+	    ID_User = '$ps_id_u',
+	    Nama_Barang = '$ps_nama',
+	    Tanggal = '$ps_tgl',
+	    Tempat = '$ps_tmpt',
+	    Kategori = '$ps_kat',
+	    Keterangan = '$ps_ket',
+	    Foto = '$ps_gambar',
+	    Security_Ques = '$ps_sec'
+	    WHERE ID_Barang = '$ps_old_id'
+	    ";  
+	    }
+	    
+	require("connect.php");
 
-$result=mysqli_query($conn, $sql);
-mysqli_close($conn);
+	$result=mysqli_query($conn, $sql);
+	mysqli_close($conn);
 
-header("location:index.php");
+	header("location:index.php");
+	}
 }
 ?>
 
@@ -112,11 +119,6 @@ header("location:index.php");
 <!--Icons-->
 <script src="js/lumino.glyphs.js"></script>
 
-<!--[if lt IE 9]>
-<script src="js/html5shiv.js"></script>
-<script src="js/respond.min.js"></script>
-<![endif]-->
-
 </head>
 
 <body>
@@ -132,7 +134,7 @@ header("location:index.php");
 				<a class="navbar-brand" href="#"><span>TCARI</span></a>
 				<ul class="user-menu">
 					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> <?php echo $_SESSION['uname'];?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
 							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
@@ -187,7 +189,7 @@ header("location:index.php");
 						</a>
 					</li>
 					<li>
-						<a class="" href="brghilang.php">
+						<a class="" href="kotakpesan.php">
 							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Pesan Masuk
 						</a>
 					</li>

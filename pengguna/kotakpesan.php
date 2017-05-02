@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(empty($_SESSION)){
+	header("Location: index.php");
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,14 +94,15 @@
 						</a>
 					</li>
 					<li>
-						<a class="" href="brghilang.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Kotak Pesan
+						<a class="" href="kotakpesan.php">
+							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Pesan Masuk
 						</a>
 					</li>
 				</ul>
 			</li>
 			<li><a href="hubadmin.php"><svg class="glyph stroked mobile device"><use xlink:href="#stroked-mobile-device"></use></svg> Call Admin</a></li>
 		</ul>
+		
 	</div><!--/.sidebar-->
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
