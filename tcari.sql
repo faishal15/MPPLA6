@@ -1,22 +1,47 @@
-/*
-SQLyog Ultimate v8.6 Beta2
-MySQL - 5.6.26 : Database - tcari
-*********************************************************************
-*/
-
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-/*Table structure for table `barang` */
-
-DROP TABLE IF EXISTS `barang`;
-
-CREATE TABLE `barang` (
+-- phpMyAdmin SQL Dump
+-- version 4.4.14
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: May 04, 2017 at 04:45 PM
+-- Server version: 5.6.26
+-- PHP Version: 5.6.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `tcari`
+--
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login`(u_name VARCHAR(15), u_pass VARCHAR(32))
+BEGIN
+IF EXISTS (SELECT * FROM users WHERE(u_name = id_user) AND (u_pass = password_user)) THEN
+	SELECT 0, "Login Berhasil";
+	ELSE
+	SELECT -1, "Username atau password anda tidak cocok";
+	END IF;
+    END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `barang`
+--
+
+CREATE TABLE IF NOT EXISTS `barang` (
   `ID_Barang` varchar(10) NOT NULL,
   `ID_User` varchar(15) NOT NULL,
   `Nama_Barang` varchar(15) NOT NULL,
@@ -25,85 +50,119 @@ CREATE TABLE `barang` (
   `Kategori` varchar(20) NOT NULL,
   `Keterangan` text NOT NULL,
   `Foto` varchar(40) NOT NULL,
-  `Security_Ques` varchar(100) NOT NULL,
-  PRIMARY KEY (`ID_Barang`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `barang` */
-
-insert  into `barang`(`ID_Barang`,`ID_User`,`Nama_Barang`,`Tanggal`,`Tempat`,`Kategori`,`Keterangan`,`Foto`,`Security_Ques`) values ('','','','0000-00-00 00:00:00','','','','',''),('B001','5114100066','Jas Hujan','2017-04-11 00:00:00','Sekitar PB1','Ditemukan','ditemukan jas hujan berwarna merah di sekitar PB 1','','Apakah jenis hujan tersebut?'),('B002','5114100104','Payung','2017-04-10 00:00:00','Sekitar PL1','Kehilangan','Saya telah kehilangan payung yang sebelumnya kalau tidak salah saya tinggal disekitar PL1 Teknik Informatika ITS','','Apa warna dari payung tersebut dan jenis payungnya?');
-
-/*Table structure for table `message` */
-
-DROP TABLE IF EXISTS `message`;
-
-CREATE TABLE `message` (
+  `Security_Ques` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `barang`
+--
+
+INSERT INTO `barang` (`ID_Barang`, `ID_User`, `Nama_Barang`, `Tanggal`, `Tempat`, `Kategori`, `Keterangan`, `Foto`, `Security_Ques`) VALUES
+('B001', '5114100066', 'Jas Hujan', '2017-04-11 00:00:00', 'Sekitar PB1', 'Ditemukan', 'ditemukan jas hujan berwarna merah di sekitar PB 1', 'img/jashujan.jpg', 'Apakah jenis hujan tersebut?'),
+('B002', '5114100104', 'Payung', '2017-04-10 00:00:00', 'Sekitar PL1', 'Kehilangan', 'Saya telah kehilangan payung yang sebelumnya kalau tidak salah saya tinggal disekitar PL1 Teknik Informatika ITS', '', 'Apa warna dari payung tersebut dan jenis payungnya?'),
+('B003', '5114100154', 'HP ', '2017-04-12 00:00:00', 'IF-105A', 'Kehilangan', 'Terakhir terlihat Jumat kemarin jam 16.00', '', 'Apa warna casingnya?'),
+('B004', '5114100100', 'Jam Tangan', '2017-04-12 00:00:00', 'IF-105A', 'Kehilangan', 'Terakhir terlihat Jumat kemarin jam 16.00', '', 'Apa warna casingnya?'),
+('B005', '5114100123', 'Flash Disk ', '2017-04-12 00:00:00', 'IF-104', 'Kehilangan', 'Terakhir nancep di pc', '', 'Apa merknya?'),
+('B006', '5114100103', 'Kotak Pensil ', '2017-04-12 00:00:00', 'PL1', 'Kehilangan', '', '', 'Apa warnanya?');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `message`
+--
+
+CREATE TABLE IF NOT EXISTS `message` (
   `ID_Message` varchar(10) NOT NULL,
   `Judul_Message` varchar(25) NOT NULL,
   `Isi_Message` text NOT NULL,
   `ID_Sender` varchar(15) NOT NULL,
   `ID_Receiver` varchar(15) NOT NULL,
-  `Tanggal` datetime NOT NULL,
-  PRIMARY KEY (`ID_Message`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `message` */
-
-insert  into `message`(`ID_Message`,`Judul_Message`,`Isi_Message`,`ID_Sender`,`ID_Receiver`,`Tanggal`) values ('MS001','Itu Jas Hujan Punya Saya','Itu jas hujan punya saya, jenis jas hujan ponco warna merah kan','5114100076','5114100066','2017-04-12 00:00:00'),('MS002','Ada Ditemukan Payung','Itu payungnya warna biru dan jenis payungnya itu yang bisa kecil dilipat bukan?','5114100066','5114100104','2017-04-11 00:00:00');
-
-/*Table structure for table `transaksi` */
-
-DROP TABLE IF EXISTS `transaksi`;
-
-CREATE TABLE `transaksi` (
+  `Tanggal` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `message`
+--
+
+INSERT INTO `message` (`ID_Message`, `Judul_Message`, `Isi_Message`, `ID_Sender`, `ID_Receiver`, `Tanggal`) VALUES
+('MS001', 'Itu Jas Hujan Punya Saya', 'Itu jas hujan punya saya, jenis jas hujan ponco warna merah kan', '5114100076', '5114100066', '2017-04-12 00:00:00'),
+('MS002', 'Ada Ditemukan Payung', 'Itu payungnya warna biru dan jenis payungnya itu yang bisa kecil dilipat bukan?', '5114100066', '5114100104', '2017-04-11 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaksi`
+--
+
+CREATE TABLE IF NOT EXISTS `transaksi` (
   `ID_Transaksi` varchar(10) NOT NULL,
   `ID_Barang` varchar(20) NOT NULL,
   `ID_Pemilik` varchar(20) NOT NULL,
   `ID_Penemu` varchar(20) NOT NULL,
   `Tanggal_Selesai` datetime NOT NULL,
   `Status` varchar(30) NOT NULL,
-  `Progress` varchar(30) NOT NULL,
-  PRIMARY KEY (`ID_Transaksi`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `transaksi` */
-
-insert  into `transaksi`(`ID_Transaksi`,`ID_Barang`,`ID_Pemilik`,`ID_Penemu`,`Tanggal_Selesai`,`Status`,`Progress`) values ('TR001','B001','','5114100066','0000-00-00 00:00:00','NOT CLEAR','FOUND'),('TR002','B002','5114100104','','0000-00-00 00:00:00','NOT CLEAR','LOST');
-
-/*Table structure for table `users` */
-
-DROP TABLE IF EXISTS `users`;
-
-CREATE TABLE `users` (
+  `Progress` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`ID_Transaksi`, `ID_Barang`, `ID_Pemilik`, `ID_Penemu`, `Tanggal_Selesai`, `Status`, `Progress`) VALUES
+('TR001', 'B001', '', '5114100066', '0000-00-00 00:00:00', 'NOT CLEAR', 'FOUND'),
+('TR002', 'B002', '5114100104', '', '0000-00-00 00:00:00', 'NOT CLEAR', 'LOST');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
   `ID_User` varchar(15) NOT NULL,
   `Nama_User` varchar(40) NOT NULL,
   `No_Telepon` varchar(15) NOT NULL,
   `Foto` varchar(40) NOT NULL,
-  `Password_User` varchar(20) NOT NULL,
-  PRIMARY KEY (`ID_User`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `users` */
-
-insert  into `users`(`ID_User`,`Nama_User`,`No_Telepon`,`Foto`,`Password_User`) values ('5114100066','Vinsensia Sipriana Zega','089673927393','','singlehappy'),('5114100076','Muhammad Faishal Ilham','085668869515','','anakgaul'),('5114100104','Fathihah Ulya Hakiem','087826382638','','akuanakio');
-
-/* Procedure structure for procedure `sp_login` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `sp_login` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login`(u_name VARCHAR(15), u_pass VARCHAR(32))
-BEGIN
-IF EXISTS (SELECT * FROM users WHERE(u_name = id_user) AND (u_pass = password_user)) THEN
-	SELECT 0, "Login Berhasil";
-	ELSE
-	SELECT -1, "Username atau password anda tidak cocok";
-	END IF;
-    END */$$
-DELIMITER ;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+  `Password_User` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`ID_User`, `Nama_User`, `No_Telepon`, `Foto`, `Password_User`) VALUES
+('5114100066', 'Vinsensia Sipriana Zega', '089673927393', '', 'singlehappy'),
+('5114100076', 'Muhammad Faishal Ilham', '085668869515', '', 'anakgaul'),
+('5114100104', 'Fathihah Ulya Hakiem', '087826382638', '', 'akuanakio');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `barang`
+--
+ALTER TABLE `barang`
+  ADD PRIMARY KEY (`ID_Barang`);
+
+--
+-- Indexes for table `message`
+--
+ALTER TABLE `message`
+  ADD PRIMARY KEY (`ID_Message`);
+
+--
+-- Indexes for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD PRIMARY KEY (`ID_Transaksi`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`ID_User`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

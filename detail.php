@@ -1,3 +1,35 @@
+<?php
+require("connect.php");
+session_start();
+
+/*CHECK IF ID IS GIVEN*/
+$id = $_GET['id'];
+if (null === isset( $_GET['id'] )) {
+        header("HTTP/1.0 404 Not Found", true, 404);
+        exit;
+}
+
+/*FETCH DETAIL BARANG*/
+$sql = mysqli_query($conn, "SELECT * FROM barang WHERE ID_BARANG = '$id' LIMIT 1");
+$barang = mysqli_fetch_array($sql);
+$Nama_Barang = $barang['Nama_Barang'];
+$ID_User = $barang['ID_User'];
+$Tanggal = $barang['Tanggal'];
+$Tempat = $barang['Tempat'];
+$Keterangan = $barang['Keterangan'];
+
+
+/*FETCH BARANG LAIN*/
+$result = mysqli_query($conn, "SELECT * FROM barang");
+
+$i = 0; 
+while ($row = mysqli_fetch_array($result)) {
+  $i++;
+  $ID_Barang[$i] = $row['ID_Barang'];
+  $List_Barang[$i] = $row['Nama_Barang'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -80,10 +112,15 @@
                 <img class="img-responsive" src="http://placehold.it/750x500" alt="">
             </div>
             <div class="col-md-4">
-                <h4>Nama Barang</h4>
+                <span class="label label-success pull-right">SOLVED</span>&nbsp;<span class="label label-fail pull-right rounded">SOLVED</span>&nbsp;<span class="label label-default pull-right circle">SOLVED</span>
+                <h4>Nama Barang</h4> 
+                <h6><?php echo $Nama_Barang; ?></h6>
                 <h4>Ditemukan Oleh</h4>
+                <h6><?php echo $ID_User; ?></h6>
                 <h4>Ditemukan Tanggal</h4>
+                <h6><?php echo date('M j Y g:i A', strtotime($Tanggal));?></h6>
                 <h4>Keterangan</h4>
+                <h6><?php echo $Keterangan; ?></h6>
             </div>
         </div>
         <div class="row">
@@ -91,38 +128,15 @@
             <div class="col-lg-12">
                 <h3 class="page-header">Barang Lainnya</h3>
             </div>
-
+            <?php for($i=1; $i<=4; $i++) { ?>
             <div class="col-sm-3 col-xs-6">
-                <a href="#">
+                <a href="<?php echo "detail.php?id=$ID_Barang[$i]" ?>">
                     <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
                     <br>
-                    <center><h4>Jam Tangan</h4></center>
+                    <center><h4><?php echo $List_Barang[$i] ?></h4></center>
                 </a>
             </div>
-
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
-                    <br>
-                    <center><h4>Handphone</h4></center>
-                </a>
-            </div>
-
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
-                    <br>
-                    <center><h4>Kotak Pensil</h4></center>
-                </a>
-            </div>
-
-            <div class="col-sm-3 col-xs-6">
-                <a href="#">
-                    <img class="img-responsive portfolio-item" src="http://placehold.it/500x300" alt="">
-                    <br>
-                    <center><h4>Flashdisk</h4></center>
-                </a>
-            </div>
+            <?php } ?>
 
         </div>
     </section>

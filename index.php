@@ -1,5 +1,16 @@
 <?php
+require("connect.php");
 session_start();
+
+$result = mysqli_query($conn, "SELECT * FROM barang");
+
+$i = 0; 
+while ($row = mysqli_fetch_array($result)) {
+  $i++;
+  $ID_Barang[$i] = $row['ID_Barang'];
+  $List_Barang[$i] = $row['Nama_Barang'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -196,7 +207,7 @@ span.psw {
             <!-- 4. LOGIN, USER PROFILE, LOGOUT  --> 
             <?php
                     if(!empty($_SESSION)){
-                        include("conn.php");
+                        include("connect.php");
 
                             $username  = $_SESSION['uname'];
                             echo '<li>
@@ -295,54 +306,16 @@ span.psw {
             </div>
         </div>
         <div class="row">
+        <?php for($i=1; $i<=6; $i++) { ?>
             <div class="col-md-4 portfolio-item">
                 <a href="#">
                     <img class="img-responsive" src="http://placehold.it/350x250" alt="">
                 </a>
                 <h3>
-                    <a href="#">Barang 1</a>
+                    <a href="<?php echo "detail.php?id=$ID_Barang[$i]" ?>"><?php echo $List_Barang[$i] ?></a>
                 </h3>
             </div>
-            <div class="col-md-4 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/350x250" alt="">
-                </a>
-                <h3>
-                    <a href="#">Barang 2</a>
-                </h3>
-            </div>
-            <div class="col-md-4 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/350x250" alt="">
-                </a>
-                <h3>
-                    <a href="#">Barang 3</a>
-                </h3>
-            </div>
-       		<div class="col-md-4 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/350x250" alt="">
-                </a>
-                <h3>
-                    <a href="#">Barang 4</a>s
-                </h3>
-            </div>
-            <div class="col-md-4 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/350x250" alt="">
-                </a>
-                <h3>
-                    <a href="#">Barang 5</a>
-                </h3>
-            </div>
-            <div class="col-md-4 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/350x250" alt="">
-                </a>
-                <h3>
-                    <a href="#">Barang 6</a>
-                </h3>
-            </div>
+        <?php } ?>
         </div>
 
         <!-- Projects Row -->

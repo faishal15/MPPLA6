@@ -1,5 +1,5 @@
 <?php 
-	include('conn.php');
+	include('connect.php');
 
 	if($_SERVER["REQUEST_METHOD"] == "POST") {
 		$myusername = mysqli_real_escape_string($conn,$_POST['uname']);
