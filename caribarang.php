@@ -2,32 +2,19 @@
 require("connect.php");
 session_start();
 
-/*CHECK IF ID IS GIVEN*/
-$id = $_GET['id'];
-if (null === isset( $_GET['id'] )) {
-        header("HTTP/1.0 404 Not Found", true, 404);
-        exit;
-}
+$caribarang = $_POST['cari'];
 
-/*FETCH DETAIL BARANG*/
-$sql = mysqli_query($conn, "SELECT * FROM barang WHERE ID_BARANG = '$id' LIMIT 1");
-$barang = mysqli_fetch_array($sql);
-$Nama_Barang = $barang['Nama_Barang'];
-$ID_User = $barang['ID_User'];
-$Tanggal = $barang['Tanggal'];
-$Tempat = $barang['Tempat'];
-$Keterangan = $barang['Keterangan'];
-$Foto = $barang['Foto'];
-
-/*FETCH BARANG LAIN*/
-$result = mysqli_query($conn, "SELECT * FROM barang");
+$batas=2; 
+if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
+$start_from = ($page-1) * $batas;
+$result = mysqli_query($conn, "SELECT * FROM barang where Nama_Barang like '%$caribarang%'");
 
 $i = 0; 
 while ($row = mysqli_fetch_array($result)) {
-  $i++;
-  $ID_Barang[$i] = $row['ID_Barang'];
-  $List_Barang[$i] = $row['Nama_Barang'];
-  $Foto2[$i] = $row['Foto'];
+    $i++;
+    $ID_Barang[$i] = $row['ID_Barang'];
+    $nama_barang[$i] = $row['Nama_Barang'];
+    $Foto[$i] = $row['Foto'];
 }
 ?>
 
@@ -152,7 +139,7 @@ while ($row = mysqli_fetch_array($result)) {
     </nav>
 
     <!-- About Section -->
-    <section id="about" class="container content-section text-left">
+    <section id="about" class="container content-section text-center">
         <div class="row">
             <div class="col-md-3">
                 <p class="lead">Masukkan keyword</p>
@@ -166,36 +153,42 @@ while ($row = mysqli_fetch_array($result)) {
                     </div>
                 </div>
             </div>
-            <div class="col-md-5">
-                <img class="img-responsive" src="img/<?php echo $Foto ?>" style="width:600px; height:400px;" alt="">
+            <div class="col-md-9">
+            <h1>HASIL PENCARIAN</h1>
+                <div class="row">
+                    <?php for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <div class="thumbnail">
+                            <img src="img/<?php echo $Foto[$i]?>" style="width:320px; height:150px;" alt="Barang">
+                            <div class="caption">
+                                <!-- <h4 class="pull-right">$24.99</h4> -->
+                                <h4><a href="#"><?php echo $nama_barang[$i]?></a></h4>
+                                <p>
+                                    <a href="<?php echo "detail.php?id=$ID_Barang[$i]" ?>" class="btn btn-primary">Lihat</a>
+                                    <a href="#" class="btn btn-default">Hubungi</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <?php } ?>
+                    <div class="row text-center">
+                        <div class="col-lg-12">
+                            <?php  
+                            $sql = "SELECT COUNT(ID_Barang) FROM barang";  
+                            $rs_result = mysqli_query($conn, $sql);  
+                            $row = mysqli_fetch_array($rs_result);  
+                            $total_records = $row[0];  
+                            $total_pages = ceil($total_records / $batas);  
+                            $pagLink = "<ul class='pagination'>";  
+                            for ($i=1; $i<=$total_pages; $i++) { 
+                               $pagLink .= "<li><a href='listbarang.php?page=".$i."'>".$i."</a></li>";  
+                           };  
+                           echo $pagLink . "</ul>";  
+                           ?>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4">
-                <span class="label label-success pull-right">SOLVED</span>&nbsp;<span class="label label-fail pull-right rounded">SOLVED</span>&nbsp;<span class="label label-default pull-right circle">SOLVED</span>
-                <h4>Nama Barang</h4> 
-                <h6><?php echo $Nama_Barang; ?></h6>
-                <h4>Ditemukan Oleh</h4>
-                <h6><?php echo $ID_User; ?></h6>
-                <h4>Ditemukan Tanggal</h4>
-                <h6><?php echo date('M j Y g:i A', strtotime($Tanggal));?></h6>
-                <h4>Keterangan</h4>
-                <h6><?php echo $Keterangan; ?></h6>
-            </div>
-        </div>
-        <div class="row">
-
-            <div class="col-lg-12">
-                <h3 class="page-header">Barang Lainnya</h3>
-            </div>
-            <?php for($i=1; $i<=4; $i++) { ?>
-            <div class="col-sm-3 col-xs-6">
-                <a href="<?php echo "detail.php?id=$ID_Barang[$i]" ?>">
-                    <img class="img-responsive portfolio-item" src="img/<?php echo $Foto2[$i]?>" style="width:300px; height:200px;" alt="">
-                    <br>
-                    <center><h4><?php echo $List_Barang[$i] ?></h4></center>
-                </a>
-            </div>
-            <?php } ?>
-
         </div>
     </section>
 

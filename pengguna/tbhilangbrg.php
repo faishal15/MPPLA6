@@ -4,6 +4,7 @@ if(empty($_SESSION)){
 	header("Location: index.php");
 }
 ?>
+
 <?php
 $editid = isset($_GET['editid']) ? $_GET['editid']:'';
 if ($editid!="") {
@@ -51,7 +52,7 @@ if ($editid!="") {
 
 	    if ($ps_gambar1!=Null)
 	    {
-	    $target_dir = "barang/";
+	    $target_dir = "../img/";
 	    $target_file = $target_dir . $ps_gambar1;
 	    $uploadOk = 1;
 	    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
@@ -94,6 +95,28 @@ if ($editid!="") {
 	    WHERE ID_Barang = '$ps_old_id'
 	    ";  
 	    }
+		}
+		else
+		{
+			if ($editid=="") {
+	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, 
+	            Keterangan, Foto, Security_Ques)
+	VALUES ('$ps_id', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$p_ket', '$ps_gambar', '$ps_sec')";
+	    } else {
+	    $sql = "UPDATE barang SET
+	    ID_Barang = '$ps_id',
+	    ID_User = '$ps_id_u',
+	    Nama_Barang = '$ps_nama',
+	    Tanggal = '$ps_tgl',
+	    Tempat = '$ps_tmpt',
+	    Kategori = '$ps_kat',
+	    Keterangan = '$ps_ket',
+	    Foto = '$ps_gambar',
+	    Security_Ques = '$ps_sec'
+	    WHERE ID_Barang = '$ps_old_id'
+	    ";  
+	    }	
+		}
 	    
 	require("connect.php");
 
@@ -102,7 +125,6 @@ if ($editid!="") {
 
 	header("location:index.php");
 	}
-}
 ?>
 
 <!DOCTYPE html>
@@ -122,30 +144,7 @@ if ($editid!="") {
 </head>
 
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#"><span>TCARI</span></a>
-				<ul class="user-menu">
-					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> <?php echo $_SESSION['uname'];?> <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
-							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
-							<li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-							
-		</div><!-- /.container-fluid -->
-	</nav>
+	<?php include 'navbar.php';?>
 		
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		
@@ -213,24 +212,58 @@ if ($editid!="") {
 				<div class="panel panel-default">
 					<div class="panel-heading"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg> Form Tambah Barang Hilang</div>
 					<div class="panel-body">
-						<form class="form-horizontal" action="" method="post" action="?act=upd<?php echo ($editid!="") ? "&editid=$editid":"";  ?>" enctype="multipart/form-data">
+						<form class="form-horizontal" method="POST" action="?act=upd<?php echo ($editid!="") ? "&editid=$editid":""; ?>" enctype="multipart/form-data">
 							<fieldset>
 								<!-- Name input-->
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Nama Barang</label>
 									<div class="col-md-9">
-									<input id="name" name="name" type="text" placeholder="Masukkan Nama Barang" class="form-control" required>
+									<input name="i_nama" type="text" placeholder="Masukkan Nama Barang" class="form-control" value="<?php echo $p_nama?>" required>
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label class="col-md-3 control-label" for="name">Gambar Barang</label>
+									<label class="col-md-3 control-label" for="gambar">Gambar Barang</label>
 									<div class="col-md-9">
-									<input id="gambar" name="gambar" type="file" class="form-control" onchange="readURL(this);" required>
+									<input name="i_gambar" type="file" class="form-control" onchange="readURL(this);" value="<?php echo $p_foto?>" required>
 									<img id="ilang" src="#" alt="your image" />
 									</div>
 								</div>
-							
+															
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="lokasi">Lokasi Kehilangan</label>
+									<div class="col-md-9">
+										<input name="i_tmpt" type="text" placeholder="Lokasi kehilangan" class="form-control" value="<?php echo $p_tempat?>">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="tanggal">Tanggal</label>
+									<div class="col-md-9">
+										<input name="i_tgl" type="date" class="form-control" value="<?php echo $p_tgl?>" required>
+									</div>
+								</div>
+																
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="deskripsi">Deskripsi</label>
+									<div class="col-md-9">
+										<textarea class="form-control" name="i_ket" placeholder="Deskripsikan keterangan barang anda yang hilang..." rows="5" value="<?php echo $p_keterangan?>" required></textarea>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="security">Pertanyaan Security</label>
+									<div class="col-md-9">
+										<input name="i_sec" type="text" placeholder="Tambahkan pertanyaan terkait barang" class="form-control" value="<?php echo $p_security?>" required>
+									</div>
+								</div>
+
+								<input type="hidden" name="i_id" type="text" class="form-control" value="B007" required>
+								<input type="hidden" name="i_kat" type="text" class="form-control" value="Ditemukan" required>
+								<input type="hidden" name="i_id_u" type="text" class="form-control" value="<?php echo $_SESSION['uname'];?>" required>
+																
+								<button type="submit" class="btn btn-info btn-fill pull-right">Submit</button>
+									
 								<script type="text/javascript">
 									function readURL(input) {
 										if (input.files && input.files[0]) {
@@ -239,50 +272,14 @@ if ($editid!="") {
 											reader.onload = function (e) {
 												$('#ilang')
 												.attr('src', e.target.result)
-												.width(150)
-												.height(200);
+												.width(320)
+												.height(150);
 											};
 											reader.readAsDataURL(input.files[0]);
 										}
 									}
 								</script>
 
-								<!-- Email input-->
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Lokasi Kehilangan</label>
-									<div class="col-md-9">
-										<input id="lokasi" name="lokasi" type="text" placeholder="Lokasi kehilangan" class="form-control">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Tanggal</label>
-									<div class="col-md-9">
-										<input id="tanggal" name="tanggal" type="date" class="form-control" required>
-									</div>
-								</div>
-								
-								<!-- Message body -->
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="message">Deskripsi</label>
-									<div class="col-md-9">
-										<textarea class="form-control" id="deskrip" name="deskrip" placeholder="Deskripsikan keterangan barang anda yang hilang..." rows="5" required></textarea>
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Pertanyaan Security</label>
-									<div class="col-md-9">
-										<input id="quest" name="quest" type="text" placeholder="Tambahkan pertanyaan terkait barang" class="form-control" required>
-									</div>
-								</div>
-								
-								<!-- Form actions -->
-								<div class="form-group">
-									<div class="col-md-12 widget-right">
-										<button type="submit" class="btn btn-default btn-md pull-right">Submit</button>
-									</div>
-								</div>
 							</fieldset>
 						</form>
 					</div>
@@ -293,7 +290,6 @@ if ($editid!="") {
 		</div><!--/.row-->
 	</div>	<!--/.main-->
 		  
-
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/chart.min.js"></script>

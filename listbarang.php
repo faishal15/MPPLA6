@@ -1,3 +1,22 @@
+<?php
+require("connect.php");
+session_start();
+
+$batas=2; 
+if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
+$start_from = ($page-1) * $batas;
+$result = mysqli_query($conn, "SELECT * FROM barang order by ID_Barang limit $start_from,$batas");
+
+$i = 0; 
+while ($row = mysqli_fetch_array($result)) {
+    $i++;
+    $ID_Barang[$i] = $row['ID_Barang'];
+    $id_user[$i] = $row['ID_User'];
+    $nama_barang[$i] = $row['Nama_Barang'];
+    $Foto[$i] = $row['Foto'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,17 +64,71 @@
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#about">Cari barang hilang</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">Login</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">About</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#contact">Tolong temukan</a>
-                    </li>
+                <a class="page-scroll" href="#about">Cari Barang Hilang</a>
+            </li>
+
+            <!-- 2. TOLONG TEMUKAN -->       
+            <li>
+                <a class="page-scroll" href="listbarang.php">Tolong Temukan</a>
+            </li>
+
+            <!-- 3. KONTAK -->
+            <li>
+                <a class="page-scroll" href="#contact">Contact</a>
+            </li>
+
+            <!-- 4. LOGIN, USER PROFILE, LOGOUT  --> 
+            <?php
+            if(!empty($_SESSION)){
+                include("connect.php");
+
+                $username  = $_SESSION['uname'];
+                echo '<li>
+                <a class="page-scroll" href="pengguna">'.$username.'</a>
+                </li>';
+                echo '<li>
+                <a class="page-scroll" href="logout.php">Logout</a>
+                </li>';
+                }
+            else 
+            {?>
+
+             <li>
+                <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
+                <div id="id01" class="modal">                  
+                  <form class="modal-content animate" action="login.php" method="post">
+                    <div class="imgcontainer">
+                      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    </div>
+
+
+                    <div class="container">
+                        <p color="black">Masukkan</p>
+                        <input type="text" class="form-control" placeholder="Enter Username" name="uname" required>
+                        <input type="password" class="form-control" placeholder="Enter Password" name="psw" required>
+                        <button type="submit" name="submit">Login</button>
+                    </div>
+                  </form>
+
+                </div>
+
+                <script>
+                // Get the modal
+                var modal = document.getElementById('id01');
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+                </script>
+
+                </li>       
+            <?php
+                    }
+                
+            ?>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -65,123 +138,79 @@
 
     <!-- About Section -->
     <section id="about" class="container content-section text-center">
-        <h1>LIST BARANG HILANG</h1>
         <div class="row">
             <div class="col-md-3">
                 <p class="lead">Masukkan keyword</p>
                 <div class="list-group">    
                     <div class="search">
-                        <input type="text" class="form-control" maxlength="30" placeholder="Search" />
+                        <form method="POST" action="caribarang.php" role="search">
+                        <input type="text" name="cari" class="form-control" maxlength="30" placeholder="Search" />
                         <br>
                         <button type="submit" class="btn btn-primary btn-sm">Cari</button>
+                        </form>
                     </div>
                 </div>
             </div>
             <div class="col-md-9">
+            <h1>LIST BARANG HILANG</h1>
                 <div class="row">
+                    <?php for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
+                            <img src="img/<?php echo $Foto[$i] ?>" style="width:320px; height:150px;" alt="Barang">
                             <div class="caption">
                                 <!-- <h4 class="pull-right">$24.99</h4> -->
-                                <h4><a href="#">Barang 1</a></h4>
+                                <h4><a href="#"><?php echo $nama_barang[$i]?></a></h4>
                                 <p>
-                                    <a href="detail.php" class="btn btn-primary">Lihat</a>
-                                    <a href="#" class="btn btn-default">Hubungi</a>
+                                    <a href="<?php echo "detail.php?id=$ID_Barang[$i]" ?>" class="btn btn-primary">Lihat</a>
+                                    <a href="#inline" onclick="document.getElementById('id04').style.display='block'" class="btn btn-default">Hubungi</a>
                                 </p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
-                            <div class="caption">
-                                <!-- <h4 class="pull-right">$24.99</h4> -->
-                                <h4><a href="#">Barang 2</a></h4>
-                                <p>
-                                    <a href="detail.php" class="btn btn-primary">Lihat</a>
-                                    <a href="#" class="btn btn-default">Hubungi</a>
-                                </p>
+                        <div id="id04" class="modal">                  
+                                      <form class="modal-content animate" action="login.php" method="post">
+                                        <div class="imgcontainer">
+                                          <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                      </div>
+
+
+                                      <div class="container">
+                                        <p id="id05" color="black">Masukkan</p>
+                                        <input type="text" class="form-control" placeholder="Kepada" value="<?php echo $id_user[$i]?>" required>
+                                        <input type="password" class="form-control" placeholder="Pesan" name="psw" required>
+                                        <button type="submit" name="submit">Kirim</button>
+                                    </div>
+                                </form>
+
                             </div>
-                        </div>
+
+                <script>
+                // Get the modal
+                var modal = document.getElementById('id04');
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+                </script>
                     </div>
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
-                            <div class="caption">
-                                <!-- <h4 class="pull-right">$24.99</h4> -->
-                                <h4><a href="#">Barang 3</a></h4>
-                                <p>
-                                    <a href="detail.php" class="btn btn-primary">Lihat</a>
-                                    <a href="#" class="btn btn-default">Hubungi</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
-                            <div class="caption">
-                                <!-- <h4 class="pull-right">$24.99</h4> -->
-                                <h4><a href="#">Barang 4</a></h4>
-                                <p>
-                                    <a href="detail.php" class="btn btn-primary">Lihat</a>
-                                    <a href="#" class="btn btn-default">Hubungi</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
-                            <div class="caption">
-                                <!-- <h4 class="pull-right">$24.99</h4> -->
-                                <h4><a href="#">Barang 5</a></h4>
-                                <p>
-                                    <a href="detail.php" class="btn btn-primary">Lihat</a>
-                                    <a href="#" class="btn btn-default">Hubungi</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-lg-4 col-md-4">
-                        <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
-                            <div class="caption">
-                                <!-- <h4 class="pull-right">$24.99</h4> -->
-                                <h4><a href="#">Barang 6</a></h4>
-                                <p>
-                                    <a href="detail.php" class="btn btn-primary">Lihat</a>
-                                    <a href="#" class="btn btn-default">Hubungi</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <?php } ?>
                     <div class="row text-center">
                         <div class="col-lg-12">
-                            <ul class="pagination">
-                                <li>
-                                    <a href="#">&laquo;</a>
-                                </li>
-                                <li class="active">
-                                    <a href="#">1</a>
-                                </li>
-                                <li>
-                                    <a href="#">2</a>
-                                </li>
-                                <li>
-                                    <a href="#">3</a>
-                                </li>
-                                <li>
-                                    <a href="#">4</a>
-                                </li>
-                                <li>
-                                    <a href="#">5</a>
-                                </li>
-                                <li>
-                                    <a href="#">&raquo;</a>
-                                </li>
-                            </ul>
+                            <?php  
+                            $sql = "SELECT COUNT(ID_Barang) FROM barang";  
+                            $rs_result = mysqli_query($conn, $sql);  
+                            $row = mysqli_fetch_array($rs_result);  
+                            $total_records = $row[0];  
+                            $total_pages = ceil($total_records / $batas);  
+                            $pagLink = "<ul class='pagination'>";  
+                            for ($i=1; $i<=$total_pages; $i++) { 
+                               $pagLink .= "<li><a href='listbarang.php?page=".$i."'>".$i."</a></li>";  
+                           };  
+                           echo $pagLink . "</ul>";  
+                           ?>
                         </div>
                     </div>
                 </div>

@@ -5,6 +5,106 @@ if(empty($_SESSION)){
 }
 ?>
 
+<?php
+$editid = isset($_GET['editid']) ? $_GET['editid']:'';
+if ($editid!="") {
+    require("connect.php");
+    $sql = "select * from users where ID_User='$editid'";                   
+    $result=mysqli_query($conn, $sql);
+    $row=mysqli_fetch_array($result);
+    $p_id = $row['ID_User'];
+    $p_nama = $row['Nama_User'];
+    $p_telp = $row['No_Telepon'];
+    $p_foto = $row['Foto'];
+    $p_password = $row['password_user'];
+    $p_edit = 'readonly';
+    
+    mysqli_close($conn);
+	} else {
+	    $p_id = "";
+	    $p_nama = "";
+	    $p_telp = "";
+	    $p_foto = "";
+	    $p_password = "";
+	    $p_edit = "";
+	}
+
+	$act = isset($_GET['act']) ? $_GET['act']:'';
+	if ($act=="upd") {
+	    $ps_id = $_POST['i_id'];
+	    $ps_old_id = $_POST['i_old_id'];
+	    $ps_gambar1 = $_FILES['i_gambar']['name'];
+	    $ps_nama = $_POST['i_nama'];
+	    $ps_telp = $_POST['i_telp'];
+	    $ps_pass = $_POST['i_pass'];
+
+	    if ($ps_gambar1!=Null)
+	    {
+	    $target_dir = "../img/";
+	    $target_file = $target_dir . $ps_gambar1;
+	    $uploadOk = 1;
+	    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+	    $ps_gambar = $ps_nama . "." . $imageFileType;
+	    $target_file = $target_dir . $ps_gambar;
+	    $check = getimagesize($_FILES["i_gambar"]["tmp_name"]);
+	    if($check !== false) {
+	        echo "File is an image - " . $check["mime"] . ".";
+	        $uploadOk = 1;
+	    } else {
+	        echo "File is not an image.";
+	        $uploadOk = 0;
+	    }
+	    
+	    if ($uploadOk == 0) {
+	        echo "Sorry, your file was not uploaded.";
+	    } else {
+	        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
+	            echo "The file ". $ps_gambar. " has been uploaded.";
+	        } else {
+	            echo "Sorry, there was an error uploading your file.";
+	        }
+	    }
+	    
+	    $sql = "UPDATE barang SET
+	    ID_Barang = '$ps_id',
+	    ID_User = '$ps_id_u',
+	    Nama_Barang = '$ps_nama',
+	    Tanggal = '$ps_tgl',
+	    Tempat = '$ps_tmpt',
+	    Kategori = '$ps_kat',
+	    Keterangan = '$ps_ket',
+	    Foto = '$ps_gambar',
+	    Security_Ques = '$ps_sec'
+	    WHERE ID_Barang = '$ps_old_id'
+	    ";  
+	    
+		}
+		else
+		{
+	    $sql = "UPDATE barang SET
+	    ID_Barang = '$ps_id',
+	    ID_User = '$ps_id_u',
+	    Nama_Barang = '$ps_nama',
+	    Tanggal = '$ps_tgl',
+	    Tempat = '$ps_tmpt',
+	    Kategori = '$ps_kat',
+	    Keterangan = '$ps_ket',
+	    Foto = '$ps_gambar',
+	    Security_Ques = '$ps_sec'
+	    WHERE ID_Barang = '$ps_old_id'
+	    ";  
+	    }	
+		}
+	    
+	require("connect.php");
+
+	$result=mysqli_query($conn, $sql);
+	mysqli_close($conn);
+
+	header("location:index.php");
+	}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,30 +127,7 @@ if(empty($_SESSION)){
 </head>
 
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#"><span>TCARI</span></a>
-				<ul class="user-menu">
-					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> <?php echo $_SESSION['uname'];?>  <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
-							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
-							<li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-							
-		</div><!-- /.container-fluid -->
-	</nav>
+	<?php include 'navbar.php';?>
 		
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		

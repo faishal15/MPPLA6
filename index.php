@@ -9,6 +9,7 @@ while ($row = mysqli_fetch_array($result)) {
   $i++;
   $ID_Barang[$i] = $row['ID_Barang'];
   $List_Barang[$i] = $row['Nama_Barang'];
+  $Foto[$i] = $row['Foto'];
 }
 
 ?>
@@ -206,19 +207,19 @@ span.psw {
 
             <!-- 4. LOGIN, USER PROFILE, LOGOUT  --> 
             <?php
-                    if(!empty($_SESSION)){
-                        include("connect.php");
+            if(!empty($_SESSION)){
+                include("connect.php");
 
-                            $username  = $_SESSION['uname'];
-                            echo '<li>
-                                <a class="page-scroll" href="#a">'.$username.'</a>
-                            </li>';
-                            echo '<li>
-                                <a class="page-scroll" href="logout.php">Logout</a>
-                            </li>';
-                        }
-
-                    else { ?>
+                $username  = $_SESSION['uname'];
+                echo '<li>
+                <a class="page-scroll" href="pengguna">'.$username.'</a>
+                </li>';
+                echo '<li>
+                <a class="page-scroll" href="logout.php">Logout</a>
+                </li>';
+                }
+            else 
+            {?>
 
              <li>
                 <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
@@ -257,11 +258,6 @@ span.psw {
                 
             ?>
 
-             
-
-            
-                    
-
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -276,9 +272,9 @@ span.psw {
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <h1 class="brand-heading">TCARI</h1>
-                        <form>
+                        <form method="POST" action="caribarang.php" role="search">
                         	<div class="input-group">
-                        		<input type="text" class="form-control" placeholder="Masukkan Keyword">
+                        		<input type="text" name="cari" class="form-control" placeholder="Masukkan Keyword">
                         		<div class="input-group-btn">
                         			<button class="btn btn-default" type="submit">
                         				<i class="glyphicon glyphicon-search"></i>
@@ -309,7 +305,7 @@ span.psw {
         <?php for($i=1; $i<=6; $i++) { ?>
             <div class="col-md-4 portfolio-item">
                 <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/350x250" alt="">
+                    <img class="img-responsive" src="img/<?php echo $Foto[$i] ?>" style="width:350px; height:250px;" alt="<?php echo $Foto[$i] ?>">
                 </a>
                 <h3>
                     <a href="<?php echo "detail.php?id=$ID_Barang[$i]" ?>"><?php echo $List_Barang[$i] ?></a>

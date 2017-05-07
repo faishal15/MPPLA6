@@ -1,8 +1,27 @@
 <?php
 session_start();
 if(empty($_SESSION)){
-	header("Location: index.php");
+	header("Location: /tcari2/index.php");
 }
+else {
+	$username = $_SESSION["uname"];
+}
+?>
+
+<?php
+require("connect.php");
+$result = mysqli_query($conn, "SELECT * FROM users where ID_User = '$username'");
+
+$i = 0; 
+while ($row = mysqli_fetch_array($result)) {
+  $i++;
+  $ID_User[$i] = $row['ID_User'];
+  $Foto_User[$i] = $row['Foto'];
+  $Nama[$i] = $row['Nama_User'];
+  $Telepon[$i] = $row['No_Telepon'];
+  $Password[$i] = $row['password_user'];
+}
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -27,30 +46,7 @@ if(empty($_SESSION)){
 </head>
 
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="/tcari/index.php"><span>TCARI</span></a>
-				<ul class="user-menu">
-					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> <?php echo $_SESSION['uname'];?> <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
-							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
-							<li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-							
-		</div><!-- /.container-fluid -->
-	</nav>
+	<?php include 'navbar.php';?>
 		
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		
@@ -124,38 +120,38 @@ if(empty($_SESSION)){
 							<fieldset>
 								<!-- Name input-->
 								<div class="form-group">
-									<label class="col-md-3 control-label" for="name">ID</label>
+									<label class="col-md-3 control-label">ID</label>
 									<div class="col-md-9">
-									<input id="name" name="name" type="text" placeholder="5114100104" class="form-control">
+									<input name="ID" type="text" value="<?php echo $ID_User[$i]?>" class="form-control" disabled>
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label class="col-md-3 control-label" for="name">Nama</label>
+									<label class="col-md-3 control-label">Nama</label>
 									<div class="col-md-9">
-									<input id="name" name="name" type="text" placeholder="Fathihah Ulya" class="form-control">
+									<input name="name" type="text" value="<?php echo $Nama[$i]?>" class="form-control" disabled>
 									</div>
 								</div>
 										
 								<!-- Email input-->
 								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Nomor Telepon</label>
+									<label class="col-md-3 control-label">Nomor Telepon</label>
 									<div class="col-md-9">
-										<input id="email" name="email" type="text" placeholder="0853xxx" class="form-control">
+										<input name="telp" type="text" value="<?php echo $Telepon[$i]?>" class="form-control" disabled>
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Password</label>
+									<label class="col-md-3 control-label">Password</label>
 									<div class="col-md-9">
-										<input id="password" name="password" type="password" placeholder="0853xxx" class="form-control">
+										<input name="password" type="password" value="<?php echo $Password[$i]?>" class="form-control" disabled>
 									</div>
 								</div>
 													
 								<!-- Form actions -->
 								<div class="form-group">
 									<div class="col-md-12 widget-right">
-										<a href="editprofil.php"><button type="button" class="btn btn-default btn-md pull-right">Ubah Data</button></a>
+										<a href="editprofil.php?editid=<?php echo $ID_User[$i] ?>"><button type="button" class="btn btn-default btn-md pull-right">Ubah Data</button></a>
 									</div>
 								</div>
 							</fieldset>

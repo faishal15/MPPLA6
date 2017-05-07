@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.14
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2017 at 04:45 PM
--- Server version: 5.6.26
--- PHP Version: 5.6.12
+-- Generation Time: May 07, 2017 at 06:37 AM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 7.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -24,8 +24,7 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login`(u_name VARCHAR(15), u_pass VARCHAR(32))
-BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_login` (IN `u_name` VARCHAR(15), IN `u_pass` VARCHAR(32))  BEGIN
 IF EXISTS (SELECT * FROM users WHERE(u_name = id_user) AND (u_pass = password_user)) THEN
 	SELECT 0, "Login Berhasil";
 	ELSE
@@ -41,7 +40,7 @@ DELIMITER ;
 -- Table structure for table `barang`
 --
 
-CREATE TABLE IF NOT EXISTS `barang` (
+CREATE TABLE `barang` (
   `ID_Barang` varchar(10) NOT NULL,
   `ID_User` varchar(15) NOT NULL,
   `Nama_Barang` varchar(15) NOT NULL,
@@ -58,12 +57,14 @@ CREATE TABLE IF NOT EXISTS `barang` (
 --
 
 INSERT INTO `barang` (`ID_Barang`, `ID_User`, `Nama_Barang`, `Tanggal`, `Tempat`, `Kategori`, `Keterangan`, `Foto`, `Security_Ques`) VALUES
-('B001', '5114100066', 'Jas Hujan', '2017-04-11 00:00:00', 'Sekitar PB1', 'Ditemukan', 'ditemukan jas hujan berwarna merah di sekitar PB 1', 'img/jashujan.jpg', 'Apakah jenis hujan tersebut?'),
-('B002', '5114100104', 'Payung', '2017-04-10 00:00:00', 'Sekitar PL1', 'Kehilangan', 'Saya telah kehilangan payung yang sebelumnya kalau tidak salah saya tinggal disekitar PL1 Teknik Informatika ITS', '', 'Apa warna dari payung tersebut dan jenis payungnya?'),
+('B001', '5114100066', 'Jas Hujan Ajaib', '9999-09-09 00:00:00', 'Sekitar PB1', 'Ditemukan', 'bagus banget', '', 'Apakah jenis hujan tersebut??'),
+('B002', '5114100104', 'Payungngg', '0000-00-00 00:00:00', 'Sekitar PL1', 'Kehilangan', 'Saya telah kehilangan payung yang sebelumnya kalau tidak salah saya tinggal disekitar PL1 Teknik Informatika ITS', '', 'Apa warna dari payung tersebut dan jenis payungnya?'),
 ('B003', '5114100154', 'HP ', '2017-04-12 00:00:00', 'IF-105A', 'Kehilangan', 'Terakhir terlihat Jumat kemarin jam 16.00', '', 'Apa warna casingnya?'),
 ('B004', '5114100100', 'Jam Tangan', '2017-04-12 00:00:00', 'IF-105A', 'Kehilangan', 'Terakhir terlihat Jumat kemarin jam 16.00', '', 'Apa warna casingnya?'),
 ('B005', '5114100123', 'Flash Disk ', '2017-04-12 00:00:00', 'IF-104', 'Kehilangan', 'Terakhir nancep di pc', '', 'Apa merknya?'),
-('B006', '5114100103', 'Kotak Pensil ', '2017-04-12 00:00:00', 'PL1', 'Kehilangan', '', '', 'Apa warnanya?');
+('B006', '5114100103', 'Kotak Pensil ', '2017-04-12 00:00:00', 'PL1', 'Kehilangan', '', '', 'Apa warnanya?'),
+('B007', '5114100076', 'gulali', '2017-05-15 00:00:00', 'informatika', 'Ditemukan', 'beluumm, tungguin akuhhh', 'gulali.jpg', 'tes'),
+('B008', '5114100076', 'wanted', '2017-05-31 00:00:00', 'tanya mulu', 'Kehilangan', 'asada', 'wanted.jpg', 'halo');
 
 -- --------------------------------------------------------
 
@@ -71,7 +72,7 @@ INSERT INTO `barang` (`ID_Barang`, `ID_User`, `Nama_Barang`, `Tanggal`, `Tempat`
 -- Table structure for table `message`
 --
 
-CREATE TABLE IF NOT EXISTS `message` (
+CREATE TABLE `message` (
   `ID_Message` varchar(10) NOT NULL,
   `Judul_Message` varchar(25) NOT NULL,
   `Isi_Message` text NOT NULL,
@@ -94,7 +95,7 @@ INSERT INTO `message` (`ID_Message`, `Judul_Message`, `Isi_Message`, `ID_Sender`
 -- Table structure for table `transaksi`
 --
 
-CREATE TABLE IF NOT EXISTS `transaksi` (
+CREATE TABLE `transaksi` (
   `ID_Transaksi` varchar(10) NOT NULL,
   `ID_Barang` varchar(20) NOT NULL,
   `ID_Pemilik` varchar(20) NOT NULL,
@@ -118,22 +119,25 @@ INSERT INTO `transaksi` (`ID_Transaksi`, `ID_Barang`, `ID_Pemilik`, `ID_Penemu`,
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE `users` (
   `ID_User` varchar(15) NOT NULL,
   `Nama_User` varchar(40) NOT NULL,
   `No_Telepon` varchar(15) NOT NULL,
   `Foto` varchar(40) NOT NULL,
-  `Password_User` varchar(20) NOT NULL
+  `password_user` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`ID_User`, `Nama_User`, `No_Telepon`, `Foto`, `Password_User`) VALUES
+INSERT INTO `users` (`ID_User`, `Nama_User`, `No_Telepon`, `Foto`, `password_user`) VALUES
 ('5114100066', 'Vinsensia Sipriana Zega', '089673927393', '', 'singlehappy'),
 ('5114100076', 'Muhammad Faishal Ilham', '085668869515', '', 'anakgaul'),
-('5114100104', 'Fathihah Ulya Hakiem', '087826382638', '', 'akuanakio');
+('5114100092', 'Kharisma Monika', '080811112222', '', '5114100092'),
+('5114100104', 'Fathihah Ulya Hakiem', '087826382638', '', 'akuanakio'),
+('5114100142', 'Dwika Setya Muhammad', '089876543210', '', '5114100142'),
+('5114100188', 'Hilma Kamilah', '0811223344', '', '5114100188');
 
 --
 -- Indexes for dumped tables
