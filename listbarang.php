@@ -15,6 +15,18 @@ while ($row = mysqli_fetch_array($result)) {
     $nama_barang[$i] = $row['Nama_Barang'];
     $Foto[$i] = $row['Foto'];
 }
+
+if(isset($_POST["kirim"]))
+{
+    $sql = "INSERT INTO message (ID_Message, Judul_Message, Isi_Message, ID_Sender, ID_Receiver, Tanggal)
+    VALUES ('".$_POST["i_id"]."','".$_POST["i_judul"]."','".$_POST["i_isi"]."','".$_POST["i_sender"]."','".$_POST["i_receiver"]."',now())";
+
+    if ($conn->query($sql) === TRUE) {
+    echo "<script type= 'text/javascript'>alert('New record created successfully');</script>";
+    } else {
+    echo "<script type= 'text/javascript'>alert('Error: " . $sql . "<br>" . $conn->error."');</script>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -101,7 +113,6 @@ while ($row = mysqli_fetch_array($result)) {
                       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                     </div>
 
-
                     <div class="container">
                         <p color="black">Masukkan</p>
                         <input type="text" class="form-control" placeholder="Enter Username" name="uname" required>
@@ -109,22 +120,8 @@ while ($row = mysqli_fetch_array($result)) {
                         <button type="submit" name="submit">Login</button>
                     </div>
                   </form>
-
                 </div>
-
-                <script>
-                // Get the modal
-                var modal = document.getElementById('id01');
-
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
-                </script>
-
-                </li>       
+            </li>       
             <?php
                     }
                 
@@ -163,38 +160,58 @@ while ($row = mysqli_fetch_array($result)) {
                                 <h4><a href="#"><?php echo $nama_barang[$i]?></a></h4>
                                 <p>
                                     <a href="<?php echo "detail.php?id=$ID_Barang[$i]" ?>" class="btn btn-primary">Lihat</a>
-                                    <a href="#inline" onclick="document.getElementById('id04').style.display='block'" class="btn btn-default">Hubungi</a>
+                                    <a data-target="#<?php echo $id_user[$i]?>" data-toggle="modal" class="btn btn-list">Hubungi</a>
+                                    <!-- <a href="#inline" onclick="document.getElementById('<?php echo $id_user[$i]?>').style.display='block'" class="btn btn-list">Hubungi</a> -->
                                 </p>
                             </div>
                         </div>
-                        <div id="id04" class="modal">                  
-                                      <form class="modal-content animate" action="login.php" method="post">
-                                        <div class="imgcontainer">
-                                          <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close Modal">&times;</span>
-                                      </div>
+                        <div class="modal fade" id="<?php echo $id_user[$i]?>" role="dialog">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  <h4 style="color:blue;" class="modal-title">Kirim Pesan</h4>
+                                </div>
+                                <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label style="color:blue;" class="col-md-3 control-label">NRP</label>
+                                        <div class="col-md-9">
+                                        <input name="i_receiver" type="text" placeholder="Masukkan Nama Barang Temuan" class="form-control" value="<?php echo $id_user[$i]?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color:blue;" class="col-md-3 control-label">Judul Pesan</label>
+                                        <div class="col-md-9">
+                                        <input name="i_judul" type="text" placeholder="Masukkan Nama Barang Temuan" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color:blue;" class="col-md-3 control-label">Pesan</label>
+                                        <div class="col-md-9">
+                                        <textarea class="form-control" name="i_isi" placeholder="Ketikkan pesan yang ingin dikirimkan..." rows="5"></textarea>
+                                        </div>
+                                    </div>
+                                    <input name="i_id" type="hidden" class="form-control" value="MS004">
+                                    <input name="i_sender" type="hidden" class="form-control" value="<?php echo $_SESSION['uname'];?>">
+                                    <button name="kirim" value="submit" type="submit" class="btn btn-info btn-fill pull-right">Submit</button>
+                                </form>
+                               </div>
+                            </div>
+                        </div>
+                        <!-- <div id="<?php echo $id_user[$i]?>" class="modal">                  
+                            <form class="modal-content animate" action="login.php" method="post">
+                                <div class="imgcontainer">
+                                    <span onclick="document.getElementById('<?php echo $id_user[$i]?>').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                </div>
 
-
-                                      <div class="container">
-                                        <p id="id05" color="black">Masukkan</p>
+                                <div class="container">
+                                    <p color="black">Masukkan</p>
                                         <input type="text" class="form-control" placeholder="Kepada" value="<?php echo $id_user[$i]?>" required>
                                         <input type="password" class="form-control" placeholder="Pesan" name="psw" required>
                                         <button type="submit" name="submit">Kirim</button>
                                     </div>
-                                </form>
-
-                            </div>
-
-                <script>
-                // Get the modal
-                var modal = document.getElementById('id04');
-
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
-                </script>
+                            </form>
+                        </div> -->
                     </div>
                     <?php } ?>
                     <div class="row text-center">

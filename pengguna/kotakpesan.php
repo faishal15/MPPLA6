@@ -4,6 +4,25 @@ if(empty($_SESSION)){
 	header("Location: index.php");
 }
 ?>
+
+<style>
+body{ margin-top:50px;}
+.nav-tabs .glyphicon:not(.no-margin) { margin-right:10px; }
+.tab-pane .list-group-item:first-child {border-top-right-radius: 0px;border-top-left-radius: 0px;}
+.tab-pane .list-group-item:last-child {border-bottom-right-radius: 0px;border-bottom-left-radius: 0px;}
+.tab-pane .list-group .checkbox { display: inline-block;margin: 0px; }
+.tab-pane .list-group input[type="checkbox"]{ margin-top: 2px; }
+.tab-pane .list-group .glyphicon { margin-right:5px; }
+.tab-pane .list-group .glyphicon:hover { color:#FFBC00; }
+a.list-group-item.read { color: #222;background-color: #F3F3F3; }
+hr { margin-top: 5px;margin-bottom: 10px; }
+.nav-pills>li>a {padding: 5px 10px;}
+
+.ad { padding: 5px;background: #F5F5F5;color: #222;font-size: 80%;border: 1px solid #E5E5E5; }
+.ad a.title {color: #15C;text-decoration: none;font-weight: bold;font-size: 110%;}
+.ad a.url {color: #093;text-decoration: none;}
+</style>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -95,33 +114,39 @@ if(empty($_SESSION)){
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">Kotak Pesan</div>
-					<div class="panel-body">
-						<table data-toggle="table" data-select-item-name="toolbar1" data-pagination="true">
-						    <thead>
-						    <tr>
-						        <th data-field="id" data-sortable="true">ID Message</th>
-						        <th data-field="sender"  data-sortable="true">ID Sender</th>
-						        <th data-field="receiver" data-sortable="true">ID Receiver</th>
-						        <th data-field="judul" data-sortable="true">Judul Message</th>
-						        <th data-field="tanggal" data-sortable="true">Tanggal</th>
-						        <th data-field="action" data-sortable="true">Action</th>
-						    </tr>
-
-						    </thead>
-						    <tr>
-						    	<td>001</td>
-						    	<td>5114100104</td> 
-						    	<td>5114100066</td>
-						    	<td><a href="pesan.php">Saya menemukan dompet anda.</a></td> 
-						    	<td>12.03.17</td>
-						    	<td><a href="">Delete</a></td>
-						    </tr>
-						</table>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-inbox">
+						</span>Primary</a></li>
+						<li><a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-plus no-margin">
+						</span></a></li>
+					</ul>
+						<div class="tab-content">
+							<div class="tab-pane fade in active" id="home">
+								<div class="list-group">
+									<a href="#" class="list-group-item">
+										<span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px;
+										display: inline-block;">Bhaumik Patel</span> <span class="">This is big title</span>
+										<span class="text-muted" style="font-size: 11px;">- Hi hello how r u ?</span> <span
+										class="badge">12:10 AM</span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
+									</span></span></a><a href="#" class="list-group-item">
+									
+									<span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px;
+									display: inline-block;">Bhaumik Patel</span> <span class="">This is big title</span>
+									<span class="text-muted" style="font-size: 11px;">- Hi hello how r u ?</span> <span
+									class="badge">12:10 AM</span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
+								</span></span></a><a href="#" class="list-group-item read">
+								
+									<span class="glyphicon glyphicon-star"></span><span class="name" style="min-width: 120px;
+									display: inline-block;">Bhaumik Patel</span> <span class="">This is big title</span>
+									<span class="text-muted" style="font-size: 11px;">- Hi hello how r u ?</span> <span
+									class="badge">12:10 AM</span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
+								</span></span></a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div><!--/.row-->	
-			
 	</div><!--/.main-->
 
 	<script src="js/jquery-1.11.1.min.js"></script>
