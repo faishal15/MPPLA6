@@ -2,7 +2,7 @@
 require("connect.php");
 session_start();
 
-$batas=2; 
+$batas=9; 
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $batas;
 $result = mysqli_query($conn, "SELECT * FROM barang order by ID_Barang limit $start_from,$batas");
@@ -22,7 +22,7 @@ if(isset($_POST["kirim"]))
     VALUES ('".$_POST["i_id"]."','".$_POST["i_judul"]."','".$_POST["i_isi"]."','".$_POST["i_sender"]."','".$_POST["i_receiver"]."',now())";
 
     if ($conn->query($sql) === TRUE) {
-    echo "<script type= 'text/javascript'>alert('New record created successfully');</script>";
+    echo "<script type= 'text/javascript'>alert('Pesan Berhasil Dikirim');</script>";
     } else {
     echo "<script type= 'text/javascript'>alert('Error: " . $sql . "<br>" . $conn->error."');</script>";
     }

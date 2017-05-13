@@ -3,11 +3,15 @@ session_start();
 if(empty($_SESSION)){
 	header("Location: index.php");
 }
+else
+{
+	$username = $_SESSION["uname"];
+}
 ?>
 
 <?php
 require("connect.php");
-$result = mysqli_query($conn, "SELECT * FROM barang where Kategori = 'Kehilangan'");
+$result = mysqli_query($conn, "SELECT * FROM barang where Kategori = 'Ditemukan' and ID_User='$username'");
 
 $i = 0; 
 while ($row = mysqli_fetch_array($result)) {
@@ -127,10 +131,10 @@ mysqli_close($conn);
 						    </thead>
 						    <?php for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
 						    <tr>
-						    	<td><?php echo $ID_Barang[$i] ?></td>
-						    	<td><?php echo $Nama_Barang[$i] ?></td> 
-						    	<td><?php echo $Tanggal[$i] ?></td>
-						    	<td><?php echo $Tempat[$i] ?></td> 
+						    	<td><?php echo $ID_Barang[$i]?></td>
+						    	<td><?php echo $Nama_Barang[$i]?></td> 
+						    	<td><?php echo $Tanggal[$i]?></td>
+						    	<td><?php echo $Tempat[$i]?></td> 
 						    	<td>Belum Selesai</td>
 						    	<td><a href="editbrghilang.php?editid=<?php echo $ID_Barang[$i] ?>">Edit</a></td>
 						    </tr>

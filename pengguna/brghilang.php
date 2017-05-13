@@ -3,11 +3,15 @@ session_start();
 if(empty($_SESSION)){
 	header("Location: index.php");
 }
+else
+{
+	$username = $_SESSION["uname"];
+}
 ?>
 
 <?php
 require("connect.php");
-$result = mysqli_query($conn, "SELECT * FROM barang where Kategori = 'Ditemukan'");
+$result = mysqli_query($conn, "SELECT * FROM barang where Kategori = 'Kehilangan' and ID_User='$username'");
 
 $i = 0; 
 while ($row = mysqli_fetch_array($result)) {

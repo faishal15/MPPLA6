@@ -6,6 +6,18 @@ Version 1.0
 
 /*Global Styles*/
 
+.row-centered {
+text-align:center;
+}
+.col-centered {
+display:inline-block;
+float:none;
+/* reset the text-align */
+text-align:left;
+/* inline-block space fix */
+margin-right:-4px;
+}
+
 body {
 	background: #f1f4f7;
 	padding-top: 50px;

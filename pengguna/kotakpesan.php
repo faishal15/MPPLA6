@@ -3,6 +3,27 @@ session_start();
 if(empty($_SESSION)){
 	header("Location: index.php");
 }
+else
+{
+	$username = $_SESSION["uname"];
+}
+?>
+
+<?php
+require("connect.php");
+$result = mysqli_query($conn, "SELECT * FROM message where ID_Sender='$username' or ID_Receiver='$username'");
+
+$i = 0; 
+while ($row = mysqli_fetch_array($result)) {
+  $i++;
+  $ID_Message[$i] = $row['ID_Message'];
+  $ID_Sender[$i] = $row['ID_Sender'];
+  $ID_Receiver[$i] = $row['ID_Receiver'];
+  $Isi_Message[$i] = $row['Isi_Message'];
+  $Judul_Message[$i] = $row['Judul_Message'];
+  $Tanggal[$i] = $row['Tanggal'];
+}
+mysqli_close($conn);
 ?>
 
 <style>
@@ -124,23 +145,13 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 							<div class="tab-pane fade in active" id="home">
 								<div class="list-group">
 									<a href="#" class="list-group-item">
+									<?php for($i=1; $i<=sizeof($ID_Message); $i++) { ?>
 										<span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px;
-										display: inline-block;">Bhaumik Patel</span> <span class="">This is big title</span>
-										<span class="text-muted" style="font-size: 11px;">- Hi hello how r u ?</span> <span
+										display: inline-block;"><?php echo $ID_Receiver[$i]?></span> <span class=""><?php echo $Judul_Message[$i]?></span>
+										<span class="text-muted" style="font-size: 11px;">- <?php echo $Isi_Message[$i]?></span> <span
 										class="badge">12:10 AM</span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
 									</span></span></a><a href="#" class="list-group-item">
-									
-									<span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px;
-									display: inline-block;">Bhaumik Patel</span> <span class="">This is big title</span>
-									<span class="text-muted" style="font-size: 11px;">- Hi hello how r u ?</span> <span
-									class="badge">12:10 AM</span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
-								</span></span></a><a href="#" class="list-group-item read">
-								
-									<span class="glyphicon glyphicon-star"></span><span class="name" style="min-width: 120px;
-									display: inline-block;">Bhaumik Patel</span> <span class="">This is big title</span>
-									<span class="text-muted" style="font-size: 11px;">- Hi hello how r u ?</span> <span
-									class="badge">12:10 AM</span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
-								</span></span></a>
+									<?php } ?>
 							</div>
 						</div>
 					</div>

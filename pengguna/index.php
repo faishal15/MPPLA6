@@ -105,15 +105,18 @@ mysqli_close($conn);
 				
 		<div class="row">
 			<div class="col-lg-12">
+				<center>
 				<h1 class="page-header">Profil Diri</h1>
+				<center>
 			</div>
 		</div><!--/.row-->	
 		
-		<div class="row">
-			<div class="col-md-8">
+		<div class="row row-centered">
+			<div class="col-md-8 col-centered">
 				<div class="panel panel-default">
 					<div class="panel-heading"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Mohon diisi dengan lengkap dan jujur</div>
-                	<center><img class="img-circle img-responsive img-center" src="http://placehold.it/200x200" alt=""></center>
+					<br>
+                	<center><img class="img-circle img-responsive img-center" style="width:200px; height:200px;" src="../img/<?php echo $Foto_User[$i]?>"></center>
             <!-- </div> -->
 					<div class="panel-body">
 						<form class="form-horizontal" action="" method="post">
@@ -121,14 +124,14 @@ mysqli_close($conn);
 								<!-- Name input-->
 								<div class="form-group">
 									<label class="col-md-3 control-label">ID</label>
-									<div class="col-md-9">
+									<div class="col-md-8">
 									<input name="ID" type="text" value="<?php echo $ID_User[$i]?>" class="form-control" disabled>
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-md-3 control-label">Nama</label>
-									<div class="col-md-9">
+									<div class="col-md-8">
 									<input name="name" type="text" value="<?php echo $Nama[$i]?>" class="form-control" disabled>
 									</div>
 								</div>
@@ -136,21 +139,21 @@ mysqli_close($conn);
 								<!-- Email input-->
 								<div class="form-group">
 									<label class="col-md-3 control-label">Nomor Telepon</label>
-									<div class="col-md-9">
+									<div class="col-md-8">
 										<input name="telp" type="text" value="<?php echo $Telepon[$i]?>" class="form-control" disabled>
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-md-3 control-label">Password</label>
-									<div class="col-md-9">
+									<div class="col-md-8">
 										<input name="password" type="password" value="<?php echo $Password[$i]?>" class="form-control" disabled>
 									</div>
 								</div>
 													
 								<!-- Form actions -->
 								<div class="form-group">
-									<div class="col-md-12 widget-right">
+									<div class="col-md-11">
 										<a href="editprofil.php?editid=<?php echo $ID_User[$i] ?>"><button type="button" class="btn btn-default btn-md pull-right">Ubah Data</button></a>
 									</div>
 								</div>

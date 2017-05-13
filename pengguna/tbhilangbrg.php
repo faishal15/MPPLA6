@@ -52,70 +52,39 @@ if ($editid!="") {
 
 	    if ($ps_gambar1!=Null)
 	    {
-	    $target_dir = "../img/";
-	    $target_file = $target_dir . $ps_gambar1;
-	    $uploadOk = 1;
-	    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-	    $ps_gambar = $ps_nama . "." . $imageFileType;
-	    $target_file = $target_dir . $ps_gambar;
-	    $check = getimagesize($_FILES["i_gambar"]["tmp_name"]);
-	    if($check !== false) {
-	        echo "File is an image - " . $check["mime"] . ".";
-	        $uploadOk = 1;
-	    } else {
-	        echo "File is not an image.";
-	        $uploadOk = 0;
-	    }
-	    
-	    if ($uploadOk == 0) {
-	        echo "Sorry, your file was not uploaded.";
-	    } else {
-	        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
-	            echo "The file ". $ps_gambar. " has been uploaded.";
-	        } else {
-	            echo "Sorry, there was an error uploading your file.";
-	        }
-	    }
-	    
-	    if ($editid=="") {
-	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, 
-	            Keterangan, Foto, Security_Ques)
-	VALUES ('$ps_id', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$p_ket', '$ps_gambar', '$ps_sec')";
-	    } else {
-	    $sql = "UPDATE barang SET
-	    ID_Barang = '$ps_id',
-	    ID_User = '$ps_id_u',
-	    Nama_Barang = '$ps_nama',
-	    Tanggal = '$ps_tgl',
-	    Tempat = '$ps_tmpt',
-	    Kategori = '$ps_kat',
-	    Keterangan = '$ps_ket',
-	    Foto = '$ps_gambar',
-	    Security_Ques = '$ps_sec'
-	    WHERE ID_Barang = '$ps_old_id'
-	    ";  
-	    }
+		    $target_dir = "../img/";
+		    $target_file = $target_dir . $ps_gambar1;
+		    $uploadOk = 1;
+		    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		    $ps_gambar = $ps_nama . "." . $imageFileType;
+		    $target_file = $target_dir . $ps_gambar;
+		    $check = getimagesize($_FILES["i_gambar"]["tmp_name"]);
+		    if($check !== false) {
+		        echo "File is an image - " . $check["mime"] . ".";
+		        $uploadOk = 1;
+		    } else {
+		        echo "File is not an image.";
+		        $uploadOk = 0;
+		    }
+		    
+		    if ($uploadOk == 0) {
+		        echo "Sorry, your file was not uploaded.";
+		    } else {
+		        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
+		            echo "The file ". $ps_gambar. " has been uploaded.";
+		        } else {
+		            echo "Sorry, there was an error uploading your file.";
+		        }
+		    }
+		    
+	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, Keterangan, Foto, Security_Ques)
+	VALUES ('$ps_id', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')";
 		}
 		else
 		{
-			if ($editid=="") {
 	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, 
 	            Keterangan, Foto, Security_Ques)
-	VALUES ('$ps_id', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$p_ket', '$ps_gambar', '$ps_sec')";
-	    } else {
-	    $sql = "UPDATE barang SET
-	    ID_Barang = '$ps_id',
-	    ID_User = '$ps_id_u',
-	    Nama_Barang = '$ps_nama',
-	    Tanggal = '$ps_tgl',
-	    Tempat = '$ps_tmpt',
-	    Kategori = '$ps_kat',
-	    Keterangan = '$ps_ket',
-	    Foto = '$ps_gambar',
-	    Security_Ques = '$ps_sec'
-	    WHERE ID_Barang = '$ps_old_id'
-	    ";  
-	    }	
+	VALUES ('$ps_id', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')"; 
 		}
 	    
 	require("connect.php");
@@ -207,8 +176,8 @@ if ($editid!="") {
 			</div>
 		</div><!--/.row-->	
 		
-		<div class="row">
-			<div class="col-md-8">
+		<div class="row row-centered">
+			<div class="col-md-8 col-centered">
 				<div class="panel panel-default">
 					<div class="panel-heading"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg> Form Tambah Barang Hilang</div>
 					<div class="panel-body">
@@ -218,14 +187,14 @@ if ($editid!="") {
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Nama Barang</label>
 									<div class="col-md-9">
-									<input name="i_nama" type="text" placeholder="Masukkan Nama Barang" class="form-control" value="<?php echo $p_nama?>" required>
+									<input name="i_nama" type="text" placeholder="Masukkan Nama Barang" class="form-control" required>
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="gambar">Gambar Barang</label>
 									<div class="col-md-9">
-									<input name="i_gambar" type="file" class="form-control" onchange="readURL(this);" value="<?php echo $p_foto?>" required>
+									<input name="i_gambar" type="file" class="form-control" onchange="readURL(this);" required>
 									<img id="ilang" src="#" alt="your image" />
 									</div>
 								</div>
@@ -233,32 +202,32 @@ if ($editid!="") {
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="lokasi">Lokasi Kehilangan</label>
 									<div class="col-md-9">
-										<input name="i_tmpt" type="text" placeholder="Lokasi kehilangan" class="form-control" value="<?php echo $p_tempat?>">
+										<input name="i_tmpt" type="text" placeholder="Lokasi kehilangan" class="form-control">
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="tanggal">Tanggal</label>
 									<div class="col-md-9">
-										<input name="i_tgl" type="date" class="form-control" value="<?php echo $p_tgl?>" required>
+										<input name="i_tgl" type="date" class="form-control" required>
 									</div>
 								</div>
 																
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="deskripsi">Deskripsi</label>
 									<div class="col-md-9">
-										<textarea class="form-control" name="i_ket" placeholder="Deskripsikan keterangan barang anda yang hilang..." rows="5" value="<?php echo $p_keterangan?>" required></textarea>
+										<textarea class="form-control" name="i_ket" placeholder="Deskripsikan keterangan barang anda yang hilang..." rows="5" required></textarea>
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="security">Pertanyaan Security</label>
 									<div class="col-md-9">
-										<input name="i_sec" type="text" placeholder="Tambahkan pertanyaan terkait barang" class="form-control" value="<?php echo $p_security?>" required>
+										<input name="i_sec" type="text" placeholder="Tambahkan pertanyaan terkait barang" class="form-control" required>
 									</div>
 								</div>
 
-								<input type="hidden" name="i_id" type="text" class="form-control" value="B007" required>
+								<input type="hidden" name="i_id" type="text" class="form-control" value="B010" required>
 								<input type="hidden" name="i_kat" type="text" class="form-control" value="Ditemukan" required>
 								<input type="hidden" name="i_id_u" type="text" class="form-control" value="<?php echo $_SESSION['uname'];?>" required>
 																

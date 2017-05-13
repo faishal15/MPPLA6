@@ -38,62 +38,51 @@ if ($editid!="") {
 	    $ps_telp = $_POST['i_telp'];
 	    $ps_pass = $_POST['i_pass'];
 
-	    if ($ps_gambar1!=Null)
+	    if ($_FILES['i_gambar']['name']=="")
 	    {
-	    $target_dir = "../img/";
-	    $target_file = $target_dir . $ps_gambar1;
-	    $uploadOk = 1;
-	    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-	    $ps_gambar = $ps_nama . "." . $imageFileType;
-	    $target_file = $target_dir . $ps_gambar;
-	    $check = getimagesize($_FILES["i_gambar"]["tmp_name"]);
-	    if($check !== false) {
-	        echo "File is an image - " . $check["mime"] . ".";
-	        $uploadOk = 1;
-	    } else {
-	        echo "File is not an image.";
-	        $uploadOk = 0;
-	    }
-	    
-	    if ($uploadOk == 0) {
-	        echo "Sorry, your file was not uploaded.";
-	    } else {
-	        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
-	            echo "The file ". $ps_gambar. " has been uploaded.";
-	        } else {
-	            echo "Sorry, there was an error uploading your file.";
-	        }
-	    }
-	    
-	    $sql = "UPDATE barang SET
-	    ID_Barang = '$ps_id',
-	    ID_User = '$ps_id_u',
-	    Nama_Barang = '$ps_nama',
-	    Tanggal = '$ps_tgl',
-	    Tempat = '$ps_tmpt',
-	    Kategori = '$ps_kat',
-	    Keterangan = '$ps_ket',
-	    Foto = '$ps_gambar',
-	    Security_Ques = '$ps_sec'
-	    WHERE ID_Barang = '$ps_old_id'
-	    ";  
-	    
+	    	$sql = "UPDATE users SET
+		    ID_User = '$ps_id',
+		    Nama_User = '$ps_nama',
+		    No_Telepon = '$ps_telp',
+		    password_user = '$ps_pass'
+		    WHERE ID_User = '$ps_old_id'
+		    ";
 		}
 		else
 		{
-	    $sql = "UPDATE barang SET
-	    ID_Barang = '$ps_id',
-	    ID_User = '$ps_id_u',
-	    Nama_Barang = '$ps_nama',
-	    Tanggal = '$ps_tgl',
-	    Tempat = '$ps_tmpt',
-	    Kategori = '$ps_kat',
-	    Keterangan = '$ps_ket',
-	    Foto = '$ps_gambar',
-	    Security_Ques = '$ps_sec'
-	    WHERE ID_Barang = '$ps_old_id'
-	    ";  
-	    }	
+		    $target_dir = "../img/";
+		    $target_file = $target_dir . $ps_gambar1;
+		    $uploadOk = 1;
+		    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		    $ps_gambar = $ps_nama . "." . $imageFileType;
+		    $target_file = $target_dir . $ps_gambar;
+		    $check = getimagesize($_FILES["i_gambar"]["tmp_name"]);
+		    if($check !== false) {
+		        echo "File is an image - " . $check["mime"] . ".";
+		        $uploadOk = 1;
+		    } else {
+		        echo "File is not an image.";
+		        $uploadOk = 0;
+		    }
+		    
+		    if ($uploadOk == 0) {
+		        echo "Sorry, your file was not uploaded.";
+		    } else {
+		        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
+		            echo "The file ". $ps_gambar. " has been uploaded.";
+		        } else {
+		            echo "Sorry, there was an error uploading your file.";
+		        }
+		    }
+		    
+		    $sql = "UPDATE users SET
+		    ID_User = '$ps_id',
+		    Nama_User = '$ps_nama',
+		    No_Telepon = '$ps_telp',
+		    Foto = '$ps_gambar',
+		    password_user = '$ps_pass'
+		    WHERE ID_User = '$ps_old_id'
+		    ";	
 		}
 	    
 	require("connect.php");
@@ -190,25 +179,27 @@ if ($editid!="") {
 			</div>
 		</div><!--/.row-->	
 		
-		<div class="row">
-			<div class="col-md-8">
+		<div class="row row-centered">
+			<div class="col-md-8 col-centered">
 				<div class="panel panel-default">
 					<div class="panel-heading"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg> Form Edit Data Diri</div>
 					<div class="panel-body">
-						<form class="form-horizontal" action="" method="post">
+						<form class="form-horizontal" method="post" action="?act=upd<?php echo ($editid!="") ? "&editid=$editid":"";?>" enctype="multipart/form-data">
 							<fieldset>
 								<!-- Name input-->
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Nama</label>
 									<div class="col-md-9">
-									<input id="name" name="name" type="text" placeholder="fathihah Ulya" class="form-control">
+									<input name="i_nama" type="text" value="<?php echo $p_nama?>" class="form-control" required>
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Foto</label>
 									<div class="col-md-9">
-									<input id="name" name="name" type="file" class="form-control">
+									<img src="../img/<?php echo $p_foto?>" style="width:200px; height:200px;" alt="your image" />
+									<input name="i_gambar" type="file" class="form-control" onchange="readURL(this);">
+									<img id="profil" src="#" alt="your image" />
 									</div>
 								</div>
 													
@@ -216,17 +207,35 @@ if ($editid!="") {
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="email">Nomor Telepon</label>
 									<div class="col-md-9">
-										<input id="email" name="email" type="text" placeholder="0853xxx" class="form-control">
+										<input name="i_telp" type="text" value="<?php echo $p_telp?>" class="form-control">
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="email">Password</label>
 									<div class="col-md-9">
-										<input id="email" name="email" type="text" placeholder="0853xxx" class="form-control">
+										<input name="i_pass" type="text" value="<?php echo $p_password?>" class="form-control" required>
 									</div>
 								</div>
-																
+								<input name="i_old_id" type="hidden" value="<?php echo $p_id?>" class="form-control">
+								<input name="i_id" type="hidden" value="<?php echo $p_id?>" class="form-control">
+								
+								<script type="text/javascript">
+									function readURL(input) {
+										if (input.files && input.files[0]) {
+											var reader = new FileReader();
+
+											reader.onload = function (e) {
+												$('#profil')
+												.attr('src', e.target.result)
+												.width(200)
+												.height(200);
+											};
+											reader.readAsDataURL(input.files[0]);
+										}
+									}
+								</script>
+
 								<div class="form-group">
 									<div class="col-md-12 widget-right">
 									<center>										

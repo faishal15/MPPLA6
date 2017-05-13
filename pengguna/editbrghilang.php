@@ -50,72 +50,59 @@ if ($editid!="") {
 	    $ps_sec = $_POST['i_sec'];
 	    $ps_ket = $_POST['i_ket'];
 
-	    if ($ps_gambar1!=Null)
+	    if ($_FILES['i_gambar']['name']=="")
 	    {
-	    $target_dir = "../img/";
-	    $target_file = $target_dir . $ps_gambar1;
-	    $uploadOk = 1;
-	    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-	    $ps_gambar = $ps_nama . "." . $imageFileType;
-	    $target_file = $target_dir . $ps_gambar;
-	    $check = getimagesize($_FILES["i_gambar"]["tmp_name"]);
-	    if($check !== false) {
-	        echo "File is an image - " . $check["mime"] . ".";
-	        $uploadOk = 1;
-	    } else {
-	        echo "File is not an image.";
-	        $uploadOk = 0;
-	    }
-	    
-	    if ($uploadOk == 0) {
-	        echo "Sorry, your file was not uploaded.";
-	    } else {
-	        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
-	            echo "The file ". $ps_gambar. " has been uploaded.";
-	        } else {
-	            echo "Sorry, there was an error uploading your file.";
-	        }
-	    }
-	    
-	    if ($editid=="") {
-	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, 
-	            Keterangan, Foto, Security_Ques)
-	VALUES ('$ps_id', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')";
-	    } else {
-	    $sql = "UPDATE barang SET
-	    ID_Barang = '$ps_id',
-	    ID_User = '$ps_id_u',
-	    Nama_Barang = '$ps_nama',
-	    Tanggal = '$ps_tgl',
-	    Tempat = '$ps_tmpt',
-	    Kategori = '$ps_kat',
-	    Keterangan = '$ps_ket',
-	    Foto = '$ps_gambar',
-	    Security_Ques = '$ps_sec'
-	    WHERE ID_Barang = '$ps_old_id'
-	    ";  
-	    }
+	    	$sql = "UPDATE barang SET
+		    ID_Barang = '$ps_id',
+		    ID_User = '$ps_id_u',
+		    Nama_Barang = '$ps_nama',
+		    Tanggal = '$ps_tgl',
+		    Tempat = '$ps_tmpt',
+		    Kategori = '$ps_kat',
+		    Keterangan = '$ps_ket',
+		    Security_Ques = '$ps_sec'
+		    WHERE ID_Barang = '$ps_old_id'
+		    ";
 		}
 		else
 		{
-			if ($editid=="") {
-	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, 
-	            Keterangan, Foto, Security_Ques)
-	VALUES ('$ps_id', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')";
-	    } else {
-	    $sql = "UPDATE barang SET
-	    ID_Barang = '$ps_id',
-	    ID_User = '$ps_id_u',
-	    Nama_Barang = '$ps_nama',
-	    Tanggal = '$ps_tgl',
-	    Tempat = '$ps_tmpt',
-	    Kategori = '$ps_kat',
-	    Keterangan = '$ps_ket',
-	    Foto = '$ps_gambar',
-	    Security_Ques = '$ps_sec'
-	    WHERE ID_Barang = '$ps_old_id'
-	    ";  
-	    }	
+		    $target_dir = "../img/";
+		    $target_file = $target_dir . $ps_gambar1;
+		    $uploadOk = 1;
+		    $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		    $ps_gambar = $ps_nama . "." . $imageFileType;
+		    $target_file = $target_dir . $ps_gambar;
+		    $check = getimagesize($_FILES["i_gambar"]["tmp_name"]);
+		    if($check !== false) {
+		        echo "File is an image - " . $check["mime"] . ".";
+		        $uploadOk = 1;
+		    } else {
+		        echo "File is not an image.";
+		        $uploadOk = 0;
+		    }
+		    
+		    if ($uploadOk == 0) {
+		        echo "Sorry, your file was not uploaded.";
+		    } else {
+		        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
+		            echo "The file ". $ps_gambar. " has been uploaded.";
+		        } else {
+		            echo "Sorry, there was an error uploading your file.";
+		        }
+		    }
+		    
+		    $sql = "UPDATE barang SET
+		    ID_Barang = '$ps_id',
+		    ID_User = '$ps_id_u',
+		    Nama_Barang = '$ps_nama',
+		    Tanggal = '$ps_tgl',
+		    Tempat = '$ps_tmpt',
+		    Kategori = '$ps_kat',
+		    Keterangan = '$ps_ket',
+		    Foto = '$ps_gambar',
+		    Security_Ques = '$ps_sec'
+		    WHERE ID_Barang = '$ps_old_id'
+		    ";	
 		}
 	    
 	require("connect.php");
@@ -212,8 +199,8 @@ if ($editid!="") {
 			</div>
 		</div><!--/.row-->	
 		
-		<div class="row">
-			<div class="col-md-8">
+		<div class="row row-centered">
+			<div class="col-md-8 col-centered">
 				<div class="panel panel-default">
 					<div class="panel-heading"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg> Form Edit Barang Hilang</div>
 					<div class="panel-body">
@@ -232,7 +219,7 @@ if ($editid!="") {
 									<label class="col-md-3 control-label">Gambar Barang</label>
 									<div class="col-md-9">
 									<img src="../img/<?php echo $p_foto?>" style="width:320px; height:150px;" alt="your image" />
-									<input name="i_gambar" type="file" class="form-control" onchange="readURL(this);" value="<?php echo $p_foto?>">
+									<input name="i_gambar" type="file" class="form-control" onchange="readURL(this);">
 									<img id="ilang" src="#" alt="your image" />
 									</div>
 								</div>
@@ -268,9 +255,9 @@ if ($editid!="") {
 								</div>
 
 								<input type="hidden" name="i_old_id" id="i_old_id" value="<?php echo $p_id?>"/>
-								<input type="hidden" name="i_id" type="text" class="form-control" value="<?php echo $p_id?>">
-								<input type="hidden" name="i_kat" type="text" class="form-control" value="<?php echo $p_kategori?>">
-								<input type="hidden" name="i_id_u" type="text" class="form-control" value="<?php echo $p_id_u?>">
+								<input type="hidden" name="i_id" class="form-control" value="<?php echo $p_id?>">
+								<input type="hidden" name="i_kat" class="form-control" value="<?php echo $p_kategori?>">
+								<input type="hidden" name="i_id_u" class="form-control" value="<?php echo $p_id_u?>">
 
 								<script type="text/javascript">
 									function readURL(input) {
