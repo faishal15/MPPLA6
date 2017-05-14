@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 07, 2017 at 06:37 AM
+-- Generation Time: May 14, 2017 at 09:55 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -57,14 +57,15 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`ID_Barang`, `ID_User`, `Nama_Barang`, `Tanggal`, `Tempat`, `Kategori`, `Keterangan`, `Foto`, `Security_Ques`) VALUES
-('B001', '5114100066', 'Jas Hujan Ajaib', '9999-09-09 00:00:00', 'Sekitar PB1', 'Ditemukan', 'bagus banget', '', 'Apakah jenis hujan tersebut??'),
-('B002', '5114100104', 'Payungngg', '0000-00-00 00:00:00', 'Sekitar PL1', 'Kehilangan', 'Saya telah kehilangan payung yang sebelumnya kalau tidak salah saya tinggal disekitar PL1 Teknik Informatika ITS', '', 'Apa warna dari payung tersebut dan jenis payungnya?'),
+('B001', '5114100066', 'Jas Hujan Ajaib', '2017-05-20 00:00:00', 'Sekitar PB1', 'Ditemukan', 'bagus banget', 'Jas Hujan Ajaib.PNG', 'Apakah jenis hujan tersebut??'),
+('B002', '5114100104', 'Payung Cantik', '2017-05-03 00:00:00', 'Sekitar PL1', 'Kehilangan', 'Saya telah kehilangan payung yang sebelumnya kalau tidak salah saya tinggal disekitar PL1 Teknik Informatika ITS', 'Payung.jpg', 'Apa warna dari payung tersebut dan jenis payungnya?'),
 ('B003', '5114100154', 'HP ', '2017-04-12 00:00:00', 'IF-105A', 'Kehilangan', 'Terakhir terlihat Jumat kemarin jam 16.00', '', 'Apa warna casingnya?'),
 ('B004', '5114100100', 'Jam Tangan', '2017-04-12 00:00:00', 'IF-105A', 'Kehilangan', 'Terakhir terlihat Jumat kemarin jam 16.00', '', 'Apa warna casingnya?'),
 ('B005', '5114100123', 'Flash Disk ', '2017-04-12 00:00:00', 'IF-104', 'Kehilangan', 'Terakhir nancep di pc', '', 'Apa merknya?'),
 ('B006', '5114100103', 'Kotak Pensil ', '2017-04-12 00:00:00', 'PL1', 'Kehilangan', '', '', 'Apa warnanya?'),
 ('B007', '5114100076', 'gulali', '2017-05-15 00:00:00', 'informatika', 'Ditemukan', 'beluumm, tungguin akuhhh', 'gulali.jpg', 'tes'),
-('B008', '5114100076', 'wanted', '2017-05-31 00:00:00', 'tanya mulu', 'Kehilangan', 'asada', 'wanted.jpg', 'halo');
+('B008', '5114100076', 'wanted', '2017-05-31 00:00:00', 'tanya mulu', 'Kehilangan', 'asada', 'wanted.jpg', 'halo'),
+('B010', '5114100076', 'tas', '2017-05-19 00:00:00', 'mana', 'Ditemukan', 'mana', 'tas.jpg', 'manaah');
 
 -- --------------------------------------------------------
 
@@ -87,7 +88,8 @@ CREATE TABLE `message` (
 
 INSERT INTO `message` (`ID_Message`, `Judul_Message`, `Isi_Message`, `ID_Sender`, `ID_Receiver`, `Tanggal`) VALUES
 ('MS001', 'Itu Jas Hujan Punya Saya', 'Itu jas hujan punya saya, jenis jas hujan ponco warna merah kan', '5114100076', '5114100066', '2017-04-12 00:00:00'),
-('MS002', 'Ada Ditemukan Payung', 'Itu payungnya warna biru dan jenis payungnya itu yang bisa kecil dilipat bukan?', '5114100066', '5114100104', '2017-04-11 00:00:00');
+('MS002', 'Ada Ditemukan Payung', 'Itu payungnya warna biru dan jenis payungnya itu yang bisa kecil dilipat bukan?', '5114100066', '5114100104', '2017-04-11 00:00:00'),
+('MS003', 'Itu Jas Hujan Punya Saya', 'Mas itu punya saya mas jas hujannya mash', '5114100066', '5114100076', '2017-05-14 11:57:23');
 
 -- --------------------------------------------------------
 
@@ -133,7 +135,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`ID_User`, `Nama_User`, `No_Telepon`, `Foto`, `password_user`) VALUES
 ('5114100066', 'Vinsensia Sipriana Zega', '089673927393', '', 'singlehappy'),
-('5114100076', 'Muhammad Faishal Ilham', '085668869515', '', 'anakgaul'),
+('5114100076', 'Muhammad Faishal', '082234805290', 'Muhammad Faishal.JPG', 'anakgaul'),
 ('5114100092', 'Kharisma Monika', '080811112222', '', '5114100092'),
 ('5114100104', 'Fathihah Ulya Hakiem', '087826382638', '', 'akuanakio'),
 ('5114100142', 'Dwika Setya Muhammad', '089876543210', '', '5114100142'),
