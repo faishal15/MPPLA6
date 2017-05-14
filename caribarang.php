@@ -195,7 +195,7 @@ while ($row = mysqli_fetch_array($result)) {
     <!-- Footer -->
     <footer>
         <div class="container text-center">
-            <p>TCARI 2017</p>
+            <p>&copy; 2017 TCari<p>
         </div>
     </footer>
 
