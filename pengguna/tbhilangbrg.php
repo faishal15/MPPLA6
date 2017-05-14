@@ -10,6 +10,7 @@ else
 ?>
 
 <?php
+$uploadOk = 0;
 $editid = isset($_GET['editid']) ? $_GET['editid']:'';
 if ($editid!="") {
     require("connect.php");
@@ -52,7 +53,6 @@ if ($editid!="") {
    		$kode = (int) $nilaikode;
    		$kode = $kode + 1;
    		$id_baru = "B".str_pad($kode, 3, "0", STR_PAD_LEFT);
-		$ps_old_id = $_POST['i_old_id'];
 	    $ps_id_u = $_POST['i_id_u'];
 	    $ps_gambar1 = $_FILES['i_gambar']['name'];
 	    $ps_nama = $_POST['i_nama'];
@@ -79,16 +79,6 @@ if ($editid!="") {
 		        $uploadOk = 0;
 		    }
 		    
-		    if ($uploadOk == 0) {
-		        echo "Sorry, your file was not uploaded.";
-		    } else {
-		        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
-		            echo "The file ". $ps_gambar. " has been uploaded.";
-		        } else {
-		            echo "Sorry, there was an error uploading your file.";
-		        }
-		    }
-		    
 	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, Keterangan, Foto, Security_Ques)
 	VALUES ('$id_baru', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')";
 		}
@@ -110,7 +100,6 @@ if ($editid!="") {
 
 	mysqli_close($conn);
 
-	header("location:index.php");
 	}
 ?>
 
@@ -186,7 +175,17 @@ if ($editid!="") {
 		
 	</div><!--/.sidebar-->
 		
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">		
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+			<?php 		
+				if ($uploadOk == 0) {
+			    } else {
+			        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
+			            echo "<div class='alert bg-success bg-dismissable' role='alert'>Success! The file ". $ps_gambar. " has been uploaded. <a href='#' class='close' data-dismiss='alert'>&times;</a></div>";
+			        } else {
+			            echo "<div class='alert bg-danger bg-dismissable' role='alert'>Sorry, there was an error uploading your file. <a href='#' class='close' data-dismiss='alert'>&times;</a></div>";
+			        }
+			    }
+		    ?>
 				
 		<div class="row">
 			<div class="col-lg-12">
@@ -245,7 +244,7 @@ if ($editid!="") {
 									</div>
 								</div>
 
-								<input type="hidden" name="i_kat" type="text" class="form-control" value="Ditemukan" required>
+								<input type="hidden" name="i_kat" type="text" class="form-control" value="Kehilangan" required>
 								<input type="hidden" name="i_id_u" type="text" class="form-control" value="<?php echo $_SESSION['uname'];?>" required>
 																
 								<button type="submit" class="btn btn-info btn-fill pull-right">Submit</button>
