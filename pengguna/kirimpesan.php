@@ -5,10 +5,18 @@ if(empty($_SESSION)){
 	header("Location: index.php");
 }
 
+$sql2 = "select MAX(ID_Message) from message";
+$result2=mysqli_query($conn, $sql2);
+$row2=mysqli_fetch_array($result2);
+$nilaikode = substr($row2[0], 2);
+$kode = (int) $nilaikode;
+$kode = $kode + 1;
+$id_baru = "MS".str_pad($kode, 3, "0", STR_PAD_LEFT);
+
 if(isset($_POST["kirim"]))
 {
     $sql = "INSERT INTO message (ID_Message, Judul_Message, Isi_Message, ID_Sender, ID_Receiver, Tanggal)
-    VALUES ('".$_POST["i_id"]."','".$_POST["i_judul"]."','".$_POST["i_isi"]."','".$_POST["i_sender"]."','".$_POST["i_receiver"]."',now())";
+    VALUES ('$id_baru','".$_POST["i_judul"]."','".$_POST["i_isi"]."','".$_POST["i_sender"]."','".$_POST["i_receiver"]."',now())";
 
     if ($conn->query($sql) === TRUE) {
     echo "<script type= 'text/javascript'>alert('Pesan Berhasil Dikirim!');</script>";
@@ -133,7 +141,6 @@ if(isset($_POST["kirim"]))
 										<textarea class="form-control" name="i_isi" placeholder="Isi pesan yang ingin dikirimkan..." rows="5"></textarea>
 									</div>
 								</div>
-								<input name="i_id" type="hidden" class="form-control" value="MS005">
                                 <input name="i_sender" type="hidden" class="form-control" value="<?php echo $_SESSION['uname'];?>">
 																						
 								<div class="form-group">

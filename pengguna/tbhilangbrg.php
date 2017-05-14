@@ -9,7 +9,7 @@ if(empty($_SESSION)){
 $editid = isset($_GET['editid']) ? $_GET['editid']:'';
 if ($editid!="") {
     require("connect.php");
-    $sql = "select * from barang where ID_Barang='$editid'";                   
+    $sql = "select * from barang where ID_Barang='$editid'";                  
     $result=mysqli_query($conn, $sql);
     $row=mysqli_fetch_array($result);
     $p_id = $row['ID_Barang'];
@@ -25,6 +25,10 @@ if ($editid!="") {
     
     mysqli_close($conn);
 	} else {
+		require("connect.php");
+		$sql2 = "select MAX(ID_Barang) from barang";
+		$result2=mysqli_query($conn, $sql2);
+		$row2=mysqli_fetch_array($result2);
 	    $p_id = "";
 	    $p_id_u = "";
 	    $p_nama = "";
@@ -35,12 +39,16 @@ if ($editid!="") {
 	    $p_security = "";
 	    $p_keterangan = "";
 	    $p_edit = "";
+	    mysqli_close($conn);
 	}
 
 	$act = isset($_GET['act']) ? $_GET['act']:'';
 	if ($act=="upd") {
-	    $ps_id = $_POST['i_id'];
-	    $ps_old_id = $_POST['i_old_id'];
+		$nilaikode = substr($row2[0], 1);
+   		$kode = (int) $nilaikode;
+   		$kode = $kode + 1;
+   		$id_baru = "B".str_pad($kode, 3, "0", STR_PAD_LEFT);
+		$ps_old_id = $_POST['i_old_id'];
 	    $ps_id_u = $_POST['i_id_u'];
 	    $ps_gambar1 = $_FILES['i_gambar']['name'];
 	    $ps_nama = $_POST['i_nama'];
@@ -78,13 +86,13 @@ if ($editid!="") {
 		    }
 		    
 	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, Keterangan, Foto, Security_Ques)
-	VALUES ('$ps_id', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')";
+	VALUES ('$id_baru', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')";
 		}
 		else
 		{
 	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, 
 	            Keterangan, Foto, Security_Ques)
-	VALUES ('$ps_id', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')"; 
+	VALUES ('$id_baru', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')"; 
 		}
 	    
 	require("connect.php");
@@ -227,7 +235,6 @@ if ($editid!="") {
 									</div>
 								</div>
 
-								<input type="hidden" name="i_id" type="text" class="form-control" value="B010" required>
 								<input type="hidden" name="i_kat" type="text" class="form-control" value="Ditemukan" required>
 								<input type="hidden" name="i_id_u" type="text" class="form-control" value="<?php echo $_SESSION['uname'];?>" required>
 																
