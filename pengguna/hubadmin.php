@@ -1,3 +1,11 @@
+<?php
+require("connect.php");
+session_start();
+if(empty($_SESSION)){
+	header("Location: index.php");
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +36,7 @@
 			<li><a href="index.php"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
 			<li class="parent ">
 				<a href="#sub-item-1">
-					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg></span> Kelola Barang 
+					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>Kelola Barang</span>  
 				</a>
 				<ul class="children collapse" id="sub-item-1">
 					<li>
@@ -55,7 +63,7 @@
 			</li>
 			<li class="parent ">
 				<a href="#sub-item-2">
-					<span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"></use></svg></span> Message
+					<span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"></use></svg>Message</span> 
 				</a>
 				<ul class="children collapse" id="sub-item-2">
 					<li>
@@ -76,14 +84,12 @@
 	</div><!--/.sidebar-->
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">		
-				
-		<div class="row">
+		
+			<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Hubungi Admin</h1>
 			</div>
-		</div><!--/.row-->	
 		
-		<div class="row">
 						
 			<div class="col-md-6">
 				<div class="panel panel-blue">

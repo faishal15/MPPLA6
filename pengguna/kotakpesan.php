@@ -75,7 +75,7 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 			<li><a href="index.php"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
 			<li class="parent ">
 				<a href="#sub-item-1">
-					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg></span> Kelola Barang 
+					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>Kelola Barang</span>  
 				</a>
 				<ul class="children collapse" id="sub-item-1">
 					<li>
@@ -102,7 +102,7 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 			</li>
 			<li class="parent ">
 				<a href="#sub-item-2">
-					<span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"></use></svg></span> Message
+					<span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"></use></svg>Message</span> 
 				</a>
 				<ul class="children collapse" id="sub-item-2">
 					<li>
@@ -127,20 +127,9 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Pesan Masuk</h1>
-			</div>
-		</div><!--/.row-->
-				
-		
-		<div class="row">
-			<div class="col-lg-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">Kotak Pesan</div>
-					<ul class="nav nav-tabs">
-						<li class="active"><a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-inbox">
-						</span>Primary</a></li>
-						<li><a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-plus no-margin">
-						</span></a></li>
-					</ul>
+					
 						<div class="tab-content">
 							<div class="tab-pane fade in active" id="home">
 								<div class="list-group">
