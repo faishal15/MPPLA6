@@ -49,6 +49,8 @@ if ($editid!="") {
 	    $ps_kat = $_POST['i_kat'];
 	    $ps_sec = $_POST['i_sec'];
 	    $ps_ket = $_POST['i_ket'];
+	    $ps_penemu = $_POST['i_penemu'];
+	    $ps_status = $_POST['i_status'];
 
 	    if ($_FILES['i_gambar']['name']=="")
 	    {
@@ -107,7 +109,15 @@ if ($editid!="") {
 	    
 	require("connect.php");
 
+	$sql2 = "UPDATE transaksi SET
+		    ID_Penemu = '$ps_penemu',
+		    Tanggal_Selesai = now(),
+		    Status = '$ps_status'
+		    WHERE ID_Barang = '$ps_id'
+		    ";
+
 	$result=mysqli_query($conn, $sql);
+	$result2=mysqli_query($conn, $sql2);
 	mysqli_close($conn);
 
 	header("location:index.php");
@@ -144,7 +154,7 @@ if ($editid!="") {
 			<li><a href="index.php"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
 			<li class="parent ">
 				<a href="#sub-item-1">
-					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>Kelola Barang</span> 
+					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg></span> Kelola Barang 
 				</a>
 				<ul class="children collapse" id="sub-item-1">
 					<li>
@@ -171,7 +181,7 @@ if ($editid!="") {
 			</li>
 			<li class="parent ">
 				<a href="#sub-item-2">
-					<span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"></use></svg>Message</span> 
+					<span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"></use></svg></span> Message
 				</a>
 				<ul class="children collapse" id="sub-item-2">
 					<li>
@@ -251,6 +261,23 @@ if ($editid!="") {
 									<label class="col-md-3 control-label" for="security">Pertanyaan Security</label>
 									<div class="col-md-9">
 										<input name="i_sec" type="text" class="form-control" value="<?php echo $p_security?>" required>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label">ID Penemu</label>
+									<div class="col-md-9">
+										<input name="i_penemu" type="text" class="form-control" value="<?php echo $p_tempat?>">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label">Status</label>
+									<div class="col-md-9">
+										<select class="form-control" name="i_status">
+											<option value="NOT CLEAR">NOT CLEAR</option>
+											<option value="CLEAR">CLEAR</option>
+										</select>
 									</div>
 								</div>
 

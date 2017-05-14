@@ -136,7 +136,7 @@ mysqli_close($conn);
 						    	<td><?php echo $Tanggal[$i]?></td>
 						    	<td><?php echo $Tempat[$i]?></td> 
 						    	<td>Belum Selesai</td>
-						    	<td><a href="editbrghilang.php?editid=<?php echo $ID_Barang[$i] ?>">Edit</a></td>
+						    	<td><a href="editbrgtemuan.php?editid=<?php echo $ID_Barang[$i] ?>">Edit</a></td>
 						    </tr>
 						    <?php } ?>
 						</table>

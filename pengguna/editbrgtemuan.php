@@ -49,6 +49,8 @@ if ($editid!="") {
 	    $ps_kat = $_POST['i_kat'];
 	    $ps_sec = $_POST['i_sec'];
 	    $ps_ket = $_POST['i_ket'];
+	    $ps_pemilik = $_POST['i_pemilik'];
+	    $ps_status = $_POST['i_status'];
 
 	    if ($_FILES['i_gambar']['name']=="")
 	    {
@@ -107,7 +109,15 @@ if ($editid!="") {
 	    
 	require("connect.php");
 
+	$sql2 = "UPDATE transaksi SET
+		    ID_Pemilik = '$ps_pemilik',
+		    Tanggal_Selesai = now(),
+		    Status = '$ps_status'
+		    WHERE ID_Barang = '$ps_id'
+		    ";
+
 	$result=mysqli_query($conn, $sql);
+	$result2=mysqli_query($conn, $sql2);
 	mysqli_close($conn);
 
 	header("location:index.php");
@@ -251,6 +261,23 @@ if ($editid!="") {
 									<label class="col-md-3 control-label" for="security">Pertanyaan Security</label>
 									<div class="col-md-9">
 										<input name="i_sec" type="text" class="form-control" value="<?php echo $p_security?>" required>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label">ID Pemilik</label>
+									<div class="col-md-9">
+										<input name="i_pemilik" type="text" class="form-control">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label">Status</label>
+									<div class="col-md-9">
+										<select class="form-control" name="i_status">
+											<option value="NOT CLEAR">NOT CLEAR</option>
+											<option value="CLEAR">CLEAR</option>
+										</select>
 									</div>
 								</div>
 
