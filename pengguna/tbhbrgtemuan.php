@@ -3,6 +3,10 @@ session_start();
 if(empty($_SESSION)){
 	header("Location: index.php");
 }
+else
+{
+	$username = $_SESSION["uname"];
+}
 ?>
 
 <?php
@@ -99,6 +103,12 @@ if ($editid!="") {
 	require("connect.php");
 
 	$result=mysqli_query($conn, $sql);
+
+	$id_transaksi = "TR".str_pad($kode, 3, "0", STR_PAD_LEFT);
+	$sql3 = "INSERT INTO transaksi (ID_Transaksi, ID_Barang, ID_Penemu, Status, Kategori)
+	VALUES ('$id_transaksi', '$id_baru', '$username', 'NOT CLEAR', '$ps_kat')";
+	$result3=mysqli_query($conn, $sql3);
+	
 	mysqli_close($conn);
 
 	header("location:index.php");
