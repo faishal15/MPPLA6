@@ -3,14 +3,9 @@ session_start();
 if(empty($_SESSION)){
 	header("Location: index.php");
 }
-else
-{
-	$username = $_SESSION["uname"];
-}
 ?>
 
 <?php
-$uploadOk = 0;
 $editid = isset($_GET['editid']) ? $_GET['editid']:'';
 if ($editid!="") {
     require("connect.php");
@@ -30,10 +25,6 @@ if ($editid!="") {
     
     mysqli_close($conn);
 	} else {
-		require("connect.php");
-		$sql2 = "select MAX(ID_Barang) from barang";
-		$result2=mysqli_query($conn, $sql2);
-		$row2=mysqli_fetch_array($result2);
 	    $p_id = "";
 	    $p_id_u = "";
 	    $p_nama = "";
@@ -44,15 +35,12 @@ if ($editid!="") {
 	    $p_security = "";
 	    $p_keterangan = "";
 	    $p_edit = "";
-	    mysqli_close($conn);
 	}
 
 	$act = isset($_GET['act']) ? $_GET['act']:'';
 	if ($act=="upd") {
-	    $nilaikode = substr($row2[0], 1);
-   		$kode = (int) $nilaikode;
-   		$kode = $kode + 1;
-   		$id_baru = "B".str_pad($kode, 3, "0", STR_PAD_LEFT);
+	    $ps_id = $_POST['i_id'];
+	    $ps_old_id = $_POST['i_old_id'];
 	    $ps_id_u = $_POST['i_id_u'];
 	    $ps_gambar1 = $_FILES['i_gambar']['name'];
 	    $ps_nama = $_POST['i_nama'];
@@ -61,9 +49,25 @@ if ($editid!="") {
 	    $ps_kat = $_POST['i_kat'];
 	    $ps_sec = $_POST['i_sec'];
 	    $ps_ket = $_POST['i_ket'];
+	    $ps_penemu = $_POST['i_penemu'];
+	    $ps_status = $_POST['i_status'];
 
-	    if ($ps_gambar1!=Null)
+	    if ($_FILES['i_gambar']['name']=="")
 	    {
+	    	$sql = "UPDATE barang SET
+		    ID_Barang = '$ps_id',
+		    ID_User = '$ps_id_u',
+		    Nama_Barang = '$ps_nama',
+		    Tanggal = '$ps_tgl',
+		    Tempat = '$ps_tmpt',
+		    Kategori = '$ps_kat',
+		    Keterangan = '$ps_ket',
+		    Security_Ques = '$ps_sec'
+		    WHERE ID_Barang = '$ps_old_id'
+		    ";
+		}
+		else
+		{
 		    $target_dir = "../img/";
 		    $target_file = $target_dir . $ps_gambar1;
 		    $uploadOk = 1;
@@ -78,30 +82,48 @@ if ($editid!="") {
 		        echo "File is not an image.";
 		        $uploadOk = 0;
 		    }
-
-	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, 
-	            Keterangan, Foto, Security_Ques)
-	VALUES ('$id_baru', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')";
-		}
-		else
-		{
-	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, 
-	            Keterangan, Foto, Security_Ques)
-	VALUES ('$id_baru', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')"; 
+		    
+		    if ($uploadOk == 0) {
+		        echo "Sorry, your file was not uploaded.";
+		    } else {
+		        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
+		            echo "The file ". $ps_gambar. " has been uploaded.";
+		        } else {
+		            echo "Sorry, there was an error uploading your file.";
+		        }
+		    }
+		    
+		    $sql = "UPDATE barang SET
+		    ID_Barang = '$ps_id',
+		    ID_User = '$ps_id_u',
+		    Nama_Barang = '$ps_nama',
+		    Tanggal = '$ps_tgl',
+		    Tempat = '$ps_tmpt',
+		    Kategori = '$ps_kat',
+		    Keterangan = '$ps_ket',
+		    Foto = '$ps_gambar',
+		    Security_Ques = '$ps_sec'
+		    WHERE ID_Barang = '$ps_old_id'
+		    ";	
 		}
 	    
 	require("connect.php");
 
-	$result=mysqli_query($conn, $sql);
+	$sql2 = "UPDATE transaksi SET
+		    ID_Pemilik = '$ps_penemu',
+		    Tanggal_Selesai = now(),
+		    Status = '$ps_status'
+		    WHERE ID_Barang = '$ps_id'
+		    ";
 
-	$id_transaksi = "TR".str_pad($kode, 3, "0", STR_PAD_LEFT);
-	$sql3 = "INSERT INTO transaksi (ID_Transaksi, ID_Barang, ID_Penemu, Status, Kategori)
-	VALUES ('$id_transaksi', '$id_baru', '$username', 'NOT CLEAR', '$ps_kat')";
-	$result3=mysqli_query($conn, $sql3);
-	
+	$result=mysqli_query($conn, $sql);
+	$result2=mysqli_query($conn, $sql2);
 	mysqli_close($conn);
+
+	header("location:index.php");
 	}
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -126,13 +148,13 @@ if ($editid!="") {
 <body>
 	<?php include 'navbar.php';?>
 		
-		<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
 		
 		<ul class="nav menu">
-			<li><a href="index.php"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"></use></svg>Profile</a></li>
+			<li><a href="index.php"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
 			<li class="parent ">
 				<a href="#sub-item-1">
-					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>Kelola Barang</span> 
+					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg></span> Kelola Barang 
 				</a>
 				<ul class="children collapse" id="sub-item-1">
 					<li>
@@ -159,7 +181,7 @@ if ($editid!="") {
 			</li>
 			<li class="parent ">
 				<a href="#sub-item-2">
-					<span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"></use></svg>Message</span> 
+					<span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"></use></svg></span> Message
 				</a>
 				<ul class="children collapse" id="sub-item-2">
 					<li>
@@ -174,92 +196,103 @@ if ($editid!="") {
 					</li>
 				</ul>
 			</li>
-			<li><a href="hubadmin.php"><svg class="glyph stroked mobile device"><use xlink:href="#stroked-mobile-device"></use></svg>Call Admin</a></li>
-		</ul>	
+			<li><a href="hubadmin.php"><svg class="glyph stroked mobile device"><use xlink:href="#stroked-mobile-device"></use></svg> Call Admin</a></li>
+		</ul>
+		
 	</div><!--/.sidebar-->
 		
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-			<?php 	
-				if ($uploadOk == 0) {
-			  
-			    } else {
-			        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
-			            echo "<div class='alert bg-success bg-dismissable' role='alert'>Success! The file ". $ps_gambar. " has been uploaded. <a href='#' class='close' data-dismiss='alert'>&times;</a></div>";
-			        } else {
-			            echo "<div class='alert bg-danger bg-dismissable' role='alert'>Sorry, there was an error uploading your file. <a href='#' class='close' data-dismiss='alert'>&times;</a></div>";
-			        }
-			    }
-		
-		    ?>
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">		
+				
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Tambah Barang Temuan</h1>
+				<h1 class="page-header">Edit Barang Hilang</h1>
 			</div>
 		</div><!--/.row-->	
 		
 		<div class="row row-centered">
 			<div class="col-md-8 col-centered">
 				<div class="panel panel-default">
-					<div class="panel-heading"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg> Form Tambah Barang Temuan</div>
+					<div class="panel-heading"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg> Form Edit Barang Hilang</div>
 					<div class="panel-body">
-						<form class="form-horizontal" method="POST" action="?act=upd<?php echo ($editid!="") ? "&editid=$editid":""; ?>" enctype="multipart/form-data">
+						<form class="form-horizontal" method="post" 
+                action="?act=upd<?php echo ($editid!="") ? "&editid=$editid":"";  ?>" enctype="multipart/form-data">
 							<fieldset>
 								<!-- Name input-->
 								<div class="form-group">
 									<label class="col-md-3 control-label">Nama Barang</label>
 									<div class="col-md-9">
-									<input name="i_nama" type="text" placeholder="Masukkan Nama Barang Temuan" class="form-control" required>
+									<input name="i_nama" type="text" value="<?php echo $p_nama?>" class="form-control">
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-md-3 control-label">Gambar Barang</label>
 									<div class="col-md-9">
+									<img src="../img/<?php echo $p_foto?>" style="width:320px; height:150px;" alt="your image" />
 									<input name="i_gambar" type="file" class="form-control" onchange="readURL(this);">
-									<img id="temu" src="#" alt="your image">
+									<img id="ilang" src="#" alt="your image" />
 									</div>
 								</div>
-								
+							
+								<!-- Email input-->
 								<div class="form-group">
-									<label class="col-md-3 control-label">Lokasi Ditemukan</label>
+									<label class="col-md-3 control-label">Lokasi Kehilangan</label>
 									<div class="col-md-9">
-										<input name="i_tmpt" type="text" placeholder="Lokasi ditemukan" class="form-control">
+										<input name="i_tmpt" type="text" class="form-control" value="<?php echo $p_tempat?>">
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-md-3 control-label">Tanggal</label>
 									<div class="col-md-9">
-										<input name="i_tgl" type="date" class="form-control" required>
+										<input name="i_tgl" type="date" class="form-control" value="<?php echo $p_tgl?>" required>
 									</div>
 								</div>
 								
+								<!-- Message body -->
 								<div class="form-group">
 									<label class="col-md-3 control-label">Deskripsi</label>
 									<div class="col-md-9">
-										<textarea class="form-control" name="i_ket" placeholder="Deskripsikan keterangan barang yang anda temukan..." rows="5"></textarea>
+										<textarea class="form-control" name="i_ket" rows="5"><?php echo htmlspecialchars($p_keterangan); ?></textarea>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="security">Pertanyaan Security</label>
+									<div class="col-md-9">
+										<input name="i_sec" type="text" class="form-control" value="<?php echo $p_security?>" required>
 									</div>
 								</div>
 
 								<div class="form-group">
-									<label class="col-md-3 control-label">Pertanyaan Security</label>
+									<label class="col-md-3 control-label">ID Penemu</label>
 									<div class="col-md-9">
-										<input name="i_sec" type="text" placeholder="Tambahkan pertanyaan terkait barang" class="form-control" required>
+										<input name="i_penemu" type="text" class="form-control" value="<?php echo $p_tempat?>">
 									</div>
 								</div>
-								
-								<input type="hidden" name="i_kat" type="text" class="form-control" value="Ditemukan" required>
-								<input type="hidden" name="i_id_u" type="text" class="form-control" value="<?php echo $_SESSION['uname'];?>" required>
 
-								<button type="submit" class="btn btn-info btn-fill pull-right">Submit</button>
-								
+								<div class="form-group">
+									<label class="col-md-3 control-label">Status</label>
+									<div class="col-md-9">
+										<select class="form-control" name="i_status">
+											<option value="NOT CLEAR">NOT CLEAR</option>
+											<option value="CLEAR">CLEAR</option>
+										</select>
+									</div>
+								</div>
+
+								<input type="hidden" name="i_old_id" id="i_old_id" value="<?php echo $p_id?>"/>
+								<input type="hidden" name="i_id" class="form-control" value="<?php echo $p_id?>">
+								<input type="hidden" name="i_kat" class="form-control" value="<?php echo $p_kategori?>">
+								<input type="hidden" name="i_id_u" class="form-control" value="<?php echo $p_id_u?>">
+
 								<script type="text/javascript">
 									function readURL(input) {
 										if (input.files && input.files[0]) {
 											var reader = new FileReader();
 
 											reader.onload = function (e) {
-												$('#temu')
+												$('#ilang')
 												.attr('src', e.target.result)
 												.width(320)
 												.height(150);
@@ -268,12 +301,23 @@ if ($editid!="") {
 										}
 									}
 								</script>
-
+								<!-- Form actions -->
+								
+								<div class="form-group">
+									<div class="col-md-12 widget-right">
+									<center>										
+										<button type="reset" class="btn btn-default">Reset</button>
+										<button type="submit" class="btn btn-primary">Submit</button>
+									</center>
+									</div>
+								</div>
 							</fieldset>
 						</form>
 					</div>
 				</div>
+				
 			</div><!--/.col-->
+			
 		</div><!--/.row-->
 	</div>	<!--/.main-->
 		  

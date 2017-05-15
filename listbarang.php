@@ -28,16 +28,23 @@ $nilaikode = substr($row2[0], 2);
 $kode = (int) $nilaikode;
 $kode = $kode + 1;
 $id_baru = "MS".str_pad($kode, 3, "0", STR_PAD_LEFT);
-
+    
 if(isset($_POST["kirim"]))
 {
-    $sql = "INSERT INTO message (ID_Message, Judul_Message, Isi_Message, ID_Sender, ID_Receiver, Tanggal)
-    VALUES ('$id_baru','".$_POST["i_judul"]."','".$_POST["i_isi"]."','".$_POST["i_sender"]."','".$_POST["i_receiver"]."',now())";
+    if(!empty($_SESSION))
+    {
+        $sql = "INSERT INTO message (ID_Message, Judul_Message, Isi_Message, ID_Sender, ID_Receiver, Tanggal)
+        VALUES ('$id_baru','".$_POST["i_judul"]."','".$_POST["i_isi"]."','".$_POST["i_sender"]."','".$_POST["i_receiver"]."',now())";
 
-    if ($conn->query($sql) === TRUE) {
-    echo "<script type= 'text/javascript'>alert('Pesan Berhasil Dikirim');</script>";
-    } else {
-    echo "<script type= 'text/javascript'>alert('Error: " . $sql . "<br>" . $conn->error."');</script>";
+        if ($conn->query($sql) === TRUE) {
+        echo "<script type= 'text/javascript'>alert('Pesan Berhasil Dikirim');</script>";
+        } else {
+        echo "<script type= 'text/javascript'>alert('Error: " . $sql . "<br>" . $conn->error."');</script>";
+        }
+    }
+    else
+    {
+        echo "<script>alert('Anda belum login! Pesan tidak terkirim');</script>";
     }
 }
 ?>
@@ -176,20 +183,7 @@ if(isset($_POST["kirim"]))
                                 <h4><a href="<?php echo "detail.php?id=$ID_Barang[$i]"?>"><?php echo $nama_barang[$i]?></a></h4>
                                 <p>
                                     <a href="<?php echo "detail.php?id=$ID_Barang[$i]"?>" class="btn btn-primary">Lihat</a>
-                                    <?php
-                                        if(!empty($_SESSION))
-                                        {
-                                            include("connect.php");
-
-                                            $username  = $_SESSION['uname'];
-                                            echo '<a data-target="#<?php echo $id_user[$i]?>" data-toggle="modal" class="btn btn-list">Hubungi</a>';
-                                        }
-                                        else 
-                                        {?>
-                                            <a data-target="#<?php echo $ID_Barang[$i]?>" data-toggle="modal" class="btn btn-list">Hubungi</a>
-                                        <?php
-                                        }
-                                    ?>
+                                    <a data-target="#<?php echo $ID_Barang[$i]?>" data-toggle="modal" class="btn btn-list">Hubungi</a>
                                 </p>
                             </div>
                         </div>

@@ -23,6 +23,10 @@ $Security = $barang['Security_Ques'];
 $result3 = mysqli_query($conn, "SELECT Status FROM transaksi where ID_Barang='$ID_Barang1'");
 $row3 = mysqli_fetch_array($result3);
 $status = $row3['Status'];
+$result4 = mysqli_query($conn, "SELECT Nama_User,No_Telepon FROM users where ID_User='$ID_User'");
+$row4 = mysqli_fetch_array($result4);
+$nama = $row4['Nama_User'];
+$telpon = $row4['No_Telepon'];
 if($Foto==NULL)
 {
     $Foto = 'nopic.jpg'; 
@@ -52,15 +56,23 @@ $id_baru = "MS".str_pad($kode, 3, "0", STR_PAD_LEFT);
 
 if(isset($_POST["kirim"]))
 {
-    $sql = "INSERT INTO message (ID_Message, Judul_Message, Isi_Message, ID_Sender, ID_Receiver, Tanggal)
-    VALUES ('$id_baru','".$_POST["i_judul"]."','".$_POST["i_isi"]."','".$_POST["i_sender"]."','".$_POST["i_receiver"]."',now())";
+    if(!empty($_SESSION))
+    {
+        $sql = "INSERT INTO message (ID_Message, Judul_Message, Isi_Message, ID_Sender, ID_Receiver, Tanggal)
+        VALUES ('$id_baru','".$_POST["i_judul"]."','".$_POST["i_isi"]."','".$_POST["i_sender"]."','".$_POST["i_receiver"]."',now())";
 
-    if ($conn->query($sql) === TRUE) {
-    echo "<script type= 'text/javascript'>alert('Pesan Berhasil Dikirim');</script>";
-    } else {
-    echo "<script type= 'text/javascript'>alert('Error: " . $sql . "<br>" . $conn->error."');</script>";
+        if ($conn->query($sql) === TRUE) {
+        echo "<script type= 'text/javascript'>alert('Pesan Berhasil Dikirim');</script>";
+        } else {
+        echo "<script type= 'text/javascript'>alert('Error: " . $sql . "<br>" . $conn->error."');</script>";
+        }
+    }
+    else
+    {
+        echo "<script>alert('Anda belum login! Pesan tidak terkirim');</script>";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -212,6 +224,12 @@ if(isset($_POST["kirim"]))
                             </div>
                         </div>
                         <div class="form-group">
+                            <label style="color:blue;" class="col-md-3 control-label">Telepon</label>
+                            <div class="col-md-9">
+                            <input name="i_telp" value="<?php echo $telpon?>" class="form-control" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label style="color:blue;" class="col-md-3 control-label">Judul Pesan</label>
                             <div class="col-md-9">
                             <input name="i_judul" type="text" placeholder="Masukkan Judul Pesan" class="form-control" required>
@@ -243,7 +261,7 @@ if(isset($_POST["kirim"]))
                 <h4>Nama Barang</h4> 
                 <h6><?php echo $Nama_Barang; ?></h6>
                 <h4>Ditemukan Oleh</h4>
-                <h6><?php echo $ID_User; ?></h6>
+                <h6><?php echo $ID_User; ?> - <?php echo $nama; ?></h6>
                 <h4>Ditemukan Tanggal</h4>
                 <h6><?php echo date('M j Y g:i A', strtotime($Tanggal));?></h6>
                 <h4>Keterangan</h4>
