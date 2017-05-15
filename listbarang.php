@@ -2,48 +2,23 @@
 require("connect.php");
 session_start();
 
-/*CHECK IF ID IS GIVEN*/
-$id = $_GET['id'];
-if (null === isset( $_GET['id'] )) {
-        header("HTTP/1.0 404 Not Found", true, 404);
-        exit;
-}
-
-/*FETCH DETAIL BARANG*/
-$sql = mysqli_query($conn, "SELECT * FROM barang WHERE ID_BARANG = '$id' LIMIT 1");
-$barang = mysqli_fetch_array($sql);
-$ID_Barang1 = $barang['ID_Barang'];
-$Nama_Barang = $barang['Nama_Barang'];
-$ID_User = $barang['ID_User'];
-$Tanggal = $barang['Tanggal'];
-$Tempat = $barang['Tempat'];
-$Keterangan = $barang['Keterangan'];
-$Foto = $barang['Foto'];
-$Security = $barang['Security_Ques'];
-$result3 = mysqli_query($conn, "SELECT Status FROM transaksi where ID_Barang='$ID_Barang1'");
-$row3 = mysqli_fetch_array($result3);
-$status = $row3['Status'];
-$result4 = mysqli_query($conn, "SELECT Nama_User,No_Telepon FROM users where ID_User='$ID_User'");
-$row4 = mysqli_fetch_array($result4);
-$nama = $row4['Nama_User'];
-$telpon = $row4['No_Telepon'];
-if($Foto==NULL)
-{
-    $Foto = 'nopic.jpg'; 
-}
-/*FETCH BARANG LAIN*/
-$result = mysqli_query($conn, "SELECT * FROM barang order by rand()");
+$batas=9; 
+if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
+$start_from = ($page-1) * $batas;
+$result = mysqli_query($conn, "SELECT * FROM barang order by ID_Barang desc limit $start_from,$batas");
 
 $i = 0; 
 while ($row = mysqli_fetch_array($result)) {
-  $i++;
-  $ID_Barang[$i] = $row['ID_Barang'];
-  $List_Barang[$i] = $row['Nama_Barang'];
-  $Foto2[$i] = $row['Foto'];
-  if($Foto2[$i]==NULL)
-  {
-    $Foto2[$i] = 'nopic.jpg'; 
-  }
+    $i++;
+    $ID_Barang[$i] = $row['ID_Barang'];
+    $id_user[$i] = $row['ID_User'];
+    $nama_barang[$i] = $row['Nama_Barang'];
+    $Foto[$i] = $row['Foto'];
+    $Security[$i] = $row['Security_Ques'];
+    if($Foto[$i]==NULL)
+    {
+        $Foto[$i] = 'nopic.jpg'; 
+    }
 }
 
 $sql2 = "select MAX(ID_Message) from message";
@@ -53,7 +28,7 @@ $nilaikode = substr($row2[0], 2);
 $kode = (int) $nilaikode;
 $kode = $kode + 1;
 $id_baru = "MS".str_pad($kode, 3, "0", STR_PAD_LEFT);
-
+    
 if(isset($_POST["kirim"]))
 {
     if(!empty($_SESSION))
@@ -72,7 +47,6 @@ if(isset($_POST["kirim"]))
         echo "<script>alert('Anda belum login! Pesan tidak terkirim');</script>";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -121,7 +95,6 @@ if(isset($_POST["kirim"]))
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
-                    <!-- 1. CARI BARANG -->
                     <li>
                         <a class="page-scroll" href="listtemu.php">Cari Barang Hilang</a>
                     </li>
@@ -182,7 +155,7 @@ if(isset($_POST["kirim"]))
     </nav>
 
     <!-- About Section -->
-    <section id="about" class="container content-section text-left">
+    <section id="about" class="container content-section text-center">
         <div class="row">
             <div class="col-md-3">
                 <p class="lead">Masukkan keyword</p>
@@ -196,93 +169,97 @@ if(isset($_POST["kirim"]))
                     </div>
                 </div>
             </div>
-            <div class="col-md-5">
-                <img class="img-responsive" src="img/<?php echo $Foto ?>" style="width:600px; height:400px;" alt="">
-                <br>
-                <center>
-                <a data-target="#<?php echo $ID_User?>" data-toggle="modal" class="btn btn-primary">Hubungi</a>
-                </center>
-            </div>
-            <div class="modal fade" id="<?php echo $ID_User?>" role="dialog">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 style="color:blue;" class="modal-title">Kirim Pesan</h4>
+            <div class="col-md-9">
+            <h1>LIST BARANG HILANG</h1>
+                <div class="row">
+                    <?php if ($i>0) for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
+                    <div class="col-sm-4 col-lg-4 col-md-4">
+                        <div class="thumbnail">
+                            <a href="<?php echo "detail.php?id=$ID_Barang[$i]"?>">
+                            <img src="img/<?php echo $Foto[$i] ?>" style="width:320px; height:150px;" alt="Barang">
+                            </a>
+                            <div class="caption">
+                                <!-- <h4 class="pull-right">$24.99</h4> -->
+                                <h4><a href="<?php echo "detail.php?id=$ID_Barang[$i]"?>"><?php echo $nama_barang[$i]?></a></h4>
+                                <p>
+                                    <a href="<?php echo "detail.php?id=$ID_Barang[$i]"?>" class="btn btn-primary">Lihat</a>
+                                    <a data-target="#<?php echo $ID_Barang[$i]?>" data-toggle="modal" class="btn btn-list">Hubungi</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="<?php echo $ID_Barang[$i]?>" role="dialog">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  <h4 style="color:blue;" class="modal-title">Kirim Pesan</h4>
+                                </div>
+                                <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label style="color:blue;" class="col-md-3 control-label">NRP</label>
+                                        <div class="col-md-9">
+                                        <input name="i_receiver" type="text" class="form-control" value="<?php echo $id_user[$i]?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color:blue;" class="col-md-3 control-label">Pertanyaan Sekuritas</label>
+                                        <div class="col-md-9">
+                                        <input name="i_secure" value="<?php echo $Security[$i]?>" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color:blue;" class="col-md-3 control-label">Judul Pesan</label>
+                                        <div class="col-md-9">
+                                        <input name="i_judul" type="text" placeholder="Masukkan Judul Pesan" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color:blue;" class="col-md-3 control-label">Pesan</label>
+                                        <div class="col-md-9">
+                                        <textarea class="form-control" name="i_isi" placeholder="Ketikkan pesan yang ingin dikirimkan..." rows="5"></textarea>
+                                        </div>
+                                    </div>
+                                    <input name="i_id" type="hidden" class="form-control" value="MS004">
+                                    <input name="i_sender" type="hidden" class="form-control" value="<?php echo $_SESSION['uname'];?>">
+                                    <button name="kirim" value="submit" type="submit" class="btn btn-info btn-fill pull-right">Submit</button>
+                                </form>
+                               </div>
+                            </div>
+                        </div>
+                        <!-- <div id="<?php echo $id_user[$i]?>" class="modal">                  
+                            <form class="modal-content animate" action="login.php" method="post">
+                                <div class="imgcontainer">
+                                    <span onclick="document.getElementById('<?php echo $id_user[$i]?>').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                </div>
+
+                                <div class="container">
+                                    <p color="black">Masukkan</p>
+                                        <input type="text" class="form-control" placeholder="Kepada" value="<?php echo $id_user[$i]?>" required>
+                                        <input type="password" class="form-control" placeholder="Pesan" name="psw" required>
+                                        <button type="submit" name="submit">Kirim</button>
+                                    </div>
+                            </form>
+                        </div> -->
                     </div>
-                    <form class="form-horizontal" method="POST" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label style="color:blue;" class="col-md-3 control-label">NRP</label>
-                            <div class="col-md-9">
-                            <input name="i_receiver" type="text" class="form-control" value="<?php echo $ID_User?>" required>
-                            </div>
+                    <?php } ?>
+                    <div class="row text-center">
+                        <div class="col-lg-12">
+                            <?php  
+                            $sql = "SELECT COUNT(ID_Barang) FROM barang";  
+                            $rs_result = mysqli_query($conn, $sql);  
+                            $row = mysqli_fetch_array($rs_result);  
+                            $total_records = $row[0];  
+                            $total_pages = ceil($total_records / $batas);  
+                            $pagLink = "<ul class='pagination'>";  
+                            for ($i=1; $i<=$total_pages; $i++) { 
+                               $pagLink .= "<li><a href='listbarang.php?page=".$i."'>".$i."</a></li>";  
+                           };  
+                           echo $pagLink . "</ul>";  
+                           ?>
                         </div>
-                        <div class="form-group">
-                            <label style="color:blue;" class="col-md-3 control-label">Pertanyaan Sekuritas</label>
-                            <div class="col-md-9">
-                            <input name="i_secure" value="<?php echo $Security?>" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label style="color:blue;" class="col-md-3 control-label">Telepon</label>
-                            <div class="col-md-9">
-                            <input name="i_telp" value="<?php echo $telpon?>" class="form-control" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label style="color:blue;" class="col-md-3 control-label">Judul Pesan</label>
-                            <div class="col-md-9">
-                            <input name="i_judul" type="text" placeholder="Masukkan Judul Pesan" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label style="color:blue;" class="col-md-3 control-label">Pesan</label>
-                            <div class="col-md-9">
-                            <textarea class="form-control" name="i_isi" placeholder="Ketikkan pesan yang ingin dikirimkan..." rows="5"></textarea>
-                            </div>
-                        </div>
-                        <input name="i_sender" type="hidden" class="form-control" value="<?php echo $_SESSION['uname'];?>">
-                        <button name="kirim" value="submit" type="submit" class="btn btn-info btn-fill pull-right">Submit</button>
-                    </form>
-                   </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <?php
-                    if($status=='CLEAR'){
-                        echo '<span class="label label-success pull-right">SOLVED</span>';
-                    }
-                    else
-                    {?>
-                        <span class="label label-default pull-right circle">NOT SOLVED</span>
-                    <?php 
-                    }
-                    ?>
-                <h4>Nama Barang</h4> 
-                <h6><?php echo $Nama_Barang; ?></h6>
-                <h4>Ditemukan Oleh</h4>
-                <h6><?php echo $ID_User; ?> - <?php echo $nama; ?></h6>
-                <h4>Ditemukan Tanggal</h4>
-                <h6><?php echo date('M j Y g:i A', strtotime($Tanggal));?></h6>
-                <h4>Keterangan</h4>
-                <h6><?php echo $Keterangan; ?></h6>
-            </div>
-        </div>
-        <div class="row">
-
-            <div class="col-lg-12">
-                <h3 class="page-header">Barang Lainnya</h3>
-            </div>
-            <?php for($i=1; $i<=4; $i++) { ?>
-            <div class="col-sm-3 col-xs-6">
-                <a href="<?php echo "detail.php?id=$ID_Barang[$i]" ?>">
-                    <img class="img-responsive portfolio-item" src="img/<?php echo $Foto2[$i]?>" style="width:300px; height:200px;" alt="">
-                    <br>
-                    <center><h4><?php echo $List_Barang[$i] ?></h4></center>
-                </a>
-            </div>
-            <?php } ?>
-
         </div>
     </section>
 
