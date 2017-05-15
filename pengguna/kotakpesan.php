@@ -59,11 +59,6 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 <!--Icons-->
 <script src="js/lumino.glyphs.js"></script>
 
-<!--[if lt IE 9]>
-<script src="js/html5shiv.js"></script>
-<script src="js/respond.min.js"></script>
-<![endif]-->
-
 </head>
 
 <body>
@@ -127,24 +122,14 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Pesan Masuk</h1>
-				<div class="panel panel-default">
 					<div class="panel-heading">Kotak Pesan</div>
-					
-						<div class="tab-content">
-							<div class="tab-pane fade in active" id="home">
-								<div class="list-group">
-									<?php for($i=1; $i<=sizeof($ID_Message); $i++) { ?>
-										<a href="pesandetail.php?editid=<?php echo $ID_Sender[$i]?>" class="list-group-item">
-										<span class="glyphicon glyphicon-star-empty"></span><span class="name" style="min-width: 120px;
-										display: inline-block;"><?php echo $ID_Sender[$i]?></span> <span class=""><?php echo $Judul_Message[$i]?></span>
-										<span class="text-muted" style="font-size: 11px;">- <?php echo $Isi_Message[$i]?></span> <span
-										class="badge">12:10 AM</span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip">
-									</span></span></a><a href="#" class="list-group-item">
-									<?php } ?>
-							</div>
-						</div>
-					</div>
-				</div>
+						<?php for($i=1; $i<=sizeof($ID_Message); $i++) { ?>
+							<a href="pesandetail.php?editid=<?php echo $ID_Sender[$i]?>" class="list-group-item">
+							<!-- <span class="glyphicon glyphicon-star-empty"></span> --><span class="name" style="min-width: 120px;
+							display: inline-block;"><?php echo $ID_Sender[$i]?></span> <span class=""><?php echo $Judul_Message[$i]?></span>
+							<span class="text-muted" style="font-size: 11px;">- <?php echo $Isi_Message[$i]?></span> <span
+							class="badge"><?php echo date('M j Y g:i A', strtotime($Tanggal[$i]));?></span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip"></span></span></a><a href="#">
+						<?php } ?>
 			</div>
 		</div><!--/.row-->	
 	</div><!--/.main-->

@@ -24,14 +24,26 @@ if ($editid!="")
 	  $Isi_Message[$i] = $row['Isi_Message'];
 	  $Judul_Message[$i] = $row['Judul_Message'];
 	  $Tanggal[$i] = $row['Tanggal'];
+	  $result3 = mysqli_query($conn, "SELECT Nama_User,Foto FROM users where ID_User='$ID_Sender[$i]'");
+	  $row3 = mysqli_fetch_array($result3);
+	  $nama[$i] = $row3['Nama_User'];
+	  $Foto[$i] = $row3['Foto'];
 	}
 	
 }
 
+$sql2 = "select MAX(ID_Message) from message";
+$result2=mysqli_query($conn, $sql2);
+$row2=mysqli_fetch_array($result2);
+$nilaikode = substr($row2[0], 2);
+$kode = (int) $nilaikode;
+$kode = $kode + 1;
+$id_baru = "MS".str_pad($kode, 3, "0", STR_PAD_LEFT);
+
 if(isset($_POST["kirim"]))
 {
     $sql = "INSERT INTO message (ID_Message, Judul_Message, Isi_Message, ID_Sender, ID_Receiver, Tanggal)
-    VALUES ('".$_POST["i_id"]."','".$_POST["i_judul"]."','".$_POST["i_isi"]."','".$_POST["i_sender"]."','".$_POST["i_receiver"]."',now())";
+    VALUES ('$id_baru','".$_POST["i_judul"]."','".$_POST["i_isi"]."','".$_POST["i_sender"]."','".$_POST["i_receiver"]."',now())";
 
     if ($conn->query($sql) === TRUE) {
     echo "<script type= 'text/javascript'>alert('Pesan Berhasil Dikirim!');</script>";
@@ -122,7 +134,7 @@ if(isset($_POST["kirim"]))
 				
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Kirim Pesan</h1>
+				<h1 class="page-header">Pesan dari <?php echo $nama[$i]?></h1>
 			</div>
 		</div><!--/.row-->	
 		
@@ -134,30 +146,51 @@ if(isset($_POST["kirim"]))
 					<div class="panel-body">
 						<ul>
 							<?php for($i=1; $i<=sizeof($ID_Message); $i++) { ?>
-							<li class="left clearfix">
-								<span class="chat-img pull-left">
-									<img src="http://placehold.it/80/30a5ff/fff" alt="User Avatar" class="img-circle" />
+							<?php if($ID_Sender[$i]!=$username) : ?>
+							    <li class="right clearfix">
+								<span class="chat-img pull-right">
+									<img src="../img/<?php echo $Foto[$i]?>" style="width:80px; height:80px;" alt="User Avatar" class="img-circle" />
 								</span>
 								<div class="chat-body clearfix">
 									<div class="header">
-										<strong class="primary-font"><?php echo $ID_Sender[$i]?></strong> <small class="text-muted"><?php echo $Tanggal[$i]?></small>
+										<strong class="primary-font"><?php echo $nama[$i]?></strong> <small class="text-muted"><?php echo date('M j Y g:i A', strtotime($Tanggal[$i]));?> - <?php echo $Judul_Message[$i]?></small>
 									</div>
 									<p>
 										<?php echo $Isi_Message[$i]?> 
 									</p>
 								</div>
 							</li>
+							<?php else : ?>
+							    <li class="left clearfix">
+								<span class="chat-img pull-left">
+									<img src="../img/<?php echo $Foto[$i]?>" style="width:80px; height:80px;" alt="User Avatar" class="img-circle" />
+								</span>
+								<div class="chat-body clearfix">
+									<div class="header">
+										<strong class="primary-font"><?php echo $nama[$i]?></strong> <small class="text-muted"><?php echo date('M j Y g:i A', strtotime($Tanggal[$i]));?> - <?php echo $Judul_Message[$i]?></small>
+									</div>
+									<p>
+										<?php echo $Isi_Message[$i]?> 
+									</p>
+								</div>
+							</li>
+							<?php endif; ?>
 							<?php } ?>
 						</ul>
 					</div>
 					
 					<div class="panel-footer">
+						<form method="post">
 						<div class="input-group">
-							<input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." />
+							<input name="i_judul" type="text" class="form-control input-md" placeholder="Ketikkan judul..."/>
+							<input name="i_isi" type="text" class="form-control input-md" placeholder="Ketikkan pesan..."/>
+							<input name="i_sender" type="hidden" class="form-control" value="<?php echo $_SESSION['uname'];?>">
+							<input name="i_receiver" type="hidden" class="form-control" value="<?php echo $editid;?>">
 							<span class="input-group-btn">
-								<button class="btn btn-success btn-md" id="btn-chat">Send</button>
+								<button class="btn btn-success btn-md" value="submit" type="submit" name="kirim">Send</button>
 							</span>
 						</div>
+						</form>
 					</div>
 				</div>
 				

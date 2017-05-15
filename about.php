@@ -38,8 +38,8 @@ session_start();
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="index.php">
-                    <i class="fa fa-play-circle"></i> <span class="light">TCARI
+                <a href="index.php">
+                    <img src="img/kecil.png">
                 </a>
             </div>
 
@@ -51,56 +51,57 @@ session_start();
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                <a class="page-scroll" href="#about">Cari Barang Hilang</a>
-            </li>
+                        <a class="page-scroll" href="listtemu.php">Cari Barang Hilang</a>
+                    </li>
 
-            <!-- 2. TOLONG TEMUKAN -->       
-            <li>
-                <a class="page-scroll" href="listbarang.php">Tolong Temukan</a>
-            </li>
+                    <!-- 2. TOLONG TEMUKAN -->       
+                    <li>
+                        <a class="page-scroll" href="listhilang.php">Tolong Temukan</a>
+                    </li>
 
-            <!-- 3. KONTAK -->
-            <li>
-                <a class="page-scroll" href="#contact">Contact</a>
-            </li>
+                    <!-- 3. KONTAK -->
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
 
-            <!-- 4. LOGIN, USER PROFILE, LOGOUT  --> 
-            <?php
-            if(!empty($_SESSION)){
-                include("connect.php");
+                    <!-- 4. LOGIN, USER PROFILE, LOGOUT  --> 
+                    <?php
+                    if(!empty($_SESSION)){
+                        include("connect.php");
 
-                $username  = $_SESSION['uname'];
-                echo '<li>
-                <a class="page-scroll" href="pengguna">'.$username.'</a>
-                </li>';
-                echo '<li>
-                <a class="page-scroll" href="logout.php">Logout</a>
-                </li>';
-                }
-            else 
-            {?>
+                        $username  = $_SESSION['uname'];
+                        echo '<li>
+                        <a class="page-scroll" href="pengguna">'.$username.'</a>
+                        </li>';
+                        echo '<li>
+                        <a class="page-scroll" href="logout.php">Logout</a>
+                        </li>';
+                        }
+                    else 
+                    {?>
+                     <li>
+                        <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
+                        <div id="id01" class="modal">                  
+                          <form class="modal-content animate" action="login.php" method="post">
+                            <div class="imgcontainer">
+                              <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                            </div>
 
-             <li>
-                <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
-                <div id="id01" class="modal">                  
-                  <form class="modal-content animate" action="login.php" method="post">
-                    <div class="imgcontainer">
-                      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    </div>
-
-                    <div class="container">
-                        <p color="black">Masukkan</p>
-                        <input type="text" class="form-control" placeholder="Enter Username" name="uname" required>
-                        <input type="password" class="form-control" placeholder="Enter Password" name="psw" required>
-                        <button type="submit" name="submit">Login</button>
-                    </div>
-                  </form>
-                </div>
-            </li>       
-            <?php
-                    }
-                
-            ?>
+                            <div class="container">
+                                <p color="black">Masukkan</p>
+                                <input type="text" class="form-control" placeholder="Enter Username" name="uname" required>
+                                <input type="password" class="form-control" placeholder="Enter Password" name="psw" required>
+                                <button type="submit" name="submit">Login</button>
+                            </div>
+                          </form>
+                        </div>
+                    </li>       
+                    <?php
+                    }    
+                    ?>
+                    <li>
+                        <a class="page-scroll" href="about.php">About</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

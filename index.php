@@ -2,14 +2,18 @@
 require("connect.php");
 session_start();
 
-$result = mysqli_query($conn, "SELECT * FROM barang");
+$result = mysqli_query($conn, "SELECT * FROM barang order by ID_Barang desc");
 
 $i = 0; 
 while ($row = mysqli_fetch_array($result)) {
   $i++;
   $ID_Barang[$i] = $row['ID_Barang'];
-  $List_Barang[$i] = $row['Nama_Barang'];
+  $Nama_Barang[$i] = $row['Nama_Barang'];
   $Foto[$i] = $row['Foto'];
+  if($Foto[$i]==NULL)
+  {
+    $Foto[$i] = 'nopic.jpg'; 
+  }
 }
 
 ?>
@@ -176,8 +180,8 @@ span.psw {
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">
-                    <i class="fa fa-play-circle"></i> <span class="light">TCARI
+                <a href="index.php">
+                    <img src="img/kecil.png">
                 </a>
             </div>
 
@@ -192,12 +196,12 @@ span.psw {
 
                     <!-- 1. CARI BARANG -->
                     <li>
-                        <a class="page-scroll" href="#about">Cari Barang Hilang</a>
+                        <a class="page-scroll" href="listtemu.php">Cari Barang Hilang</a>
                     </li>
 
                     <!-- 2. TOLONG TEMUKAN -->       
                     <li>
-                        <a class="page-scroll" href="listbarang.php">Tolong Temukan</a>
+                        <a class="page-scroll" href="listhilang.php">Tolong Temukan</a>
                     </li>
 
                     <!-- 3. KONTAK -->
@@ -241,7 +245,9 @@ span.psw {
                     }
                         
                     ?>
-
+                    <li>
+                        <a class="page-scroll" href="about.php">About</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -288,12 +294,12 @@ span.psw {
         <div class="row">
         <?php for($i=1; $i<=6; $i++) { ?>
             <div class="col-md-4 portfolio-item">
-                <a href="#">
+                <a href="<?php echo "detail.php?id=$ID_Barang[$i]"?>">
                     <img class="img-responsive" src="img/<?php echo $Foto[$i] ?>" style="width:350px; height:250px;" alt="<?php echo $Foto[$i] ?>">
+                    <h3>
+                        <?php echo $Nama_Barang[$i] ?>
+                    </h3>
                 </a>
-                <h3>
-                    <a href="<?php echo "detail.php?id=$ID_Barang[$i]" ?>"><?php echo $List_Barang[$i] ?></a>
-                </h3>
             </div>
         <?php } ?>
         </div>

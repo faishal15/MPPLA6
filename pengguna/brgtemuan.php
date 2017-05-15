@@ -22,6 +22,9 @@ while ($row = mysqli_fetch_array($result)) {
   $Tanggal[$i] = $row['Tanggal'];
   $Tempat[$i] = $row['Tempat'];
   $Keterangan[$i] = $row['Keterangan'];
+  $result3 = mysqli_query($conn, "SELECT Status FROM transaksi where ID_Barang='$ID_Barang[$i]'");
+  $row3 = mysqli_fetch_array($result3);
+  $status[$i] = $row3['Status'];
 }
 mysqli_close($conn);
 ?>
@@ -129,13 +132,13 @@ mysqli_close($conn);
 						    </tr>
 
 						    </thead>
-						    <?php for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
+						    <?php if($i>0) for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
 						    <tr>
 						    	<td><?php echo $ID_Barang[$i]?></td>
 						    	<td><?php echo $Nama_Barang[$i]?></td> 
 						    	<td><?php echo $Tanggal[$i]?></td>
 						    	<td><?php echo $Tempat[$i]?></td> 
-						    	<td>Belum Selesai</td>
+						    	<td><?php echo $status[$i]?></td>
 						    	<td><a href="editbrgtemuan.php?editid=<?php echo $ID_Barang[$i] ?>">Edit</a></td>
 						    </tr>
 						    <?php } ?>

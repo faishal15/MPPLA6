@@ -12,10 +12,40 @@ $result = mysqli_query($conn, "SELECT * FROM barang where Nama_Barang like '%$ca
 $i = 0; 
 while ($row = mysqli_fetch_array($result)) {
     $i++;
+    $id_user[$i] = $row['ID_User'];
     $ID_Barang[$i] = $row['ID_Barang'];
     $nama_barang[$i] = $row['Nama_Barang'];
     $Foto[$i] = $row['Foto'];
+    $Security[$i] = $row['Security_Ques'];
+    if($Foto[$i]==NULL)
+    {
+        $Foto[$i] = 'nopic.jpg'; 
+    }
 }
+?>
+
+<?php
+$sql2 = "select MAX(ID_Message) from message";
+$result2=mysqli_query($conn, $sql2);
+$row2=mysqli_fetch_array($result2);
+$nilaikode = substr($row2[0], 2);
+$kode = (int) $nilaikode;
+$kode = $kode + 1;
+$id_baru = "MS".str_pad($kode, 3, "0", STR_PAD_LEFT);
+
+if(isset($_POST["kirim"]))
+{
+    $sql = "INSERT INTO message (ID_Message, Judul_Message, Isi_Message, ID_Sender, ID_Receiver, Tanggal)
+    VALUES ('$id_baru','".$_POST["i_judul"]."','".$_POST["i_isi"]."','".$_POST["i_sender"]."','".$_POST["i_receiver"]."',now())";
+
+    if ($conn->query($sql) === TRUE) {
+    echo "<script type= 'text/javascript'>alert('Pesan Berhasil Dikirim');</script>";
+    header('location=index.php');
+    } else {
+    echo "<script type= 'text/javascript'>alert('Error: " . $sql . "<br>" . $conn->error."');</script>";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -52,8 +82,8 @@ while ($row = mysqli_fetch_array($result)) {
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="index.php">
-                    <i class="fa fa-play-circle"></i> <span class="light">TCARI
+                <a href="index.php">
+                    <img src="img/kecil.png">
                 </a>
             </div>
 
@@ -65,72 +95,58 @@ while ($row = mysqli_fetch_array($result)) {
                         <a href="#page-top"></a>
                     </li>
                     <!-- 1. CARI BARANG -->
-            <li>
-                <a class="page-scroll" href="#about">Cari Barang Hilang</a>
-            </li>
+                    <li>
+                        <a class="page-scroll" href="listtemu.php">Cari Barang Hilang</a>
+                    </li>
 
-            <!-- 2. TOLONG TEMUKAN -->       
-            <li>
-                <a class="page-scroll" href="listbarang.php">Tolong Temukan</a>
-            </li>
+                    <!-- 2. TOLONG TEMUKAN -->       
+                    <li>
+                        <a class="page-scroll" href="listhilang.php">Tolong Temukan</a>
+                    </li>
 
-            <!-- 3. KONTAK -->
-            <li>
-                <a class="page-scroll" href="#contact">Contact</a>
-            </li>
+                    <!-- 3. KONTAK -->
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
 
-            <!-- 4. LOGIN, USER PROFILE, LOGOUT  --> 
-            <?php
-            if(!empty($_SESSION)){
-                include("connect.php");
+                    <!-- 4. LOGIN, USER PROFILE, LOGOUT  --> 
+                    <?php
+                    if(!empty($_SESSION)){
+                        include("connect.php");
 
-                $username  = $_SESSION['uname'];
-                echo '<li>
-                <a class="page-scroll" href="pengguna">'.$username.'</a>
-                </li>';
-                echo '<li>
-                <a class="page-scroll" href="logout.php">Logout</a>
-                </li>';
-                }
-            else 
-            {?>
+                        $username  = $_SESSION['uname'];
+                        echo '<li>
+                        <a class="page-scroll" href="pengguna">'.$username.'</a>
+                        </li>';
+                        echo '<li>
+                        <a class="page-scroll" href="logout.php">Logout</a>
+                        </li>';
+                        }
+                    else 
+                    {?>
+                     <li>
+                        <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
+                        <div id="id01" class="modal">                  
+                          <form class="modal-content animate" action="login.php" method="post">
+                            <div class="imgcontainer">
+                              <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                            </div>
 
-             <li>
-                <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
-                <div id="id01" class="modal">                  
-                  <form class="modal-content animate" action="login.php" method="post">
-                    <div class="imgcontainer">
-                      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    </div>
-
-
-                    <div class="container">
-                        <p id="id02" color="black">Masukkan</p>
-                        <input type="text" class="form-control" placeholder="Enter Username" name="uname" required>
-                        <input type="password" class="form-control" placeholder="Enter Password" name="psw" required>
-                        <button type="submit" name="submit">Login</button>
-                    </div>
-                  </form>
-
-                </div>
-
-                <script>
-                // Get the modal
-                var modal = document.getElementById('id01');
-
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
-                }
-                </script>
-
-                </li>       
-            <?php
-                    }
-                
-            ?>
+                            <div class="container">
+                                <p color="black">Masukkan</p>
+                                <input type="text" class="form-control" placeholder="Enter Username" name="uname" required>
+                                <input type="password" class="form-control" placeholder="Enter Password" name="psw" required>
+                                <button type="submit" name="submit">Login</button>
+                            </div>
+                          </form>
+                        </div>
+                    </li>       
+                    <?php
+                    }    
+                    ?>
+                    <li>
+                        <a class="page-scroll" href="about.php">About</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -156,7 +172,7 @@ while ($row = mysqli_fetch_array($result)) {
             <div class="col-md-9">
             <h1>HASIL PENCARIAN</h1>
                 <div class="row">
-                    <?php for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
+                    <?php if ($i>0) for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
                             <img src="img/<?php echo $Foto[$i]?>" style="width:320px; height:150px;" alt="Barang">
@@ -165,16 +181,54 @@ while ($row = mysqli_fetch_array($result)) {
                                 <h4><a href="#"><?php echo $nama_barang[$i]?></a></h4>
                                 <p>
                                     <a href="<?php echo "detail.php?id=$ID_Barang[$i]" ?>" class="btn btn-primary">Lihat</a>
-                                    <a href="#" class="btn btn-default">Hubungi</a>
+                                    <a data-target="#<?php echo $ID_Barang[$i]?>" data-toggle="modal" class="btn btn-list">Hubungi</a>
                                 </p>
                             </div>
+                            <div class="modal fade" id="<?php echo $ID_Barang[$i]?>" role="dialog">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  <h4 style="color:blue;" class="modal-title">Kirim Pesan</h4>
+                                </div>
+                                <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label style="color:blue;" class="col-md-3 control-label">NRP</label>
+                                        <div class="col-md-9">
+                                        <input name="i_receiver" type="text" class="form-control" value="<?php echo $id_user[$i]?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color:blue;" class="col-md-3 control-label">Pertanyaan Sekuritas</label>
+                                        <div class="col-md-9">
+                                        <input name="i_secure" value="<?php echo $Security[$i]?>" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color:blue;" class="col-md-3 control-label">Judul Pesan</label>
+                                        <div class="col-md-9">
+                                        <input name="i_judul" type="text" placeholder="Masukkan Judul Pesan" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color:blue;" class="col-md-3 control-label">Pesan</label>
+                                        <div class="col-md-9">
+                                        <textarea class="form-control" name="i_isi" placeholder="Ketikkan pesan yang ingin dikirimkan..." rows="5"></textarea>
+                                        </div>
+                                    </div>
+                                    <input name="i_sender" type="hidden" class="form-control" value="<?php echo $_SESSION['uname'];?>">
+                                    <button name="kirim" value="submit" type="submit" class="btn btn-info btn-fill pull-right">Submit</button>
+                                </form>
+                               </div>
+                            </div>
+                        </div>
                         </div>
                     </div>
                     <?php } ?>
                     <div class="row text-center">
                         <div class="col-lg-12">
                             <?php  
-                            $sql = "SELECT COUNT(ID_Barang) FROM barang";  
+                            $sql = "SELECT COUNT(ID_Barang) FROM barang where Nama_Barang like '%$caribarang%'";  
                             $rs_result = mysqli_query($conn, $sql);  
                             $row = mysqli_fetch_array($rs_result);  
                             $total_records = $row[0];  

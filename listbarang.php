@@ -5,7 +5,7 @@ session_start();
 $batas=9; 
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $batas;
-$result = mysqli_query($conn, "SELECT * FROM barang order by ID_Barang limit $start_from,$batas");
+$result = mysqli_query($conn, "SELECT * FROM barang order by ID_Barang desc limit $start_from,$batas");
 
 $i = 0; 
 while ($row = mysqli_fetch_array($result)) {
@@ -14,6 +14,11 @@ while ($row = mysqli_fetch_array($result)) {
     $id_user[$i] = $row['ID_User'];
     $nama_barang[$i] = $row['Nama_Barang'];
     $Foto[$i] = $row['Foto'];
+    $Security[$i] = $row['Security_Ques'];
+    if($Foto[$i]==NULL)
+    {
+        $Foto[$i] = 'nopic.jpg'; 
+    }
 }
 
 $sql2 = "select MAX(ID_Message) from message";
@@ -71,8 +76,8 @@ if(isset($_POST["kirim"]))
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="index.php">
-                    <i class="fa fa-play-circle"></i> <span class="light">TCARI
+                <a href="index.php">
+                    <img src="img/kecil.png">
                 </a>
             </div>
 
@@ -84,56 +89,57 @@ if(isset($_POST["kirim"]))
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                <a class="page-scroll" href="#about">Cari Barang Hilang</a>
-            </li>
+                        <a class="page-scroll" href="listtemu.php">Cari Barang Hilang</a>
+                    </li>
 
-            <!-- 2. TOLONG TEMUKAN -->       
-            <li>
-                <a class="page-scroll" href="listbarang.php">Tolong Temukan</a>
-            </li>
+                    <!-- 2. TOLONG TEMUKAN -->       
+                    <li>
+                        <a class="page-scroll" href="listhilang.php">Tolong Temukan</a>
+                    </li>
 
-            <!-- 3. KONTAK -->
-            <li>
-                <a class="page-scroll" href="#contact">Contact</a>
-            </li>
+                    <!-- 3. KONTAK -->
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
 
-            <!-- 4. LOGIN, USER PROFILE, LOGOUT  --> 
-            <?php
-            if(!empty($_SESSION)){
-                include("connect.php");
+                    <!-- 4. LOGIN, USER PROFILE, LOGOUT  --> 
+                    <?php
+                    if(!empty($_SESSION)){
+                        include("connect.php");
 
-                $username  = $_SESSION['uname'];
-                echo '<li>
-                <a class="page-scroll" href="pengguna">'.$username.'</a>
-                </li>';
-                echo '<li>
-                <a class="page-scroll" href="logout.php">Logout</a>
-                </li>';
-                }
-            else 
-            {?>
+                        $username  = $_SESSION['uname'];
+                        echo '<li>
+                        <a class="page-scroll" href="pengguna">'.$username.'</a>
+                        </li>';
+                        echo '<li>
+                        <a class="page-scroll" href="logout.php">Logout</a>
+                        </li>';
+                        }
+                    else 
+                    {?>
+                     <li>
+                        <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
+                        <div id="id01" class="modal">                  
+                          <form class="modal-content animate" action="login.php" method="post">
+                            <div class="imgcontainer">
+                              <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                            </div>
 
-             <li>
-                <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
-                <div id="id01" class="modal">                  
-                  <form class="modal-content animate" action="login.php" method="post">
-                    <div class="imgcontainer">
-                      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    </div>
-
-                    <div class="container">
-                        <p color="black">Masukkan</p>
-                        <input type="text" class="form-control" placeholder="Enter Username" name="uname" required>
-                        <input type="password" class="form-control" placeholder="Enter Password" name="psw" required>
-                        <button type="submit" name="submit">Login</button>
-                    </div>
-                  </form>
-                </div>
-            </li>       
-            <?php
-                    }
-                
-            ?>
+                            <div class="container">
+                                <p color="black">Masukkan</p>
+                                <input type="text" class="form-control" placeholder="Enter Username" name="uname" required>
+                                <input type="password" class="form-control" placeholder="Enter Password" name="psw" required>
+                                <button type="submit" name="submit">Login</button>
+                            </div>
+                          </form>
+                        </div>
+                    </li>       
+                    <?php
+                    }    
+                    ?>
+                    <li>
+                        <a class="page-scroll" href="about.php">About</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -159,21 +165,35 @@ if(isset($_POST["kirim"]))
             <div class="col-md-9">
             <h1>LIST BARANG HILANG</h1>
                 <div class="row">
-                    <?php for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
+                    <?php if ($i>0) for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
                     <div class="col-sm-4 col-lg-4 col-md-4">
                         <div class="thumbnail">
+                            <a href="<?php echo "detail.php?id=$ID_Barang[$i]"?>">
                             <img src="img/<?php echo $Foto[$i] ?>" style="width:320px; height:150px;" alt="Barang">
+                            </a>
                             <div class="caption">
                                 <!-- <h4 class="pull-right">$24.99</h4> -->
-                                <h4><a href="#"><?php echo $nama_barang[$i]?></a></h4>
+                                <h4><a href="<?php echo "detail.php?id=$ID_Barang[$i]"?>"><?php echo $nama_barang[$i]?></a></h4>
                                 <p>
-                                    <a href="<?php echo "detail.php?id=$ID_Barang[$i]" ?>" class="btn btn-primary">Lihat</a>
-                                    <a data-target="#<?php echo $id_user[$i]?>" data-toggle="modal" class="btn btn-list">Hubungi</a>
-                                    <!-- <a href="#inline" onclick="document.getElementById('<?php echo $id_user[$i]?>').style.display='block'" class="btn btn-list">Hubungi</a> -->
+                                    <a href="<?php echo "detail.php?id=$ID_Barang[$i]"?>" class="btn btn-primary">Lihat</a>
+                                    <?php
+                                        if(!empty($_SESSION))
+                                        {
+                                            include("connect.php");
+
+                                            $username  = $_SESSION['uname'];
+                                            echo '<a data-target="#<?php echo $id_user[$i]?>" data-toggle="modal" class="btn btn-list">Hubungi</a>';
+                                        }
+                                        else 
+                                        {?>
+                                            <a data-target="#<?php echo $ID_Barang[$i]?>" data-toggle="modal" class="btn btn-list">Hubungi</a>
+                                        <?php
+                                        }
+                                    ?>
                                 </p>
                             </div>
                         </div>
-                        <div class="modal fade" id="<?php echo $id_user[$i]?>" role="dialog">
+                        <div class="modal fade" id="<?php echo $ID_Barang[$i]?>" role="dialog">
                             <div class="modal-dialog">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -184,13 +204,19 @@ if(isset($_POST["kirim"]))
                                     <div class="form-group">
                                         <label style="color:blue;" class="col-md-3 control-label">NRP</label>
                                         <div class="col-md-9">
-                                        <input name="i_receiver" type="text" placeholder="Masukkan Nama Barang Temuan" class="form-control" value="<?php echo $id_user[$i]?>" required>
+                                        <input name="i_receiver" type="text" class="form-control" value="<?php echo $id_user[$i]?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="color:blue;" class="col-md-3 control-label">Pertanyaan Sekuritas</label>
+                                        <div class="col-md-9">
+                                        <input name="i_secure" value="<?php echo $Security[$i]?>" class="form-control" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label style="color:blue;" class="col-md-3 control-label">Judul Pesan</label>
                                         <div class="col-md-9">
-                                        <input name="i_judul" type="text" placeholder="Masukkan Nama Barang Temuan" class="form-control" required>
+                                        <input name="i_judul" type="text" placeholder="Masukkan Judul Pesan" class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
