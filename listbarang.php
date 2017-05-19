@@ -106,7 +106,7 @@ if(isset($_POST["kirim"]))
 
                     <!-- 3. KONTAK -->
                     <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
+                        <a class="page-scroll" href="index.php#contact">Contact</a>
                     </li>
 
                     <!-- 4. LOGIN, USER PROFILE, LOGOUT  --> 

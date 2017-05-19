@@ -4,10 +4,10 @@ session_start();
 
 $caribarang = $_POST['cari'];
 
-$batas=2; 
+$batas=9; 
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $batas;
-$result = mysqli_query($conn, "SELECT * FROM barang where Nama_Barang like '%$caribarang%'");
+$result = mysqli_query($conn, "SELECT * FROM barang where Nama_Barang like '%$caribarang%' order by ID_Barang desc limit $start_from,$batas");
 
 $i = 0; 
 while ($row = mysqli_fetch_array($result)) {
@@ -106,7 +106,7 @@ if(isset($_POST["kirim"]))
 
                     <!-- 3. KONTAK -->
                     <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
+                        <a class="page-scroll" href="index.php#contact">Contact</a>
                     </li>
 
                     <!-- 4. LOGIN, USER PROFILE, LOGOUT  --> 
@@ -162,7 +162,7 @@ if(isset($_POST["kirim"]))
                 <div class="list-group">    
                     <div class="search">
                         <form method="POST" action="caribarang.php" role="search">
-                        <input type="text" name="cari" class="form-control" maxlength="30" placeholder="Search" />
+                        <input type="text" name="cari" class="form-control" maxlength="30" value="<?php echo $caribarang;?>" />
                         <br>
                         <button type="submit" class="btn btn-primary btn-sm">Cari</button>
                         </form>
@@ -236,7 +236,7 @@ if(isset($_POST["kirim"]))
                             $total_pages = ceil($total_records / $batas);  
                             $pagLink = "<ul class='pagination'>";  
                             for ($i=1; $i<=$total_pages; $i++) { 
-                               $pagLink .= "<li><a href='listbarang.php?page=".$i."'>".$i."</a></li>";  
+                               $pagLink .= "<li><a href='caribarang.php?page=".$i."'>".$i."</a></li>";  
                            };  
                            echo $pagLink . "</ul>";  
                            ?>

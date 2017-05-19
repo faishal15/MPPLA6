@@ -12,8 +12,11 @@ else
 $editid = isset($_GET['editid']) ? $_GET['editid']:'';
 if ($editid!="") 
 {
+	$pieces = explode("-", $editid);
+	$pieces[0]; // piece1
+	$pieces[1];
     require("connect.php");
-    $result = mysqli_query($conn, "SELECT * FROM message where (ID_Sender='$editid' AND ID_receiver='$username') or (ID_Sender='$username' and ID_receiver='$editid')");
+    $result = mysqli_query($conn, "SELECT * FROM message where (ID_Sender='$pieces[0]' AND ID_receiver='$username') or (ID_Sender='$username' and ID_receiver='$pieces[0]') and Judul_Message='$pieces[1]' order by Tanggal asc");
 
     $i = 0; 
 	while ($row = mysqli_fetch_array($result)) {
@@ -76,60 +79,8 @@ if(isset($_POST["kirim"]))
 
 <body>
 	<?php include 'navbar.php';?>
-		
-		<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-		
-		<ul class="nav menu">
-			<li><a href="index.php"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"></use></svg>Profile</a></li>
-			<li class="parent ">
-				<a href="#sub-item-1">
-					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>Kelola Barang</span>  
-				</a>
-				<ul class="children collapse" id="sub-item-1">
-					<li>
-						<a class="" href="tbhilangbrg.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Tambah Barang Hilang
-						</a>
-					</li>
-					<li>
-						<a class="" href="brghilang.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Daftar Barang Hilang
-						</a>
-					</li>
-					<li>
-						<a class="" href="tbhbrgtemuan.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Tambah Barang Temuan
-						</a>
-					</li>
-					<li>
-						<a class="" href="brgtemuan.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Daftar Barang Temuan
-						</a>
-					</li>
-				</ul>
-			</li>
-			<li class="parent ">
-				<a href="#sub-item-2">
-					<span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"></use></svg>Message</span> 
-				</a>
-				<ul class="children collapse" id="sub-item-2">
-					<li>
-						<a class="" href="kirimpesan.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Kirim Pesan
-						</a>
-					</li>
-					<li>
-						<a class="" href="kotakpesan.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Pesan Masuk
-						</a>
-					</li>
-				</ul>
-			</li>
-			<li><a href="hubadmin.php"><svg class="glyph stroked mobile device"><use xlink:href="#stroked-mobile-device"></use></svg>Call Admin</a></li>
-		</ul>
-		
-	</div><!--/.sidebar-->
-		
+	<?php include 'sidebar.php';?>	
+			
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">		
 				
 		<div class="row">
@@ -182,10 +133,10 @@ if(isset($_POST["kirim"]))
 					<div class="panel-footer">
 						<form method="post">
 						<div class="input-group">
-							<input name="i_judul" type="text" class="form-control input-md" placeholder="Ketikkan judul..."/>
-							<input name="i_isi" type="text" class="form-control input-md" placeholder="Ketikkan pesan..."/>
+							<input name="i_judul" type="hidden" class="form-control input-md" value="<?php echo $pieces[1];?>"/>
+							<input name="i_isi" type="text" class="form-control input-md" placeholder="Ketikkan pesan..." required />
 							<input name="i_sender" type="hidden" class="form-control" value="<?php echo $_SESSION['uname'];?>">
-							<input name="i_receiver" type="hidden" class="form-control" value="<?php echo $editid;?>">
+							<input name="i_receiver" type="hidden" class="form-control" value="<?php echo $pieces[0];?>">
 							<span class="input-group-btn">
 								<button class="btn btn-success btn-md" value="submit" type="submit" name="kirim">Send</button>
 							</span>

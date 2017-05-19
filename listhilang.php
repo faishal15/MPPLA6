@@ -106,7 +106,7 @@ if(isset($_POST["kirim"]))
 
                     <!-- 3. KONTAK -->
                     <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
+                        <a class="page-scroll" href="index.php#contact">Contact</a>
                     </li>
 
                     <!-- 4. LOGIN, USER PROFILE, LOGOUT  --> 
@@ -265,7 +265,7 @@ if(isset($_POST["kirim"]))
                             $total_pages = ceil($total_records / $batas);  
                             $pagLink = "<ul class='pagination'>";  
                             for ($i=1; $i<=$total_pages; $i++) { 
-                               $pagLink .= "<li><a href='listbarang.php?page=".$i."'>".$i."</a></li>";  
+                               $pagLink .= "<li><a href='listhilang.php?page=".$i."'>".$i."</a></li>";  
                            };  
                            echo $pagLink . "</ul>";  
                            ?>

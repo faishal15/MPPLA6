@@ -22,6 +22,13 @@ while ($row = mysqli_fetch_array($result)) {
   $Isi_Message[$i] = $row['Isi_Message'];
   $Judul_Message[$i] = $row['Judul_Message'];
   $Tanggal[$i] = $row['Tanggal'];
+  if (strlen($Isi_Message[$i]) > 100)
+  {
+  	$stringCut = substr($Isi_Message[$i], 0, 100);
+
+    // make sure it ends in a word so assassinate doesn't become ass...
+    $Isi_Message[$i] = substr($stringCut, 0, strrpos($stringCut, ' ')).'...';
+  }
 }
 mysqli_close($conn);
 ?>
@@ -63,59 +70,7 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 
 <body>
 	<?php include 'navbar.php';?>
-		
-	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-		
-		<ul class="nav menu">
-			<li><a href="index.php"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"></use></svg>Profile</a></li>
-			<li class="parent ">
-				<a href="#sub-item-1">
-					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>Kelola Barang</span>  
-				</a>
-				<ul class="children collapse" id="sub-item-1">
-					<li>
-						<a class="" href="tbhilangbrg.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Tambah Barang Hilang
-						</a>
-					</li>
-					<li>
-						<a class="" href="brghilang.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Daftar Barang Hilang
-						</a>
-					</li>
-					<li>
-						<a class="" href="tbhbrgtemuan.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Tambah Barang Temuan
-						</a>
-					</li>
-					<li>
-						<a class="" href="brgtemuan.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Daftar Barang Temuan
-						</a>
-					</li>
-				</ul>
-			</li>
-			<li class="parent ">
-				<a href="#sub-item-2">
-					<span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"></use></svg>Message</span> 
-				</a>
-				<ul class="children collapse" id="sub-item-2">
-					<li>
-						<a class="" href="kirimpesan.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Kirim Pesan
-						</a>
-					</li>
-					<li>
-						<a class="" href="kotakpesan.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Pesan Masuk
-						</a>
-					</li>
-				</ul>
-			</li>
-			<li><a href="hubadmin.php"><svg class="glyph stroked mobile device"><use xlink:href="#stroked-mobile-device"></use></svg>Call Admin</a></li>
-		</ul>
-		
-	</div><!--/.sidebar-->
+	<?php include 'sidebar.php';?>
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		
@@ -124,10 +79,10 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 				<h1 class="page-header">Pesan Masuk</h1>
 					<div class="panel-heading">Kotak Pesan</div>
 						<?php for($i=1; $i<=sizeof($ID_Message); $i++) { ?>
-							<a href="pesandetail.php?editid=<?php echo $ID_Sender[$i]?>" class="list-group-item">
+							<a href="pesandetail.php?editid=<?php echo $ID_Sender[$i]?>-<?php echo $Judul_Message[$i]?>" class="list-group-item">
 							<!-- <span class="glyphicon glyphicon-star-empty"></span> --><span class="name" style="min-width: 120px;
 							display: inline-block;"><?php echo $ID_Sender[$i]?></span> <span class=""><?php echo $Judul_Message[$i]?></span>
-							<span class="text-muted" style="font-size: 11px;">- <?php echo $Isi_Message[$i]?></span> <span
+							<span class="text-muted" style="font-size: 11px;"> - <?php echo $Isi_Message[$i]?></span> <span
 							class="badge"><?php echo date('M j Y g:i A', strtotime($Tanggal[$i]));?></span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip"></span></span></a><a href="#">
 						<?php } ?>
 			</div>

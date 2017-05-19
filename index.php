@@ -23,7 +23,7 @@ while ($row = mysqli_fetch_array($result)) {
 <style>
 /* Full-width input fields */
 input[type=text], input[type=password] {
-    width: 90%;
+    width: 80%;
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
@@ -39,7 +39,7 @@ button {
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 90%;
+    width: 80%;
 }
 
 button:hover {
@@ -223,7 +223,7 @@ span.psw {
                         }
                     else 
                     {?>
-
+                    
                      <li>
                         <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
                         <div id="id01" class="modal">                  

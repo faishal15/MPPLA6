@@ -85,8 +85,8 @@ if ($editid!="") {
 		else
 		{
 	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, 
-	            Keterangan, Foto, Security_Ques)
-	VALUES ('$id_baru', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')"; 
+	            Keterangan, Security_Ques)
+	VALUES ('$id_baru', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_sec')"; 
 		}
 	    
 	require("connect.php");
@@ -121,60 +121,8 @@ if ($editid!="") {
 
 <body>
 	<?php include 'navbar.php';?>
-		
-	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-		
-		<ul class="nav menu">
-			<li><a href="index.php"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"></use></svg>Profile</a></li>
-			<li class="parent ">
-				<a href="#sub-item-1">
-					<span data-toggle="collapse" href="#sub-item-1"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>Kelola Barang</span>  
-				</a>
-				<ul class="children collapse" id="sub-item-1">
-					<li>
-						<a class="" href="tbhilangbrg.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Tambah Barang Hilang
-						</a>
-					</li>
-					<li>
-						<a class="" href="brghilang.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Daftar Barang Hilang
-						</a>
-					</li>
-					<li>
-						<a class="" href="tbhbrgtemuan.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Tambah Barang Temuan
-						</a>
-					</li>
-					<li>
-						<a class="" href="brgtemuan.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Daftar Barang Temuan
-						</a>
-					</li>
-				</ul>
-			</li>
-			<li class="parent ">
-				<a href="#sub-item-2">
-					<span data-toggle="collapse" href="#sub-item-2"><svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"></use></svg>Message</span> 
-				</a>
-				<ul class="children collapse" id="sub-item-2">
-					<li>
-						<a class="" href="kirimpesan.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Kirim Pesan
-						</a>
-					</li>
-					<li>
-						<a class="" href="kotakpesan.php">
-							<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Pesan Masuk
-						</a>
-					</li>
-				</ul>
-			</li>
-			<li><a href="hubadmin.php"><svg class="glyph stroked mobile device"><use xlink:href="#stroked-mobile-device"></use></svg>Call Admin</a></li>
-		</ul>
-		
-	</div><!--/.sidebar-->
-		
+	<?php include 'sidebar.php';?>	
+			
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 			<?php 		
 				if ($uploadOk == 0) {
@@ -211,7 +159,7 @@ if ($editid!="") {
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="gambar">Gambar Barang</label>
 									<div class="col-md-9">
-									<input name="i_gambar" type="file" class="form-control" onchange="readURL(this);" required>
+									<input name="i_gambar" type="file" class="form-control" onchange="readURL(this);">
 									<img id="ilang" src="#" alt="your image" />
 									</div>
 								</div>
@@ -226,7 +174,7 @@ if ($editid!="") {
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="tanggal">Tanggal</label>
 									<div class="col-md-9">
-										<input name="i_tgl" type="date" class="form-control" required>
+										<input name="i_tgl" type="datetime-local" class="form-control" required>
 									</div>
 								</div>
 																
