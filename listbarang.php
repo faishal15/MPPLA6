@@ -133,7 +133,7 @@ if(isset($_POST["kirim"]))
                                 <div class="modal-header">
                                 <div class="clearfix"></div>
                                           <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                                          <h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
+                                          <h2><span class="glyphicon glyphicon-lock"></span> Login</h2>
                                         </div>
                                         <div class="modal-body">
 

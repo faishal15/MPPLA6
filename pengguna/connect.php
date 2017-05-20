@@ -1,7 +1,7 @@
 <?php
 $dbhost="localhost";
 $dbuser="root";
-$dbpass="";
+$dbpass="apple_ijo21";
 $dbname="tcari";
 
 $conn = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);

@@ -329,7 +329,7 @@ while ($row = mysqli_fetch_array($result)) {
         
         <div class="row">
         	<div class="col-lg-8 col-lg-offset-2">
-        		<h2>Barangmu Tidak Ada Juga?</h2>
+        		<h1>Barangmu Tidak Ada Juga?</h1>
         		<p><a href="listbarang.php" class="btn btn-default btn-lg">Tampilkan Semua Barang</a>
         		</p>
         	</div>
@@ -340,7 +340,7 @@ while ($row = mysqli_fetch_array($result)) {
     <section id="contact" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
-                <h2>Hubungi Kami</h2>
+                <h1>Hubungi Kami</h1>
                 <h3>WA/SMS/TELP : 089872829292</h3>
                 <p><a href="mailto:tcari.online@gmail.com">tcari.online@gmail.com</a>
                 </p>
