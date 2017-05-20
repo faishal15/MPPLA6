@@ -78,24 +78,34 @@ session_start();
                         </li>';
                         }
                     else 
-                    {?>
-                     <li>
+                    {?>     
+                    <li>
                         <a class="page-scroll" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</a>
-                        <div id="id01" class="modal">                  
-                          <form class="modal-content animate" action="login.php" method="post">
-                            <div class="imgcontainer">
-                              <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                            </div>
+                        <div id="id01" class="modal" >     
+                               <div class="modal-dialog">
+                            <div class="modal-content animate">
+                                <div class="modal-header">
+                                <div class="clearfix"></div>
+                                          <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                                          <h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
+                                        </div>
+                                        <div class="modal-body">
 
-                            <div class="container">
-                                <p color="black">Masukkan</p>
-                                <input type="text" class="form-control" placeholder="Enter Username" name="uname" required>
-                                <input type="password" class="form-control" placeholder="Enter Password" name="psw" required>
-                                <button type="submit" name="submit">Login</button>
-                            </div>
-                          </form>
-                        </div>
-                    </li>       
+                                          <form role="form" action="login.php" method="post" >
+                                              <strong class="text-primary">
+                                                <span class="glyphicon glyphicon-user"></span> NRP</strong>
+                                              <input type="text" class="form-control" name="uname" placeholder="Enter Username" style="width:100%;" required>
+                                              
+                                              <strong class="text-primary">
+                                              <span class="glyphicon glyphicon-eye-open"></span> Password</strong>
+                                              <input type="password" class="form-control" name="psw" placeholder="Enter password" style="width:100%;" required>
+
+                                              <button type="submit" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-off"></span> Login</button>
+                                          </form>
+                                        </div>
+                                </div>
+                                </div>
+                    </li>  
                     <?php
                     }    
                     ?>
