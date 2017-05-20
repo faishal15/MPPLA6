@@ -5,7 +5,7 @@ session_start();
 $batas=9; 
 if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
 $start_from = ($page-1) * $batas;
-$result = mysqli_query($conn, "SELECT * FROM barang order by ID_Barang desc limit $start_from,$batas");
+$result = mysqli_query($conn, "SELECT * FROM barang order by tanggal desc limit $start_from,$batas");
 
 $i = 0; 
 while ($row = mysqli_fetch_array($result)) {
