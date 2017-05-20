@@ -49,9 +49,16 @@ if ($editid!="") {
 
 	$act = isset($_GET['act']) ? $_GET['act']:'';
 	if ($act=="upd") {
-	    $nilaikode = substr($row2[0], 1);
-   		$kode = (int) $nilaikode;
-   		$kode = $kode + 1;
+		if ($row2==NULL)
+		{
+			$kode = 000 + 1;
+		}
+		else
+		{
+			$nilaikode = substr($row2[0], 1);
+	   		$kode = (int) $nilaikode;
+	   		$kode = $kode + 1;
+		}
    		$id_baru = "B".str_pad($kode, 3, "0", STR_PAD_LEFT);
 	    $ps_id_u = $_POST['i_id_u'];
 	    $ps_gambar1 = $_FILES['i_gambar']['name'];
@@ -86,8 +93,8 @@ if ($editid!="") {
 		else
 		{
 	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, 
-	            Keterangan, Foto, Security_Ques)
-	VALUES ('$id_baru', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')"; 
+	            Keterangan, Security_Ques)
+	VALUES ('$id_baru', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_sec')"; 
 		}
 	    
 	require("connect.php");
@@ -179,7 +186,7 @@ if ($editid!="") {
 								<div class="form-group">
 									<label class="col-md-3 control-label">Tanggal</label>
 									<div class="col-md-9">
-										<input name="i_tgl" type="date" class="form-control" required>
+										<input name="i_tgl" type="datetime-local" class="form-control" required>
 									</div>
 								</div>
 								

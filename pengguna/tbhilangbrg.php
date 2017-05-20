@@ -49,9 +49,16 @@ if ($editid!="") {
 
 	$act = isset($_GET['act']) ? $_GET['act']:'';
 	if ($act=="upd") {
-		$nilaikode = substr($row2[0], 1);
-   		$kode = (int) $nilaikode;
-   		$kode = $kode + 1;
+		if ($row2==NULL)
+		{
+			$kode = 000 + 1;
+		}
+		else
+		{
+			$nilaikode = substr($row2[0], 1);
+	   		$kode = (int) $nilaikode;
+	   		$kode = $kode + 1;
+		}
    		$id_baru = "B".str_pad($kode, 3, "0", STR_PAD_LEFT);
 	    $ps_id_u = $_POST['i_id_u'];
 	    $ps_gambar1 = $_FILES['i_gambar']['name'];

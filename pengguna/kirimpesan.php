@@ -8,9 +8,16 @@ if(empty($_SESSION)){
 $sql2 = "select MAX(ID_Message) from message";
 $result2=mysqli_query($conn, $sql2);
 $row2=mysqli_fetch_array($result2);
-$nilaikode = substr($row2[0], 2);
-$kode = (int) $nilaikode;
-$kode = $kode + 1;
+if ($row2==NULL)
+{
+	$kode = 000 + 1;
+}
+else
+{
+	$nilaikode = substr($row2[0], 2);
+	$kode = (int) $nilaikode;
+	$kode = $kode + 1;	
+}
 $id_baru = "MS".str_pad($kode, 3, "0", STR_PAD_LEFT);
 
 if(isset($_POST["kirim"]))
