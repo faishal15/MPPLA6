@@ -32,7 +32,6 @@ if ($editid!="")
 	  $nama[$i] = $row3['Nama_User'];
 	  $Foto[$i] = $row3['Foto'];
 	}
-	
 }
 
 $sql2 = "select MAX(ID_Message) from message";
@@ -49,7 +48,8 @@ if(isset($_POST["kirim"]))
     VALUES ('$id_baru','".$_POST["i_judul"]."','".$_POST["i_isi"]."','".$_POST["i_sender"]."','".$_POST["i_receiver"]."',now())";
 
     if ($conn->query($sql) === TRUE) {
-    echo "<script type= 'text/javascript'>alert('Pesan Berhasil Dikirim!');</script>";
+    echo "<script type= 'text/javascript'>alert('Pesan Berhasil Dikirim!');location.reload;</script>";
+    // echo 'window.location.reload();';
     } else {
     echo "<script type= 'text/javascript'>alert('Error: " . $sql . "<br>" . $conn->error."');</script>";
     }
@@ -90,7 +90,7 @@ if(isset($_POST["kirim"]))
 		</div><!--/.row-->	
 		
 		<div class="row row-centered">
-			<div class="col-md-10 col-centered">
+			<div class="col-md-11 col-centered">
 			
 				<div class="panel panel-default chat">
 					<div class="panel-heading" id="accordion"><svg class="glyph stroked two-messages"><use xlink:href="#stroked-two-messages"></use></svg> Chat</div>
@@ -138,6 +138,7 @@ if(isset($_POST["kirim"]))
 							<input name="i_sender" type="hidden" class="form-control" value="<?php echo $_SESSION['uname'];?>">
 							<input name="i_receiver" type="hidden" class="form-control" value="<?php echo $pieces[0];?>">
 							<span class="input-group-btn">
+								<!-- <a href="pesandetail.php?editid=<?php echo $editid;?>"> -->
 								<button class="btn btn-success btn-md" value="submit" type="submit" name="kirim">Send</button>
 							</span>
 						</div>

@@ -11,7 +11,7 @@ else
 
 <?php
 require("connect.php");
-$result = mysqli_query($conn, "SELECT * FROM barang where Kategori = 'Kehilangan' and ID_User='$username'");
+$result = mysqli_query($conn, "SELECT * FROM barang where Kategori = 'Kehilangan' and ID_User='$username' order by Tanggal desc");
 
 $i = 0; 
 while ($row = mysqli_fetch_array($result)) {

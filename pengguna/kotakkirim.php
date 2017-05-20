@@ -11,7 +11,7 @@ else
 
 <?php
 require("connect.php");
-$result = mysqli_query($conn, "SELECT * FROM message where ID_Receiver='$username' order by tanggal desc");
+$result = mysqli_query($conn, "SELECT * FROM message where ID_Sender='$username' order by tanggal desc");
 
 $i = 0; 
 while ($row = mysqli_fetch_array($result)) {
@@ -22,6 +22,9 @@ while ($row = mysqli_fetch_array($result)) {
   $Isi_Message[$i] = $row['Isi_Message'];
   $Judul_Message[$i] = $row['Judul_Message'];
   $Tanggal[$i] = $row['Tanggal'];
+  // $result2 = mysqli_query($conn, "SELECT * FROM users where ID_User='$ID_Receiver[$i]'");
+  // $row2 = mysqli_fetch_array($result2);
+  // $penerima[$i] = $row2['Nama_User'];
   if (strlen($Isi_Message[$i]) > 120)
   {
   	$stringCut = substr($Isi_Message[$i], 0, 120);
@@ -30,7 +33,6 @@ while ($row = mysqli_fetch_array($result)) {
     $Isi_Message[$i] = substr($stringCut, 0, strrpos($stringCut, ' ')).'...';
   }
 }
-mysqli_close($conn);
 ?>
 
 <style>
@@ -76,17 +78,17 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Pesan Masuk</h1>
+				<h1 class="page-header">Pesan Terkirim</h1>
 					<div class="panel-heading">Kotak Pesan</div>
 						<?php for($i=1; $i<=sizeof($ID_Message); $i++) { ?>
-							<a href="pesandetail.php?editid=<?php echo $ID_Sender[$i]?>-<?php echo $Judul_Message[$i]?>" class="list-group-item">
+							<a href="pesandetail.php?editid=<?php echo $ID_Receiver[$i]?>-<?php echo $Judul_Message[$i]?>" class="list-group-item">
 							<!-- <span class="glyphicon glyphicon-star-empty"></span> --><span class="name" style="min-width: 120px;
-							display: inline-block;"><?php echo $ID_Sender[$i]?></span> <span class=""><?php echo $Judul_Message[$i]?></span>
+							display: inline-block;"><?php echo $ID_Receiver[$i]?></span> <span class=""><?php echo $Judul_Message[$i]?></span>
 							<span class="text-muted" style="font-size: 11px;"> - <?php echo $Isi_Message[$i]?></span> <span
 							class="badge"><?php echo date('M j Y g:i A', strtotime($Tanggal[$i]));?></span> <span class="pull-right"><span class="glyphicon glyphicon-paperclip"></span></span></a><a href="#">
-						<?php } ?>
+						<?php } ?>  
 			</div>
-		</div><!--/.row-->	
+		</div><!--/.row-->
 	</div><!--/.main-->
 
 	<script src="js/jquery-1.11.1.min.js"></script>

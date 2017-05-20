@@ -92,7 +92,7 @@ if(isset($_POST["kirim"]))
                                 <input name="i_sender" type="hidden" class="form-control" value="<?php echo $_SESSION['uname'];?>">
 																						
 								<div class="form-group">
-									<div class="col-md-12 widget-right">										
+									<div class="col-md-12 widget-right">								
 										<button name="kirim" value="submit" type="submit" class="btn btn-primary pull-right">Kirim</button>
 									</div>
 								</div>

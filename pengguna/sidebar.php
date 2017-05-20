@@ -43,6 +43,11 @@
 						<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Pesan Masuk
 					</a>
 				</li>
+				<li>
+					<a class="" href="kotakkirim.php">
+						<svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg> Pesan Terkirim
+					</a>
+				</li>
 			</ul>
 		</li>
 		<li><a href="hubadmin.php"><svg class="glyph stroked mobile device"><use xlink:href="#stroked-mobile-device"></use></svg>Call Admin</a></li>
