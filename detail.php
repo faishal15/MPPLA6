@@ -194,7 +194,7 @@ if(isset($_POST["kirim"]))
     <!-- About Section -->
     <section id="about" class="container content-section text-left">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3 text-center">
                 <p class="lead">Masukkan keyword</p>
                 <div class="list-group">    
                     <div class="search">
