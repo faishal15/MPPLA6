@@ -81,7 +81,7 @@ mysqli_close($conn);
 						    </tr>
 
 						    </thead>
-						    <?php for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
+						    <?php if($i>0) for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
 						    <tr>
 						    	<td><?php echo $ID_Barang[$i] ?></td>
 						    	<td><?php echo $Nama_Barang[$i] ?></td> 

@@ -78,7 +78,7 @@ hr { margin-top: 5px;margin-bottom: 10px; }
 			<div class="col-lg-12">
 				<h1 class="page-header">Pesan Masuk</h1>
 					<div class="panel-heading">Kotak Pesan</div>
-						<?php for($i=1; $i<=sizeof($ID_Message); $i++) { ?>
+						<?php if($i>0) for($i=1; $i<=sizeof($ID_Message); $i++) { ?>
 							<a href="pesandetail.php?editid=<?php echo $ID_Sender[$i]?>-<?php echo $Judul_Message[$i]?>" class="list-group-item">
 							<!-- <span class="glyphicon glyphicon-star-empty"></span> --><span class="name" style="min-width: 120px;
 							display: inline-block;"><?php echo $ID_Sender[$i]?></span> <span class=""><?php echo $Judul_Message[$i]?></span>
