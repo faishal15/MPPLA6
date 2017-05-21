@@ -178,7 +178,7 @@ if(isset($_POST["kirim"]))
                 </div>
             </div>
             <div class="col-md-9">
-            <h1>LIST BARANG HILANG</h1>
+            <h1>LIST BARANG HILANG DAN TEMUAN</h1>
                 <div class="row">
                     <?php if ($i>0) for($i=1; $i<=sizeof($ID_Barang); $i++) { ?>
                     <div class="col-sm-4 col-lg-4 col-md-4">
@@ -219,7 +219,7 @@ if(isset($_POST["kirim"]))
                                 <div class="col-md-3">
                                 <strong class="text-primary">Pertanyaan Sekuritas</strong>
                                 </div>
-                                <div class="col-md-9">                        <input name="i_secure" value="<?php echo $Security[$i]?>" class="form-control" style="width:100%;" disabled>
+                                <div class="col-md-9">                        <input name="i_secure" value="<?php echo $Security[$i]?>" class="form-control" style="width:100%;">
                                 </div>
                                 </div>
                                 <br><br>

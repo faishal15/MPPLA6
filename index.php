@@ -325,8 +325,6 @@ while ($row = mysqli_fetch_array($result)) {
         <?php } ?>
         </div>
 
-        <!-- Projects Row -->
-        
         <div class="row">
         	<div class="col-lg-8 col-lg-offset-2">
         		<h1>Barangmu Tidak Ada Juga?</h1>

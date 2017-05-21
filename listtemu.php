@@ -193,20 +193,7 @@ if(isset($_POST["kirim"]))
                                 <h4><a href="<?php echo "detail.php?id=$ID_Barang[$i]"?>"><?php echo $nama_barang[$i]?></a></h4>
                                 <p>
                                     <a href="<?php echo "detail.php?id=$ID_Barang[$i]"?>" class="btn btn-primary">Lihat</a>
-                                    <?php
-                                        if(!empty($_SESSION))
-                                        {
-                                            include("connect.php");
-
-                                            $username  = $_SESSION['uname'];
-                                            echo '<a data-target="#<?php echo $id_user[$i]?>" data-toggle="modal" class="btn btn-list">Hubungi</a>';
-                                        }
-                                        else 
-                                        {?>
-                                            <a data-target="#<?php echo $ID_Barang[$i]?>" data-toggle="modal" class="btn btn-list">Hubungi</a>
-                                        <?php
-                                        }
-                                    ?>
+                                    <a data-target="#<?php echo $ID_Barang[$i]?>" data-toggle="modal" class="btn btn-list">Hubungi</a>
                                 </p>
                             </div>
                         </div>
@@ -234,7 +221,7 @@ if(isset($_POST["kirim"]))
                                 <div class="col-md-3">
                                 <strong class="text-primary">Pertanyaan Sekuritas</strong>
                                 </div>
-                                <div class="col-md-9">                        <input name="i_secure" value="<?php echo $Security[$i]?>" class="form-control" style="width:100%;" disabled>
+                                <div class="col-md-9">                        <input name="i_secure" value="<?php echo $Security[$i]?>" class="form-control" style="width:100%;">
                                 </div>
                                 </div>
                                 <br><br>
@@ -262,8 +249,6 @@ if(isset($_POST["kirim"]))
                                 
                                 <div class="clearfix"></div>
                                 <button name ="kirim" type="submit" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-send"></span> Submit</button>
-                                      
-                                    
                                 </form>
                                 </div>
                                </div>

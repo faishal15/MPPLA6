@@ -107,7 +107,12 @@ if ($editid!="") {
 	    
 	require("connect.php");
 
-	$result=mysqli_query($conn, $sql);
+	// $result=mysqli_query($conn, $sql);
+	if ($conn->query($sql) === TRUE) {
+        echo "<script type= 'text/javascript'>alert('Data Berhasil Ditambahkan');</script>";
+        } else {
+        echo "<script type= 'text/javascript'>alert('Error: " . $sql . "<br>" . $conn->error."');</script>";
+        }
 
 	$id_transaksi = "TR".str_pad($kode, 3, "0", STR_PAD_LEFT);
 	$sql3 = "INSERT INTO transaksi (ID_Transaksi, ID_Barang, ID_Pemilik, Status, Kategori)
@@ -116,7 +121,6 @@ if ($editid!="") {
 
 	mysqli_close($conn);
 
-	header("location:tbhilangbrg.php");
 	}
 ?>
 
@@ -166,7 +170,7 @@ if ($editid!="") {
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="gambar">Gambar Barang</label>
 									<div class="col-md-9">
-									<input name="i_gambar" type="file" class="form-control" onchange="readURL(this);" required>
+									<input name="i_gambar" type="file" class="form-control" onchange="readURL(this);">
 									<img id="ilang" src="#" alt="your image" />
 									</div>
 								</div>
@@ -199,7 +203,7 @@ if ($editid!="") {
 									</div>
 								</div>
 
-								<input type="hidden" name="i_kat" type="text" class="form-control" value="Ditemukan" required>
+								<input type="hidden" name="i_kat" type="text" class="form-control" value="Kehilangan" required>
 								<input type="hidden" name="i_id_u" type="text" class="form-control" value="<?php echo $_SESSION['uname'];?>" required>
 																
 								<button type="submit" class="btn btn-info btn-fill pull-right">Submit</button>

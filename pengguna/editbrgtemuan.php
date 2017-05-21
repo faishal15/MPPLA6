@@ -116,11 +116,15 @@ if ($editid!="") {
 		    WHERE ID_Barang = '$ps_id'
 		    ";
 
-	$result=mysqli_query($conn, $sql);
+	// $result=mysqli_query($conn, $sql);
+	if ($conn->query($sql) === TRUE) {
+        echo "<script type= 'text/javascript'>alert('Data Berhasil Diubah');</script>";
+        } else {
+        echo "<script type= 'text/javascript'>alert('Error: " . $sql . "<br>" . $conn->error."');</script>";
+        }
 	$result2=mysqli_query($conn, $sql2);
 	mysqli_close($conn);
 
-	header("location:index.php");
 	}
 ?>
 

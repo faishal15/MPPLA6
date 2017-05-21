@@ -99,7 +99,12 @@ if ($editid!="") {
 	    
 	require("connect.php");
 
-	$result=mysqli_query($conn, $sql);
+	// $result=mysqli_query($conn, $sql);
+	if ($conn->query($sql) === TRUE) {
+        echo "<script type= 'text/javascript'>alert('Data Berhasil Ditambahkan');</script>";
+        } else {
+        echo "<script type= 'text/javascript'>alert('Error: " . $sql . "<br>" . $conn->error."');</script>";
+        }
 
 	$id_transaksi = "TR".str_pad($kode, 3, "0", STR_PAD_LEFT);
 	$sql3 = "INSERT INTO transaksi (ID_Transaksi, ID_Barang, ID_Penemu, Status, Kategori)
@@ -107,6 +112,7 @@ if ($editid!="") {
 	$result3=mysqli_query($conn, $sql3);
 	
 	mysqli_close($conn);
+	
 	}
 ?>
 <!DOCTYPE html>
