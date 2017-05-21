@@ -1,7 +1,7 @@
 <?php
 $servername ="localhost";
 $username = "root";
-$password = "apple_ijo21";
+$password = "";
 $database = "tcari";
 
 $conn = mysqli_connect($servername, $username, $password, $database);
