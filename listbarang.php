@@ -198,59 +198,65 @@ if(isset($_POST["kirim"]))
                                 </p>
                             </div>
                         </div>
-                        <div class="modal fade" id="<?php echo $ID_Barang[$i]?>" role="dialog">
+                        <div class="modal" id="<?php echo $ID_Barang[$i]?>" >
                             <div class="modal-dialog">
-                              <div class="modal-content">
+                              <div class="modal-content animate">
                                 <div class="modal-header">
                                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                  <h4 style="color:blue;" class="modal-title">Kirim Pesan</h4>
+                                  <h4 style="color:white;" class="modal-title"><span class="glyphicon glyphicon-envelope"></span> Kirim Pesan</h4>
                                 </div>
-                                <form class="form-horizontal" method="POST" enctype="multipart/form-data">
-                                    <div class="form-group">
-                                        <label style="color:blue;" class="col-md-3 control-label">NRP</label>
-                                        <div class="col-md-9">
-                                        <input name="i_receiver" type="text" class="form-control" value="<?php echo $id_user[$i]?>" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label style="color:blue;" class="col-md-3 control-label">Pertanyaan Sekuritas</label>
-                                        <div class="col-md-9">
-                                        <input name="i_secure" value="<?php echo $Security[$i]?>" class="form-control" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label style="color:blue;" class="col-md-3 control-label">Judul Pesan</label>
-                                        <div class="col-md-9">
-                                        <input name="i_judul" type="text" placeholder="Masukkan Judul Pesan" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label style="color:blue;" class="col-md-3 control-label">Pesan</label>
-                                        <div class="col-md-9">
-                                        <textarea class="form-control" name="i_isi" placeholder="Ketikkan pesan yang ingin dikirimkan..." rows="5"></textarea>
-                                        </div>
-                                    </div>
-                                    <input name="i_id" type="hidden" class="form-control" value="MS004">
-                                    <input name="i_sender" type="hidden" class="form-control" value="<?php echo $_SESSION['uname'];?>">
-                                    <button name="kirim" value="submit" type="submit" class="btn btn-info btn-fill pull-right">Submit</button>
+                                <div class="modal-body">
+                                <form role="form" method="POST" enctype="multipart/form-data">
+                                <div class="col-md-12">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2">
+                                <strong class="text-primary">
+                                <span class="glyphicon glyphicon-user"></span> NRP</strong>
+                                </div>
+                                <div class="col-md-9">
+                                <input name="i_receiver" type="text" class="form-control" value="<?php echo $id_user[$i]?>" style="width:100%;" required>
+                                </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                <div class="col-md-3">
+                                <strong class="text-primary">Pertanyaan Sekuritas</strong>
+                                </div>
+                                <div class="col-md-9">                        <input name="i_secure" value="<?php echo $Security[$i]?>" class="form-control" style="width:100%;" disabled>
+                                </div>
+                                </div>
+                                <br><br>
+                                <div class="col-md-12">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2">
+                                <strong class="text-primary">Judul</strong>
+                                </div>
+                                <div class="col-md-9">
+                                <input name="i_judul" type="text" placeholder="Masukkan Judul Pesan" class="form-control"  style="width:100%;" required>
+                                </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2">
+                                <strong class="text-primary">Pesan</strong>
+                                </div>
+                                <div class="col-md-9">
+                                <textarea class="form-control" name="i_isi" placeholder="Ketikkan pesan yang ingin dikirimkan..." rows="5"></textarea>
+                                </div>
+                                </div>
+
+                                <input name="i_sender" type="hidden" class="form-control" value="<?php echo $_SESSION['uname'];?>">                 
+                                
+                                <div class="clearfix"></div>
+                                <button name ="kirim" type="submit" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-send"></span> Submit</button>
+                                      
+                                    
                                 </form>
+                                </div>
                                </div>
                             </div>
                         </div>
-                        <!-- <div id="<?php echo $id_user[$i]?>" class="modal">                  
-                            <form class="modal-content animate" action="login.php" method="post">
-                                <div class="imgcontainer">
-                                    <span onclick="document.getElementById('<?php echo $id_user[$i]?>').style.display='none'" class="close" title="Close Modal">&times;</span>
-                                </div>
-
-                                <div class="container">
-                                    <p color="black">Masukkan</p>
-                                        <input type="text" class="form-control" placeholder="Kepada" value="<?php echo $id_user[$i]?>" required>
-                                        <input type="password" class="form-control" placeholder="Pesan" name="psw" required>
-                                        <button type="submit" name="submit">Kirim</button>
-                                    </div>
-                            </form>
-                        </div> -->
                     </div>
                     <?php } ?>
                     <div class="row text-center">
