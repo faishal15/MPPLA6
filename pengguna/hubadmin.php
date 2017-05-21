@@ -27,7 +27,7 @@ if(empty($_SESSION)){
 
 </head>
 
-<body>
+<body style="background-image: url(../img/7.jpg);">
 	<?php include 'navbar.php';?>
 	<?php include 'sidebar.php';?>	
 			
@@ -35,15 +35,17 @@ if(empty($_SESSION)){
 		
 			<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Hubungi Admin</h1>
+				<center><h1 class="page-header" style="color:white;">Hubungi Admin</h1></center>
 			</div>
-		
-						
+			
+			<div class="col-lg-12">		
+			<div class="col-md-3"></div>	
 			<div class="col-md-6">
-				<div class="panel panel-blue">
-					<div class="panel-heading dark-overlay">WA/SMS = 087754332</div>
-					
+			<div class="panel panel-blue">
+					<div class="panel-heading dark-overlay">WA/SMS = 087754332 </div>
 				</div>
+				</div>
+			<div class="col-md-3"></div>
 			</div><!--/.col-->
 			
 		</div><!--/.row-->
