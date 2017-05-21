@@ -10,7 +10,6 @@ else
 ?>
 
 <?php
-$uploadOk = 0;
 $editid = isset($_GET['editid']) ? $_GET['editid']:'';
 if ($editid!="") {
     require("connect.php");
@@ -86,6 +85,16 @@ if ($editid!="") {
 		        $uploadOk = 0;
 		    }
 		    
+		    if ($uploadOk == 0) {
+		        echo "Sorry, your file was not uploaded.";
+		    } else {
+		        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
+		            echo "<script type= 'text/javascript'>alert('The file ". $ps_gambar. " has been uploaded.');</script>";
+		        } else {
+		            echo "<script type= 'text/javascript'>alert('Sorry, there was an error uploading your file.');</script>";
+		        }
+		    }
+		    
 	        $sql = "INSERT INTO barang (ID_Barang, ID_User, Nama_Barang, Tanggal, Tempat, Kategori, Keterangan, Foto, Security_Ques)
 	VALUES ('$id_baru', '$ps_id_u', '$ps_nama', '$ps_tgl', '$ps_tmpt', '$ps_kat', '$ps_ket', '$ps_gambar', '$ps_sec')";
 		}
@@ -107,6 +116,7 @@ if ($editid!="") {
 
 	mysqli_close($conn);
 
+	header("location:tbhilangbrg.php");
 	}
 ?>
 
@@ -128,19 +138,9 @@ if ($editid!="") {
 
 <body>
 	<?php include 'navbar.php';?>
-	<?php include 'sidebar.php';?>	
-			
-	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
-			<?php 		
-				if ($uploadOk == 0) {
-			    } else {
-			        if (move_uploaded_file($_FILES["i_gambar"]["tmp_name"], $target_file)) {
-			            echo "<div class='alert bg-success bg-dismissable' role='alert'>Success! The file ". $ps_gambar. " has been uploaded. <a href='#' class='close' data-dismiss='alert'>&times;</a></div>";
-			        } else {
-			            echo "<div class='alert bg-danger bg-dismissable' role='alert'>Sorry, there was an error uploading your file. <a href='#' class='close' data-dismiss='alert'>&times;</a></div>";
-			        }
-			    }
-		    ?>
+	<?php include 'sidebar.php';?>
+		
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">		
 				
 		<div class="row">
 			<div class="col-lg-12">
@@ -166,7 +166,7 @@ if ($editid!="") {
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="gambar">Gambar Barang</label>
 									<div class="col-md-9">
-									<input name="i_gambar" type="file" class="form-control" onchange="readURL(this);">
+									<input name="i_gambar" type="file" class="form-control" onchange="readURL(this);" required>
 									<img id="ilang" src="#" alt="your image" />
 									</div>
 								</div>
@@ -199,7 +199,7 @@ if ($editid!="") {
 									</div>
 								</div>
 
-								<input type="hidden" name="i_kat" type="text" class="form-control" value="Kehilangan" required>
+								<input type="hidden" name="i_kat" type="text" class="form-control" value="Ditemukan" required>
 								<input type="hidden" name="i_id_u" type="text" class="form-control" value="<?php echo $_SESSION['uname'];?>" required>
 																
 								<button type="submit" class="btn btn-info btn-fill pull-right">Submit</button>
